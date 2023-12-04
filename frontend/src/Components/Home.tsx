@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Card,
   CardHeader,
@@ -13,6 +13,8 @@ import {
 } from "@chakra-ui/react";
 
 function Home() {
+  const [bookList, setBookList] = useState<string[]>(["One"]);
+
   const fetchBookList = () => {
     fetch("books")
       .then((response) => {
@@ -22,6 +24,7 @@ function Home() {
       })
       .then((data) => {
         console.log(data);
+        setBookList(data);
       })
       .catch((error) => {
         console.log(`Error: ${error}`);
@@ -37,42 +40,46 @@ function Home() {
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
     >
-      <Card>
-        <CardHeader>
-          <Heading size="md">Book Title</Heading>
-        </CardHeader>
-        <CardBody>
-          <Stack divider={<StackDivider />} spacing="4">
-            <Image
-              src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-              alt="Green double couch with wooden legs"
-              borderRadius="lg"
-            />
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Sammendrag
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                Sammendrag av boken på norsk
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Summary
-              </Heading>
-              <Text pt="2" fontSize="sm">
-                Summary of the book in English
-              </Text>
-            </Box>
-            <Box>
-              <Heading size="xs" textTransform="uppercase">
-                Details
-              </Heading>
-              <Text pt="2" fontSize="sm"></Text>
-            </Box>
-          </Stack>
-        </CardBody>
-      </Card>
+      {bookList.map((book: string) => {
+        return (
+          <Card>
+            <CardHeader>
+              <Heading size="md">{book}</Heading>
+            </CardHeader>
+            <CardBody>
+              <Stack divider={<StackDivider />} spacing="4">
+                <Image
+                  src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                  alt="Green double couch with wooden legs"
+                  borderRadius="lg"
+                />
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
+                    Sammendrag
+                  </Heading>
+                  <Text pt="2" fontSize="sm">
+                    Sammendrag av boken på norsk
+                  </Text>
+                </Box>
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
+                    Summary
+                  </Heading>
+                  <Text pt="2" fontSize="sm">
+                    Summary of the book in English
+                  </Text>
+                </Box>
+                <Box>
+                  <Heading size="xs" textTransform="uppercase">
+                    Details
+                  </Heading>
+                  <Text pt="2" fontSize="sm"></Text>
+                </Box>
+              </Stack>
+            </CardBody>
+          </Card>
+        );
+      })}
     </SimpleGrid>
   );
 }
