@@ -1,4 +1,25 @@
-function App() {
+import { useEffect } from "react";
+
+function Home() {
+  const fetchBookList = () => {
+    fetch("books")
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        }
+      })
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(`Error: ${error}`);
+      });
+  };
+
+  useEffect(() => {
+    fetchBookList();
+  }, []);
+
   return (
     <div>
       <p>Home...</p>
@@ -6,4 +27,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;
