@@ -8,6 +8,10 @@ services:
     volumes:
       - ./backend:/app
       - ./app:/node_modules
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: host.docker.internal
   frontend:
     build: ./frontend
     container_name: frontend
@@ -18,3 +22,12 @@ services:
       - ./app:/node_modules
     stdin_open: true
     tty: true
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
