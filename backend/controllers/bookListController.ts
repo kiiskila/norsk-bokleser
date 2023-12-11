@@ -1,7 +1,4 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import dotenv from "dotenv";
-
-dotenv.config();
 
 export const getBookList: RequestHandler = (
   req: Request,
