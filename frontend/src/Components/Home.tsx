@@ -12,8 +12,20 @@ import {
   SimpleGrid,
 } from "@chakra-ui/react";
 
+interface book {
+  id: number;
+  slug: string;
+  title: string;
+  author: string[];
+  isbn?: string;
+  cover_art?: string;
+  published_date?: Date;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
 function Home() {
-  const [bookList, setBookList] = useState<string[]>(["One"]);
+  const [bookList, setBookList] = useState<book[]>([]);
 
   const fetchBookList = () => {
     fetch("books")
@@ -23,7 +35,6 @@ function Home() {
         }
       })
       .then((data) => {
-        console.log(data);
         setBookList(data);
       })
       .catch((error) => {
@@ -40,11 +51,11 @@ function Home() {
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
     >
-      {bookList.map((book: string) => {
+      {bookList.map((book: book) => {
         return (
-          <Card>
+          <Card key={book.id}>
             <CardHeader>
-              <Heading size="md">{book}</Heading>
+              <Heading size="md">{book.title}</Heading>
             </CardHeader>
             <CardBody>
               <Stack divider={<StackDivider />} spacing="4">
