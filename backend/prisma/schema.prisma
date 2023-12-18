@@ -19,6 +19,20 @@ model Book {
   published_date DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  chapter        chapter[]
 
   @@map(name: "books")
+}
+
+model chapter {
+  id        Int      @id @default(autoincrement())
+  book      Book     @relation(fields: [book_id], references: [id])
+  book_id   Int
+  number    Int
+  title     String
+  body      String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map(name: "chapters")
 }
