@@ -16,6 +16,6 @@ router.get("/", async (req: Request, res: Response) => {
 
 router.get("/books", bookListController.getBookList);
 
-router.get("/book/:bookId", bookController.getBook);
+router.get("/book/:bookSlug", bookController.getBook);
 
 module.exports = router;

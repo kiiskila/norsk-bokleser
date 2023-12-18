@@ -8,6 +8,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
+import Loading from "./Loading";
 
 interface book {
   id: number;
@@ -44,12 +45,16 @@ function Books() {
     fetchBook();
   }, []);
 
+  if (!book) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Center backgroundColor={"blue.50"} h={"100vh"}>
         <Card mt={12} width={"lg"}>
           <CardBody>
-            <Heading>{book?.id}</Heading>
+            <Heading>{book?.title}</Heading>
             <Center>
               <Link as={ReactRouterLink} to={`/book/`}>
                 <Button variant="solid" colorScheme="blue">
