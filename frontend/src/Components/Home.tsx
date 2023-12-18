@@ -10,7 +10,9 @@ import {
   StackDivider,
   Box,
   SimpleGrid,
+  Link,
 } from "@chakra-ui/react";
+import { Link as ReactRouterLink } from "react-router-dom";
 
 interface book {
   id: number;
@@ -54,14 +56,16 @@ function Home() {
       {bookList.map((book: book) => {
         return (
           <Card key={book.id}>
-            <CardHeader>
-              <Heading size="md">{book.title}</Heading>
-            </CardHeader>
+            <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
+              <CardHeader>
+                <Heading size="md">{book.title}</Heading>
+              </CardHeader>
+            </Link>
             <CardBody>
               <Stack divider={<StackDivider />} spacing="4">
                 <Image
                   src={book.cover_art}
-                  alt="Green double couch with wooden legs"
+                  alt="book cover art"
                   borderRadius="lg"
                 />
                 <Box>
