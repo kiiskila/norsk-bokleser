@@ -60,12 +60,12 @@ function Home() {
             <CardBody>
               <Stack divider={<StackDivider />} spacing="4">
                 <Image
-                  src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                  src={book.cover_art}
                   alt="Green double couch with wooden legs"
                   borderRadius="lg"
                 />
                 <Box>
-                  <Heading size="xs" textTransform="uppercase">
+                  <Heading size="sm" textTransform="uppercase">
                     Sammendrag
                   </Heading>
                   <Text pt="2" fontSize="sm">
@@ -73,7 +73,7 @@ function Home() {
                   </Text>
                 </Box>
                 <Box>
-                  <Heading size="xs" textTransform="uppercase">
+                  <Heading size="sm" textTransform="uppercase">
                     Summary
                   </Heading>
                   <Text pt="2" fontSize="sm">
@@ -81,10 +81,21 @@ function Home() {
                   </Text>
                 </Box>
                 <Box>
-                  <Heading size="xs" textTransform="uppercase">
+                  <Heading size="sm" textTransform="uppercase">
                     Details
                   </Heading>
-                  <Text pt="2" fontSize="sm"></Text>
+                  <Text pt="2" fontSize="sm">
+                    <Text as="b">Published: </Text>
+                    {new Date(book.published_date || "").toLocaleDateString()}
+                  </Text>
+                  <Text pt="2" fontSize="sm">
+                    <Text as="b">ISBN: </Text>
+                    {book.isbn}
+                  </Text>
+                  <Text pt="2" fontSize="sm">
+                    <Text as="b">Author: </Text>
+                    {book.author.join(", ")}
+                  </Text>
                 </Box>
               </Stack>
             </CardBody>
