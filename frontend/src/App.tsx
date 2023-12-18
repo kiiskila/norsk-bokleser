@@ -8,7 +8,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/book/*"
+          path="/book/:bookSlug"
           element={
             <ChakraProvider>
               <Books />
@@ -16,10 +16,18 @@ function App() {
           }
         ></Route>
         <Route
-          path="/*"
+          path="/"
           element={
             <ChakraProvider>
               <Home />
+            </ChakraProvider>
+          }
+        />
+        <Route
+          path="/*"
+          element={
+            <ChakraProvider>
+              <h1>Page not found</h1>
             </ChakraProvider>
           }
         />
