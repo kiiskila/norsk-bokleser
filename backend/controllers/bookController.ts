@@ -23,6 +23,19 @@ export const getBook: RequestHandler = async (
   res.status(200).json(book);
 };
 
+export const getBookWithChapters: RequestHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const book: Book = await db.book.findUniqueOrThrow({
+    where: {
+      slug: req.params.bookSlug,
+    },
+  });
+  res.status(200).json(book);
+};
+
 export const getChapter: RequestHandler = (req, res, next: NextFunction) => {
   res.status(200).json({ chapter: "Chapter title", id: req.params.chapterId });
 };

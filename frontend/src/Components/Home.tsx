@@ -14,18 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
-
-interface book {
-  id: number;
-  slug: string;
-  title: string;
-  author: string[];
-  isbn?: string;
-  cover_art?: string;
-  published_date?: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { book } from "../common/types";
 
 function Home() {
   const [bookList, setBookList] = useState<book[]>([]);
@@ -49,11 +38,7 @@ function Home() {
     fetchBookList();
   }, []);
 
-  if (!bookList) {
-    return <Loading />;
-  }
-
-  return (
+  return !!bookList ? (
     <SimpleGrid
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
@@ -112,6 +97,8 @@ function Home() {
         );
       })}
     </SimpleGrid>
+  ) : (
+    <Loading />
   );
 }
 

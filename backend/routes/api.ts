@@ -18,4 +18,6 @@ router.get("/books", bookListController.getBookList);
 
 router.get("/book/:bookSlug", bookController.getBook);
 
+router.get("/read/:bookSlug", bookController.getBookWithChapters);
+
 module.exports = router;

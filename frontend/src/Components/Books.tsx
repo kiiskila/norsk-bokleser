@@ -9,18 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import Loading from "./Loading";
-
-interface book {
-  id: number;
-  slug: string;
-  title: string;
-  author: string[];
-  isbn?: string;
-  cover_art?: string;
-  published_date?: Date;
-  createdAt: Date;
-  updatedAt: Date;
-}
+import { book } from "../common/types";
 
 function Books() {
   const [book, setBook] = useState<book>();
@@ -45,18 +34,14 @@ function Books() {
     fetchBook();
   }, []);
 
-  if (!book) {
-    return <Loading />;
-  }
-
-  return (
+  return !!book ? (
     <>
       <Center backgroundColor={"blue.50"} h={"100vh"}>
         <Card mt={12} width={"lg"}>
           <CardBody>
             <Heading>{book?.title}</Heading>
             <Center>
-              <Link as={ReactRouterLink} to={`/book/`}>
+              <Link as={ReactRouterLink} to={`/read/${book.slug}/`}>
                 <Button variant="solid" colorScheme="blue">
                   Read
                 </Button>
@@ -66,6 +51,8 @@ function Books() {
         </Card>
       </Center>
     </>
+  ) : (
+    <Loading />
   );
 }
 

@@ -2,6 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ChakraProvider } from "@chakra-ui/react";
 import Home from "./Components/Home";
 import Books from "./Components/Books";
+import Reader from "./Components/Reader/Reader";
 
 function App() {
   return (
@@ -14,7 +15,15 @@ function App() {
               <Books />
             </ChakraProvider>
           }
-        ></Route>
+        />
+        <Route
+          path="/read/:bookSlug"
+          element={
+            <ChakraProvider>
+              <Reader />
+            </ChakraProvider>
+          }
+        />
         <Route
           path="/"
           element={
