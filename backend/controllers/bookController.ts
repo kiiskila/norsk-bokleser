@@ -1,5 +1,5 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import { Book, PrismaClient } from "@prisma/client";
+import { Book, PrismaClient, chapter } from "@prisma/client";
 
 const db = new PrismaClient({
   log: ["error", "info", "query", "warn"],
@@ -33,9 +33,12 @@ export const getBookWithChapters: RequestHandler = async (
       slug: req.params.bookSlug,
     },
   });
-  res.status(200).json(book);
-};
+  const chapters: chapter[] = await db.chapter.findMany({
+    where: {
+      book_id: book.id,
+    },
+    orderBy: { number: "asc" },
+  });
 
-export const getChapter: RequestHandler = (req, res, next: NextFunction) => {
-  res.status(200).json({ chapter: "Chapter title", id: req.params.chapterId });
+  res.status(200).json({ book: book, chapters: chapters });
 };

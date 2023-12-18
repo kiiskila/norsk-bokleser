@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import ReaderHeader from "./ReaderHeader";
-import { useParams } from "react-router-dom";
-import { book } from "../../common/types";
+import { book, chapter } from "../../common/types";
+import { Select } from "@chakra-ui/react";
 
 function Reader() {
   const [book, setBook] = useState<book>();
-  const params = useParams();
+  const [chapters, setChapters] = useState<chapter[]>([]);
 
-  const fetchBook = () => {
+  const fetchData = () => {
     fetch("")
       .then((response) => {
         if (response.status === 200) {
@@ -15,7 +15,8 @@ function Reader() {
         }
       })
       .then((data) => {
-        setBook(data);
+        setBook(data.book);
+        setChapters(data.chapters);
       })
       .catch((error) => {
         console.log(`Error: ${error}`);
@@ -23,13 +24,22 @@ function Reader() {
   };
 
   useEffect(() => {
-    fetchBook();
+    fetchData();
   }, []);
 
   return (
     <>
       <ReaderHeader book={book} />
       <p>Body Text{book?.title}</p>
+      <Select width={"50%"}>
+        {chapters.map(function (chapter, index) {
+          return (
+            <option key={index} value={chapter.number}>
+              {chapter.title || "Chapter: " + chapter.number}
+            </option>
+          );
+        })}
+      </Select>
     </>
   );
 }

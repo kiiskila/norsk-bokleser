@@ -9,3 +9,13 @@ export interface book {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface chapter {
+  id: number;
+  book_id: number;
+  number: number;
+  title?: string;
+  body?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
