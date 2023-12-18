@@ -13,6 +13,7 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
+import Loading from "./Loading";
 
 interface book {
   id: number;
@@ -47,6 +48,10 @@ function Home() {
   useEffect(() => {
     fetchBookList();
   }, []);
+
+  if (!bookList) {
+    return <Loading />;
+  }
 
   return (
     <SimpleGrid
