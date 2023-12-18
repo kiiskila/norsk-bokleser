@@ -33,9 +33,8 @@ const seedBooks = async () => {
       ) {
         break;
       }
-      await db.book.upsert({
-        where: { id: i },
-        create: {
+      let newBook = await db.book.create({
+        data: {
           slug: normalizeString(book.title),
           title: book.title,
           author: [book.author],
@@ -48,11 +47,31 @@ const seedBooks = async () => {
           createdAt: new Date(),
           updatedAt: new Date(),
         },
-        update: {},
       });
+
+      seedChapters(newBook.id);
     }
 
     console.log(`Database has been seeded.`);
+  } catch (error) {
+    throw error;
+  }
+};
+
+const seedChapters = async (book_id: number) => {
+  try {
+    for (let i = 1; i <= faker.number.int({ min: 1, max: 20 }); i++) {
+      await db.chapter.create({
+        data: {
+          book_id: book_id,
+          number: i,
+          title: faker.number.int(10) > 2 ? faker.company.name() : null,
+          body: faker.lorem.paragraphs(10), // Change to lorem-ipsum-norwegian package
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+      });
+    }
   } catch (error) {
     throw error;
   }
