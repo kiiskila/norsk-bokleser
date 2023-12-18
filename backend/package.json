@@ -8,11 +8,14 @@
     "start": "node dist/app.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\"",
     "db:migrate": "docker-compose exec backend npx knex migrate:latest",
-    "db:migrate:undo": "docker-compose exec backend npx knex migrate:rollback"
+    "db:migrate:undo": "docker-compose exec backend npx knex migrate:rollback",
+    "seed": "npx prisma db seed             "
   },
   "author": "Will Kiiskila",
   "license": "ISC",
   "dependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "@ngneat/falso": "^7.1.1",
     "@prisma/client": "5.7.0",
     "dotenv": "^16.3.1",
     "express": "^4.18.2",
@@ -28,5 +31,8 @@
     "concurrently": "^8.2.2",
     "nodemon": "^3.0.2",
     "typescript": "^5.3.2"
+  },
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
   }
 }
