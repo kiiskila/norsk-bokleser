@@ -1,3 +1,4 @@
+import { Heading } from "@chakra-ui/react";
 import { book } from "../../common/types";
 
 interface Props {
@@ -5,7 +6,7 @@ interface Props {
 }
 
 function ReaderHeader(props: Props) {
-  return <h1>{props.book?.title}</h1>;
+  return <Heading>{props.book?.title}</Heading>;
 }
 
 export default ReaderHeader;

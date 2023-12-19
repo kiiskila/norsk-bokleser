@@ -51,9 +51,8 @@ function Reader() {
   }
 
   return (
-    <VStack>
+    <VStack backgroundColor={"#f8fbf9"}>
       <ReaderHeader book={book} />
-      <p>Body: {book?.title}</p>
       <Select width={"50%"} onChange={(e) => changeChapter(e)}>
         {chapters.map(function (chapter, index) {
           return (
@@ -64,9 +63,11 @@ function Reader() {
         })}
       </Select>
       {activeChapter && (
-        <Card>
+        <Card width={"60%"} mb={6}>
           <CardBody>
-            <Text whiteSpace={"pre-line"}>{activeChapter?.body}</Text>
+            <Text whiteSpace={"pre-line"} color={"#313849"}>
+              {activeChapter?.body}
+            </Text>
           </CardBody>
         </Card>
       )}

@@ -16,6 +16,12 @@ import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
 import { book } from "../common/types";
 
+// Color Scheme: todo
+// bg light: #f8fbf9
+// dark for text etc: #313849
+// accent color: #27ae97
+// dark accent color: #2f515c
+
 function Home() {
   const [bookList, setBookList] = useState<book[]>([]);
 
