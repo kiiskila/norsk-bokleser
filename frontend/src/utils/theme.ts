@@ -12,8 +12,36 @@ const colors = {
     800: "#075C37",
     900: "#064C2E",
   },
+  accent: "#27ae97",
+  lightBackground: "#f8fbf9",
+  darkText: "#313849",
+  darkAccent: {
+    100: "#DEF6F5",
+    200: "#BFEDEE",
+    300: "#91C7CE",
+    400: "#63939D",
+    500: "#2F515C",
+    600: "#22404F",
+    700: "#173142",
+    800: "#0E2335",
+    900: "#09192C",
+  },
 };
 
 const customTheme = extendTheme({ colors });
 
 export default customTheme;
+
+/*
+  color: {
+    100: "",
+    200: "",
+    300: "",
+    400: "",
+    500: "",
+    600: "",
+    700: "",
+    800: "",
+    900: "",
+  },
+  */

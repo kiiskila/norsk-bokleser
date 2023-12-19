@@ -36,13 +36,13 @@ function Books() {
 
   return !!book ? (
     <>
-      <Center backgroundColor={"blue.50"} h={"100vh"}>
+      <Center backgroundColor={"lightBackground"} h={"100vh"}>
         <Card mt={12} width={"lg"}>
           <CardBody>
             <Heading>{book?.title}</Heading>
             <Center>
               <Link as={ReactRouterLink} to={`/read/${book.slug}/`}>
-                <Button variant="solid" colorScheme="blue">
+                <Button variant="solid" colorScheme="red">
                   Read
                 </Button>
               </Link>
