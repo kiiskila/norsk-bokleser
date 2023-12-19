@@ -19,12 +19,12 @@ model Book {
   published_date DateTime?
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
-  chapter        chapter[]
+  chapter        Chapter[]
 
   @@map(name: "books")
 }
 
-model chapter {
+model Chapter {
   id        Int      @id @default(autoincrement())
   book      Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
   book_id   Int

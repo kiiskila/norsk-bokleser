@@ -20,4 +20,6 @@ router.get("/book/:bookSlug", bookController.getBook);
 
 router.get("/read/:bookSlug", bookController.getBookWithChapters);
 
+router.get("/read/:bookSlug/:chapterId", bookController.getChapter);
+
 module.exports = router;
