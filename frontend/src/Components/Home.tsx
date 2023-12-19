@@ -19,19 +19,17 @@ import { book } from "../common/types";
 function Home() {
   const [bookList, setBookList] = useState<book[]>([]);
 
-  const fetchBookList = () => {
-    fetch("books")
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setBookList(data);
-      })
-      .catch((error) => {
-        console.log(`Error: ${error}`);
-      });
+  const fetchBookList = async () => {
+    const response = await fetch("books");
+
+    if (!response.ok) {
+      const message = `An error has occured: ${response.status}`;
+      throw new Error(message);
+    }
+
+    const books = await response.json();
+
+    setBookList(books);
   };
 
   useEffect(() => {
