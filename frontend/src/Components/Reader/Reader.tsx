@@ -66,7 +66,7 @@ function Reader() {
       {activeChapter && (
         <Card>
           <CardBody>
-            <Text>{activeChapter?.body}</Text>
+            <Text whiteSpace={"pre-line"}>{activeChapter?.body}</Text>
           </CardBody>
         </Card>
       )}
