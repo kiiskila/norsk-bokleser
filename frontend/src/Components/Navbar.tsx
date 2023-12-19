@@ -94,27 +94,25 @@ const MenuLinks = ({ isOpen }: any) => {
 
 const NavBarContainer = ({ children, ...props }: any) => {
   return (
-    <Box backgroundColor={"lightBackground"} minH={"24vh"}>
-      <Flex
-        as="nav"
-        align="center"
-        justify="space-between"
-        wrap="wrap"
-        w="100%"
-        mb={8}
-        p={8}
-        bg={["darkAccent.300", "darkAccent.300", "transparent", "transparent"]}
-        color={[
-          "lightBackground",
-          "lightBackground",
-          "darkAccent.500",
-          "darkAccent.500",
-        ]}
-        {...props}
-      >
-        {children}
-      </Flex>
-    </Box>
+    <Flex
+      as="nav"
+      align="center"
+      justify="space-between"
+      wrap="wrap"
+      w="100%"
+      mb={8}
+      p={8}
+      bg={["darkAccent.300", "darkAccent.300", "transparent", "transparent"]}
+      color={[
+        "lightBackground",
+        "lightBackground",
+        "darkAccent.500",
+        "darkAccent.500",
+      ]}
+      {...props}
+    >
+      {children}
+    </Flex>
   );
 };
 

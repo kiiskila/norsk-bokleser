@@ -40,7 +40,6 @@ function Home() {
     <SimpleGrid
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-      backgroundColor={"lightBackground"}
     >
       {bookList.map((book: book) => {
         return (

@@ -36,7 +36,7 @@ function Books() {
 
   return !!book ? (
     <>
-      <Center backgroundColor={"lightBackground"} h={"100vh"}>
+      <Center>
         <Card mt={12} width={"lg"}>
           <CardBody>
             <Heading>{book?.title}</Heading>

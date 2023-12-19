@@ -2,7 +2,7 @@ import { Center, Spinner, VStack, Text } from "@chakra-ui/react";
 
 function Loading() {
   return (
-    <Center backgroundColor={"lightBackground"} h={"100vh"}>
+    <Center>
       <VStack spacing={4} align="stretch">
         <Center>
           <Text> Loading...</Text>
