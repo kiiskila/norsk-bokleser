@@ -2,6 +2,7 @@ import { randBetweenDate, randBook } from "@ngneat/falso";
 import { faker } from "@faker-js/faker";
 import { PrismaClient } from "@prisma/client";
 import { normalizeString } from "../utils/helpers";
+const lorem = require("lorem-ipsum-norwegian");
 
 const db = new PrismaClient({
   log: ["error", "info", "query", "warn"],
@@ -66,7 +67,7 @@ const seedChapters = async (book_id: number) => {
           book_id: book_id,
           number: i,
           title: faker.number.int(10) > 2 ? faker.company.name() : null,
-          body: faker.lorem.paragraphs(10), // Change to lorem-ipsum-norwegian package
+          body: lorem(20),
           createdAt: new Date(),
           updatedAt: new Date(),
         },
