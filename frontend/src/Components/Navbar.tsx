@@ -56,9 +56,8 @@ const MenuLinks = ({ isOpen }: any) => {
         pt={[4, 4, 0, 0]}
       >
         <MenuItem to="/">Home</MenuItem>
-        <MenuItem to="/">How It works </MenuItem>
-        <MenuItem to="/">Features </MenuItem>
-        <MenuItem to="/">About Us </MenuItem>
+        <MenuItem to="/">Report an Issue </MenuItem>
+        <MenuItem to="/">Settings </MenuItem>
         <MenuItem to="/" isLast>
           <Button
             size="sm"
@@ -84,7 +83,7 @@ const MenuLinks = ({ isOpen }: any) => {
               ],
             }}
           >
-            Create Account
+            Request a Book
           </Button>
         </MenuItem>
       </Stack>
