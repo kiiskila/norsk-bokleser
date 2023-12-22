@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Button,
   Card,
@@ -17,7 +17,7 @@ function Books() {
   const params = useParams();
   const toast = useToast();
 
-  const fetchBook = async () => {
+  const fetchBook = useCallback(async () => {
     try {
       const response = await fetch(`/book/${params.bookSlug}`);
       const resMessage =
@@ -35,11 +35,11 @@ function Books() {
         setBook(data);
       }
     } catch (error) {}
-  };
+  }, [params.bookSlug, toast]);
 
   useEffect(() => {
     fetchBook();
-  }, []);
+  }, [fetchBook]);
 
   return !!book ? (
     <>

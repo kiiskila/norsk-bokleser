@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import ReaderHeader from "./ReaderHeader";
 import { book, chapter } from "../../common/types";
 import {
@@ -19,7 +19,7 @@ function Reader() {
   const params = useParams();
   const toast = useToast();
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const response = await fetch(`/read/${params.bookSlug}`);
     const resMessage =
       response.status === 404 ? "Book not found" : "Internal server error";
@@ -37,12 +37,7 @@ function Reader() {
       setBook(data.book);
       setChapters(data.chapters);
     }
-  };
-
-  useEffect(() => {
-    fetchData();
-    fetchChapter();
-  }, [chosenChapter]);
+  }, [params.bookSlug, toast]);
 
   function changeChapter(event: React.FormEvent<HTMLSelectElement>) {
     const chapterId: string = event.currentTarget.value;
@@ -50,7 +45,7 @@ function Reader() {
     setChosenChapter(chapterId);
   }
 
-  async function fetchChapter() {
+  const fetchChapter = useCallback(async () => {
     if (isNaN(+chosenChapter!)) {
       return;
     }
@@ -64,7 +59,15 @@ function Reader() {
     const chapter = await response.json();
 
     setActiveChapter(chapter);
-  }
+  }, [chosenChapter, params.bookSlug]);
+
+  useEffect(() => {
+    fetchChapter();
+  }, [fetchChapter]);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   return (
     <VStack backgroundColor={"#f8fbf9"}>

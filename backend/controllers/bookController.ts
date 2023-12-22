@@ -11,6 +11,12 @@ const db = new PrismaClient({
   },
 });
 
+type PartialChapter = {
+  id: number;
+  number: number;
+  title: string | null;
+};
+
 export const getBook: RequestHandler = async (
   req: Request,
   res: Response,
@@ -47,9 +53,14 @@ export const getBookWithChapters: RequestHandler = async (
         slug: req.params.bookSlug,
       },
     });
-    const chapters: Chapter[] = await db.chapter.findMany({
+    const chapters: PartialChapter[] = await db.chapter.findMany({
       where: {
         book_id: book.id,
+      },
+      select: {
+        id: true,
+        number: true,
+        title: true,
       },
       orderBy: { number: "asc" },
     });

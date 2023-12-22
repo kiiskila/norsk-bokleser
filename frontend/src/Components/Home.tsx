@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   Card,
   CardHeader,
@@ -21,7 +21,7 @@ function Home() {
   const [bookList, setBookList] = useState<book[]>([]);
   const toast = useToast();
 
-  const fetchBookList = async () => {
+  const fetchBookList = useCallback(async () => {
     const response = await fetch("/books");
 
     const resMessage =
@@ -38,11 +38,11 @@ function Home() {
       const books = await response.json();
       setBookList(books);
     }
-  };
+  }, [toast]);
 
   useEffect(() => {
     fetchBookList();
-  }, []);
+  }, [fetchBookList]);
 
   return !!bookList ? (
     <SimpleGrid
