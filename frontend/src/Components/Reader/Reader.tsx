@@ -43,6 +43,10 @@ function Reader() {
     const chapterId: string = event.currentTarget.value;
 
     setChosenChapter(chapterId);
+
+    if (chapterId === "") {
+      setActiveChapter(undefined);
+    }
   }
 
   const fetchChapter = useCallback(async () => {
@@ -72,7 +76,12 @@ function Reader() {
   return (
     <VStack backgroundColor={"#f8fbf9"}>
       <ReaderHeader book={book} />
-      <Select width={"50%"} onChange={(e) => changeChapter(e)}>
+      <Select
+        placeholder="Select a chapter"
+        width={"50%"}
+        onChange={(e) => changeChapter(e)}
+        value={chosenChapter}
+      >
         {chapters.map(function (chapter, index) {
           return (
             <option key={index} value={chapter.number}>
@@ -81,7 +90,7 @@ function Reader() {
           );
         })}
       </Select>
-      {activeChapter && (
+      {chosenChapter && !isNaN(Number(chosenChapter)) && (
         <Card width={"60%"} mb={6}>
           <CardBody>
             <Text whiteSpace={"pre-line"} color={"#313849"}>
