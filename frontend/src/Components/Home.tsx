@@ -20,7 +20,7 @@ function Home() {
   const [bookList, setBookList] = useState<book[]>([]);
 
   const fetchBookList = async () => {
-    const response = await fetch("books");
+    const response = await fetch("/books");
 
     if (!response.ok) {
       const message = `An error has occured: ${response.status}`;

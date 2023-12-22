@@ -22,11 +22,18 @@ const Navbar = (props: any) => {
 
 const MenuToggle = ({ toggle, isOpen }: any) => {
   return (
-    <Box display={{ base: "block", md: "none" }} onClick={toggle}>
+    <Box
+      display={{ base: "block", md: "none" }}
+      onClick={toggle}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === "Enter" && toggle()}
+      aria-label={isOpen ? "Close menu" : "Open menu"}
+    >
       {isOpen ? (
-        <CloseIcon boxSize={4} cursor={"pointer"} />
+        <CloseIcon boxSize={4} cursor="pointer" />
       ) : (
-        <HamburgerIcon boxSize={6} cursor={"pointer"} />
+        <HamburgerIcon boxSize={6} cursor="pointer" />
       )}
     </Box>
   );

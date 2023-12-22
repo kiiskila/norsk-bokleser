@@ -2,15 +2,17 @@ import { useEffect, useState } from "react";
 import ReaderHeader from "./ReaderHeader";
 import { book, chapter } from "../../common/types";
 import { Card, CardBody, Select, VStack, Text } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 
 function Reader() {
   const [book, setBook] = useState<book>();
   const [chapters, setChapters] = useState<chapter[]>([]);
   const [activeChapter, setActiveChapter] = useState<chapter>();
   const [chosenChapter, setChosenChapter] = useState<string>();
+  const params = useParams();
 
   const fetchData = async () => {
-    const response = await fetch("");
+    const response = await fetch(`/read/${params.bookSlug}`);
 
     if (!response.ok) {
       const message = `An error has occured: ${response.status}`;
@@ -38,7 +40,7 @@ function Reader() {
     if (isNaN(+chosenChapter!)) {
       return;
     }
-    const response = await fetch(`${chosenChapter}`);
+    const response = await fetch(`/read/${params.bookSlug}/${chosenChapter}`);
 
     if (!response.ok) {
       const message = `An error has occured: ${response.status}`;

@@ -15,19 +15,15 @@ function Books() {
   const [book, setBook] = useState<book>();
   const params = useParams();
 
-  const fetchBook = () => {
-    fetch(`${params.bookSlug}`)
-      .then((response) => {
-        if (response.status === 200) {
-          return response.json();
-        }
-      })
-      .then((data) => {
-        setBook(data);
-      })
-      .catch((error) => {
-        console.log(`Error: ${error}`);
-      });
+  const fetchBook = async () => {
+    try {
+      const response = await fetch(`/book/${params.bookSlug}`);
+      if (!response.ok) {
+        throw new Error("Network response was not ok.");
+      }
+      const data = await response.json();
+      setBook(data);
+    } catch (error) {}
   };
 
   useEffect(() => {
