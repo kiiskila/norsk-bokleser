@@ -24,19 +24,20 @@ function Home() {
   const fetchBookList = async () => {
     const response = await fetch("/books");
 
+    const resMessage =
+      response.status === 404 ? "No books not found" : "Internal server error";
     if (!response.ok) {
       toast({
         title: "Error",
-        description: response.status,
+        description: resMessage,
         status: "error",
         duration: 2000,
         isClosable: true,
       });
+    } else {
+      const books = await response.json();
+      setBookList(books);
     }
-
-    const books = await response.json();
-
-    setBookList(books);
   };
 
   useEffect(() => {

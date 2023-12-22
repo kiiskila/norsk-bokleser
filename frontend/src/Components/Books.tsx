@@ -20,17 +20,20 @@ function Books() {
   const fetchBook = async () => {
     try {
       const response = await fetch(`/book/${params.bookSlug}`);
+      const resMessage =
+        response.status === 404 ? "Book not found" : "Internal server error";
       if (!response.ok) {
         toast({
           title: "Error",
-          description: response.status,
+          description: resMessage,
           status: "error",
           duration: 2000,
           isClosable: true,
         });
+      } else {
+        const data = await response.json();
+        setBook(data);
       }
-      const data = await response.json();
-      setBook(data);
     } catch (error) {}
   };
 

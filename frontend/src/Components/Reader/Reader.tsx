@@ -21,21 +21,22 @@ function Reader() {
 
   const fetchData = async () => {
     const response = await fetch(`/read/${params.bookSlug}`);
+    const resMessage =
+      response.status === 404 ? "Book not found" : "Internal server error";
 
     if (!response.ok) {
       toast({
         title: "Error",
-        description: response.status,
+        description: resMessage,
         status: "error",
         duration: 2000,
         isClosable: true,
       });
+    } else {
+      const data = await response.json();
+      setBook(data.book);
+      setChapters(data.chapters);
     }
-
-    const data = await response.json();
-
-    setBook(data.book);
-    setChapters(data.chapters);
   };
 
   useEffect(() => {
