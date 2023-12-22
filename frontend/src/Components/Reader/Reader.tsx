@@ -1,7 +1,14 @@
 import { useEffect, useState } from "react";
 import ReaderHeader from "./ReaderHeader";
 import { book, chapter } from "../../common/types";
-import { Card, CardBody, Select, VStack, Text } from "@chakra-ui/react";
+import {
+  Card,
+  CardBody,
+  Select,
+  VStack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 function Reader() {
@@ -10,13 +17,19 @@ function Reader() {
   const [activeChapter, setActiveChapter] = useState<chapter>();
   const [chosenChapter, setChosenChapter] = useState<string>();
   const params = useParams();
+  const toast = useToast();
 
   const fetchData = async () => {
     const response = await fetch(`/read/${params.bookSlug}`);
 
     if (!response.ok) {
-      const message = `An error has occured: ${response.status}`;
-      throw new Error(message);
+      toast({
+        title: "Error",
+        description: response.status,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     const data = await response.json();

@@ -6,6 +6,7 @@ import {
   Center,
   Heading,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -14,12 +15,19 @@ import { book } from "../common/types";
 function Books() {
   const [book, setBook] = useState<book>();
   const params = useParams();
+  const toast = useToast();
 
   const fetchBook = async () => {
     try {
       const response = await fetch(`/book/${params.bookSlug}`);
       if (!response.ok) {
-        throw new Error("Network response was not ok.");
+        toast({
+          title: "Error",
+          description: response.status,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
       }
       const data = await response.json();
       setBook(data);

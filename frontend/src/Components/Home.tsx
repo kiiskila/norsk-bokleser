@@ -15,16 +15,23 @@ import {
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
 import { book } from "../common/types";
+import { useToast } from "@chakra-ui/react";
 
 function Home() {
   const [bookList, setBookList] = useState<book[]>([]);
+  const toast = useToast();
 
   const fetchBookList = async () => {
     const response = await fetch("/books");
 
     if (!response.ok) {
-      const message = `An error has occured: ${response.status}`;
-      throw new Error(message);
+      toast({
+        title: "Error",
+        description: response.status,
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
     }
 
     const books = await response.json();
