@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const bookController = require("../controllers/bookController");
 const bookListController = require("../controllers/bookListController");
+const chapterController = require("../controllers/chapterController");
 
 // Health status call
 router.get("/", async (req: Request, res: Response) => {
@@ -20,6 +21,6 @@ router.get("/book/:bookSlug", bookController.getBook);
 
 router.get("/read/:bookSlug", bookController.getBookWithChapters);
 
-router.get("/read/:bookSlug/:chapterId", bookController.getChapter);
+router.get("/read/:bookSlug/:chapterId", chapterController.getChapter);
 
 module.exports = router;
