@@ -74,11 +74,11 @@ function Reader() {
   }, [fetchData]);
 
   return (
-    <VStack backgroundColor={"#f8fbf9"}>
+    <VStack>
       <ReaderHeader book={book} />
       <Select
         placeholder="Select a chapter"
-        width={"50%"}
+        width={["80%", "70%", "50%"]}
         onChange={(e) => changeChapter(e)}
         value={chosenChapter}
       >
@@ -91,7 +91,7 @@ function Reader() {
         })}
       </Select>
       {chosenChapter && !isNaN(Number(chosenChapter)) && (
-        <Card width={"60%"} mb={6}>
+        <Card width={["90%", "80%", "75%"]} mb={6}>
           <CardBody>
             <Text whiteSpace={"pre-line"} color={"#313849"}>
               {activeChapter?.body}
