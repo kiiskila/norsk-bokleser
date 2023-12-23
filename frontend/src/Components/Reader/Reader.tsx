@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import ReaderHeader from "./ReaderHeader";
+import TranslationBox from "./TranslationBox";
 import { book, chapter } from "../../common/types";
 import {
   Card,
@@ -9,16 +10,12 @@ import {
   Text,
   useToast,
   Button,
-  Box,
-  Divider,
-  Tag,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
 function Reader() {
   const [book, setBook] = useState<book>();
   const [chapters, setChapters] = useState<chapter[]>([]);
-  const [activeChapter, setActiveChapter] = useState<chapter>();
   const [chosenChapter, setChosenChapter] = useState<string>();
   const [isTranslateOn, setIsTranslateOn] = useState(false);
   const [bodyArray, setBodyArray] = useState([]);
@@ -31,13 +28,13 @@ function Reader() {
   const toast = useToast();
 
   const highlightedStyle = {
-    backgroundColor: "teal", // Or any other contrasting color
+    backgroundColor: "teal",
     color: "white",
-    borderRadius: "4px", // Adds rounded corners
-    boxShadow: "0 0 0 4px teal", // Simulates padding with the same color as the background
-    display: "inline", // Keeps the word inline
-    margin: "0 3px", // Adds a slight margin to avoid the boxShadow being cut off
-    lineHeight: "inherit", // Ensures consistent line height
+    borderRadius: "4px",
+    boxShadow: "0 0 0 4px teal",
+    display: "inline",
+    margin: "0 3px",
+    lineHeight: "inherit",
   };
 
   const normalStyle = {
@@ -45,7 +42,7 @@ function Reader() {
     color: "inherit",
     lineHeight: "inherit",
     display: "inline",
-    margin: "0 3px", // Keep the margin consistent
+    margin: "0 3px",
   };
 
   const fetchData = useCallback(async () => {
@@ -72,10 +69,6 @@ function Reader() {
     const chapterId: string = event.currentTarget.value;
 
     setChosenChapter(chapterId);
-
-    if (chapterId === "") {
-      setActiveChapter(undefined);
-    }
   }
 
   const fetchChapter = useCallback(async () => {
@@ -92,7 +85,6 @@ function Reader() {
     const chapter = await response.json();
     const extractWords = chapter.body.split(/ /);
 
-    setActiveChapter(chapter);
     setBodyArray(extractWords);
   }, [chosenChapter, params.bookSlug]);
 
@@ -178,20 +170,10 @@ function Reader() {
         </Card>
       )}
       {isTranslateOn && (
-        <Box
-          position="fixed"
-          bottom="0"
-          width="100%"
-          height="20%"
-          bg="darkAccent.300"
-          p={4}
-          outline={"2px solid"}
-          roundedTop={12}
-        >
-          <Text>{preTranslatedText}</Text>
-          <Divider orientation="horizontal" />
-          <Text> {postTranslatedText}</Text>
-        </Box>
+        <TranslationBox
+          preTranslatedText={preTranslatedText}
+          postTranslatedText={postTranslatedText}
+        />
       )}
     </VStack>
   );
