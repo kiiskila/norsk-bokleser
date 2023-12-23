@@ -56,10 +56,57 @@ describe("getBookList", () => {
       status: jest.fn().mockReturnThis(),
       json: jest.fn(),
     } as unknown as Response;
+    const mockNext = jest.fn();
+
+    await getBookList(mockReq, mockRes, mockNext);
+
+    expect(mockRes.status).toHaveBeenCalledWith(200);
+    expect(mockRes.json).toHaveBeenCalledWith(mockBooks);
+  });
+
+  it("should handle an empty book list", async () => {
+    mockFindMany.mockResolvedValue([]);
+
+    const mockReq = {} as Request;
+    const mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
 
     await getBookList(mockReq, mockRes, jest.fn());
 
     expect(mockRes.status).toHaveBeenCalledWith(200);
-    expect(mockRes.json).toHaveBeenCalledWith(mockBooks);
+    expect(mockRes.json).toHaveBeenCalledWith([]);
+  });
+
+  it("should handle an empty book list", async () => {
+    mockFindMany.mockResolvedValue([]);
+
+    const mockReq = {} as Request;
+    const mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
+
+    await getBookList(mockReq, mockRes, jest.fn());
+
+    expect(mockRes.status).toHaveBeenCalledWith(200);
+    expect(mockRes.json).toHaveBeenCalledWith([]);
+  });
+
+  it("should handle unexpected errors", async () => {
+    const unexpectedError = new Error("Unexpected error");
+
+    mockFindMany.mockRejectedValue(unexpectedError);
+
+    const mockReq = {} as Request;
+    const mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    } as unknown as Response;
+
+    await expect(getBookList(mockReq, mockRes, jest.fn())).rejects.toThrow(
+      "Unexpected error"
+    );
   });
 });
