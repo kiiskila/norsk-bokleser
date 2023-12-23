@@ -103,11 +103,12 @@ function Reader() {
     if (selectedWordIndex === index) {
       setSelectedWordIndex(null);
       setPreTranslatedText("");
+      translateText("");
     } else {
       setSelectedWordIndex(index);
       setPreTranslatedText(word);
+      translateText(word);
     }
-    translateText(word);
   };
 
   function translateText(textToTranslate: string) {
