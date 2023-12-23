@@ -8,6 +8,8 @@ import {
   VStack,
   Text,
   useToast,
+  Button,
+  Box,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
@@ -16,6 +18,7 @@ function Reader() {
   const [chapters, setChapters] = useState<chapter[]>([]);
   const [activeChapter, setActiveChapter] = useState<chapter>();
   const [chosenChapter, setChosenChapter] = useState<string>();
+  const [isTranslateOn, setIsTranslateOn] = useState(false);
   const params = useParams();
   const toast = useToast();
 
@@ -90,14 +93,33 @@ function Reader() {
           );
         })}
       </Select>
+      <Button onClick={() => setIsTranslateOn(!isTranslateOn)}>
+        Translate Mode
+      </Button>
       {chosenChapter && !isNaN(Number(chosenChapter)) && (
         <Card width={["90%", "80%", "75%"]} mb={6}>
           <CardBody>
-            <Text whiteSpace={"pre-line"} color={"#313849"}>
+            <Text whiteSpace={"pre-line"} color={"darkText"}>
               {activeChapter?.body}
             </Text>
           </CardBody>
         </Card>
+      )}
+      {isTranslateOn && (
+        <Box
+          position="fixed"
+          bottom="0"
+          width="100%"
+          height="20%"
+          bg="darkAccent.300"
+          p={4}
+          boxShadow="md"
+          roundedTop={12}
+        >
+          <Text>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+          </Text>
+        </Box>
       )}
     </VStack>
   );
