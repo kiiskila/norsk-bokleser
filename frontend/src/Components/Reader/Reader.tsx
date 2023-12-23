@@ -33,7 +33,6 @@ function Reader() {
   const highlightedStyle = {
     backgroundColor: "teal", // Or any other contrasting color
     color: "white",
-    cursor: "pointer",
     borderRadius: "4px", // Adds rounded corners
     boxShadow: "0 0 0 4px teal", // Simulates padding with the same color as the background
     display: "inline", // Keeps the word inline
@@ -44,7 +43,6 @@ function Reader() {
   const normalStyle = {
     backgroundColor: "transparent",
     color: "inherit",
-    cursor: "pointer",
     lineHeight: "inherit",
     display: "inline",
     margin: "0 3px", // Keep the margin consistent
@@ -99,6 +97,9 @@ function Reader() {
   }, [chosenChapter, params.bookSlug]);
 
   const handleClick = (word: string, index: number) => {
+    if (!isTranslateOn) {
+      return;
+    }
     if (selectedWordIndex === index) {
       setSelectedWordIndex(null);
       setPreTranslatedText("");
@@ -147,20 +148,25 @@ function Reader() {
             <Text
               whiteSpace={"pre-line"}
               color={"darkText"}
-              userSelect={"none"}
+              userSelect={isTranslateOn ? "none" : "auto"}
             >
               {bodyArray.map((word: string, index: number) => {
                 const isWordSelected = index === selectedWordIndex;
-                const wordStyle = isWordSelected
-                  ? highlightedStyle
-                  : normalStyle;
+                const wordStyle =
+                  isWordSelected && isTranslateOn
+                    ? highlightedStyle
+                    : normalStyle;
 
                 return (
                   <span
                     onClick={() => handleClick(word, index)}
                     key={index}
                     id={`${index}`}
-                    style={wordStyle}
+                    style={
+                      isTranslateOn
+                        ? { ...{ cursor: "pointer" }, ...wordStyle }
+                        : wordStyle
+                    }
                   >
                     {word}{" "}
                   </span>
