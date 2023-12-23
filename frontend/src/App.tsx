@@ -1,9 +1,8 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import Home from "./Components/Home";
 import Books from "./Components/Books";
 import Reader from "./Components/Reader/Reader";
-import Navbar from "./Components/Navbar";
+import Layout from "./Components/Layout";
 
 function App() {
   return (
@@ -12,37 +11,33 @@ function App() {
         <Route
           path="/book/:bookSlug"
           element={
-            <>
-              <Navbar />
+            <Layout>
               <Books />
-            </>
+            </Layout>
           }
         />
         <Route
           path="/read/:bookSlug"
           element={
-            <>
-              <Navbar />
+            <Layout>
               <Reader />
-            </>
+            </Layout>
           }
         />
         <Route
           path="/"
           element={
-            <>
-              <Navbar />
+            <Layout>
               <Home />
-            </>
+            </Layout>
           }
         />
         <Route
           path="/*"
           element={
-            <>
-              <Navbar />
+            <Layout>
               <h1>Page not found</h1>
-            </>
+            </Layout>
           }
         />
       </Routes>

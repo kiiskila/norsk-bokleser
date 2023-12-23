@@ -72,7 +72,7 @@ function Books() {
             {book?.title}
           </Heading>
           <Stack direction="row" spacing={4} justify="center" pt={6}>
-            <Link as={ReactRouterLink} to="/home">
+            <Link as={ReactRouterLink} to="/">
               <Button variant="solid" colorScheme="blue">
                 Back
               </Button>
