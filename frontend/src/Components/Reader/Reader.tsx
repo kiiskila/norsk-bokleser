@@ -11,6 +11,7 @@ import {
   Button,
   Box,
   Divider,
+  Tag,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
@@ -23,8 +24,31 @@ function Reader() {
   const [bodyArray, setBodyArray] = useState([]);
   const [preTranslatedText, setPreTranslatedText] = useState(["Hello World"]);
   const [postTranslatedText, setpostTranslatedText] = useState(["Hei Verden"]);
+  const [selectedWordIndex, setSelectedWordIndex] = useState<number | null>(
+    null
+  );
   const params = useParams();
   const toast = useToast();
+
+  const highlightedStyle = {
+    backgroundColor: "teal", // Or any other contrasting color
+    color: "white",
+    cursor: "pointer",
+    borderRadius: "4px", // Adds rounded corners
+    boxShadow: "0 0 0 4px teal", // Simulates padding with the same color as the background
+    display: "inline", // Keeps the word inline
+    margin: "0 3px", // Adds a slight margin to avoid the boxShadow being cut off
+    lineHeight: "inherit", // Ensures consistent line height
+  };
+
+  const normalStyle = {
+    backgroundColor: "transparent",
+    color: "inherit",
+    cursor: "pointer",
+    lineHeight: "inherit",
+    display: "inline",
+    margin: "0 3px", // Keep the margin consistent
+  };
 
   const fetchData = useCallback(async () => {
     const response = await fetch(`/read/${params.bookSlug}`);
@@ -68,14 +92,20 @@ function Reader() {
     }
 
     const chapter = await response.json();
-    const extractWords = chapter.body.split(/\n|\r| /);
+    const extractWords = chapter.body.split(/ /);
 
     setActiveChapter(chapter);
     setBodyArray(extractWords);
   }, [chosenChapter, params.bookSlug]);
 
-  const handleClick = (id: number) => {
-    console.log(bodyArray[id]);
+  const handleClick = (word: string, index: number) => {
+    if (selectedWordIndex === index) {
+      setSelectedWordIndex(null);
+      setPreTranslatedText([""]);
+    } else {
+      setSelectedWordIndex(index);
+      setPreTranslatedText([word]);
+    }
   };
 
   useEffect(() => {
@@ -110,16 +140,23 @@ function Reader() {
         <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
           <CardBody>
             <Text whiteSpace={"pre-line"} color={"darkText"}>
-              {bodyArray.map((word: string, index: number) => (
-                <span
-                  onClick={() => handleClick(index)}
-                  key={index}
-                  id={`${index}`}
-                  style={{ cursor: "pointer" }}
-                >
-                  {word}{" "}
-                </span>
-              ))}
+              {bodyArray.map((word: string, index: number) => {
+                const isWordSelected = index === selectedWordIndex;
+                const wordStyle = isWordSelected
+                  ? highlightedStyle
+                  : normalStyle;
+
+                return (
+                  <span
+                    onClick={() => handleClick(word, index)}
+                    key={index}
+                    id={`${index}`}
+                    style={wordStyle}
+                  >
+                    {word}{" "}
+                  </span>
+                );
+              })}
             </Text>
           </CardBody>
         </Card>
