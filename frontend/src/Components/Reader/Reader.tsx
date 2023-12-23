@@ -97,7 +97,7 @@ function Reader() {
         Translate Mode
       </Button>
       {chosenChapter && !isNaN(Number(chosenChapter)) && (
-        <Card width={["90%", "80%", "75%"]} mb={6}>
+        <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
           <CardBody>
             <Text whiteSpace={"pre-line"} color={"darkText"}>
               {activeChapter?.body}
@@ -113,7 +113,7 @@ function Reader() {
           height="20%"
           bg="darkAccent.300"
           p={4}
-          boxShadow="md"
+          outline={"2px solid"}
           roundedTop={12}
         >
           <Text>
