@@ -10,6 +10,7 @@ import {
   useToast,
   Button,
   Box,
+  Divider,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
@@ -20,6 +21,8 @@ function Reader() {
   const [chosenChapter, setChosenChapter] = useState<string>();
   const [isTranslateOn, setIsTranslateOn] = useState(false);
   const [bodyArray, setBodyArray] = useState([]);
+  const [preTranslatedText, setPreTranslatedText] = useState(["Hello World"]);
+  const [postTranslatedText, setpostTranslatedText] = useState(["Hei Verden"]);
   const params = useParams();
   const toast = useToast();
 
@@ -71,6 +74,10 @@ function Reader() {
     setBodyArray(extractWords);
   }, [chosenChapter, params.bookSlug]);
 
+  const handleClick = (id: number) => {
+    console.log(bodyArray[id]);
+  };
+
   useEffect(() => {
     fetchChapter();
   }, [fetchChapter]);
@@ -104,7 +111,12 @@ function Reader() {
           <CardBody>
             <Text whiteSpace={"pre-line"} color={"darkText"}>
               {bodyArray.map((word: string, index: number) => (
-                <span key={index} id={`${index}`}>
+                <span
+                  onClick={() => handleClick(index)}
+                  key={index}
+                  id={`${index}`}
+                  style={{ cursor: "pointer" }}
+                >
                   {word}{" "}
                 </span>
               ))}
@@ -123,9 +135,9 @@ function Reader() {
           outline={"2px solid"}
           roundedTop={12}
         >
-          <Text>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit...
-          </Text>
+          <Text>{preTranslatedText}</Text>
+          <Divider orientation="horizontal" />
+          <Text> {postTranslatedText}</Text>
         </Box>
       )}
     </VStack>
