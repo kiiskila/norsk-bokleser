@@ -139,7 +139,11 @@ function Reader() {
       {chosenChapter && !isNaN(Number(chosenChapter)) && (
         <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
           <CardBody>
-            <Text whiteSpace={"pre-line"} color={"darkText"}>
+            <Text
+              whiteSpace={"pre-line"}
+              color={"darkText"}
+              userSelect={"none"}
+            >
               {bodyArray.map((word: string, index: number) => {
                 const isWordSelected = index === selectedWordIndex;
                 const wordStyle = isWordSelected
