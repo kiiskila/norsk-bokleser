@@ -22,8 +22,8 @@ function Reader() {
   const [chosenChapter, setChosenChapter] = useState<string>();
   const [isTranslateOn, setIsTranslateOn] = useState(false);
   const [bodyArray, setBodyArray] = useState([]);
-  const [preTranslatedText, setPreTranslatedText] = useState(["Hello World"]);
-  const [postTranslatedText, setpostTranslatedText] = useState(["Hei Verden"]);
+  const [preTranslatedText, setPreTranslatedText] = useState("Hello World");
+  const [postTranslatedText, setpostTranslatedText] = useState("Hei Verden");
   const [selectedWordIndex, setSelectedWordIndex] = useState<number | null>(
     null
   );
@@ -101,12 +101,17 @@ function Reader() {
   const handleClick = (word: string, index: number) => {
     if (selectedWordIndex === index) {
       setSelectedWordIndex(null);
-      setPreTranslatedText([""]);
+      setPreTranslatedText("");
     } else {
       setSelectedWordIndex(index);
-      setPreTranslatedText([word]);
+      setPreTranslatedText(word);
     }
+    translateText(word);
   };
+
+  function translateText(textToTranslate: string) {
+    setpostTranslatedText(textToTranslate.split("").reverse().join(""));
+  }
 
   useEffect(() => {
     fetchChapter();
