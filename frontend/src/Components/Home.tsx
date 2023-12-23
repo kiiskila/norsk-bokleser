@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, memo } from "react";
 import {
   Card,
   CardHeader,
@@ -11,32 +11,104 @@ import {
   Box,
   SimpleGrid,
   Link,
+  useToast,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
-import { book } from "../common/types";
-import { useToast } from "@chakra-ui/react";
+import { book as BookType } from "../common/types";
+
+const BookCard = memo(({ book }: { book: BookType }) => (
+  <Card key={book.id}>
+    <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
+      <CardHeader>
+        <Heading size="md">{book.title}</Heading>
+      </CardHeader>
+    </Link>
+    <CardBody>
+      <Stack divider={<StackDivider />} spacing="4">
+        <Image src={book.cover_art} alt="book cover" borderRadius="lg" />
+        <DetailSection title="Sammendrag" content="Sammendrag på norsk" />
+        <DetailSection title="Summary" content="Summary in English" />
+        <DetailSection
+          title="Details"
+          content={
+            <>
+              <DetailItem
+                label="Published"
+                value={formatDate(book.published_date)}
+              />
+              <DetailItem label="ISBN" value={book.isbn || "Unknown"} />
+              <DetailItem label="Author" value={book.author.join(", ")} />
+            </>
+          }
+        />
+      </Stack>
+    </CardBody>
+  </Card>
+));
+
+const DetailSection = ({
+  title,
+  content,
+}: {
+  title: string;
+  content: React.ReactNode;
+}) => (
+  <Box>
+    <Heading size="sm" textTransform="uppercase">
+      {title}
+    </Heading>
+    <Box pt="2" fontSize="sm">
+      {content}
+    </Box>
+  </Box>
+);
+
+const DetailItem = ({
+  label,
+  value,
+}: {
+  label: string;
+  value: string | undefined;
+}) => (
+  <Box fontSize="sm">
+    <Text as="b">{label}: </Text>
+    {value || "Unknown"}
+  </Box>
+);
+
+const formatDate = (date: Date | undefined) => {
+  return date ? new Date(date).toLocaleDateString() : "Unknown";
+};
 
 function Home() {
-  const [bookList, setBookList] = useState<book[]>([]);
+  const [bookList, setBookList] = useState<BookType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const toast = useToast();
 
   const fetchBookList = useCallback(async () => {
-    const response = await fetch("/books");
-
-    const resMessage =
-      response.status === 404 ? "No books not found" : "Internal server error";
-    if (!response.ok) {
+    try {
+      const response = await fetch("/books");
+      if (!response.ok) {
+        const resMessage =
+          response.status === 404 ? "No books found" : "Internal server error";
+        throw new Error(resMessage);
+      }
+      const books = await response.json();
+      setBookList(books);
+    } catch (error) {
       toast({
         title: "Error",
-        description: resMessage,
+        description:
+          error instanceof Error
+            ? error.message
+            : "An unexpected error occurred",
         status: "error",
         duration: 2000,
         isClosable: true,
       });
-    } else {
-      const books = await response.json();
-      setBookList(books);
+    } finally {
+      setIsLoading(false);
     }
   }, [toast]);
 
@@ -44,67 +116,18 @@ function Home() {
     fetchBookList();
   }, [fetchBookList]);
 
-  return !!bookList ? (
+  if (isLoading) return <Loading />;
+  if (!bookList.length) return <Text>No books available.</Text>;
+
+  return (
     <SimpleGrid
       spacing={4}
       templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
     >
-      {bookList.map((book: book) => {
-        return (
-          <Card key={book.id}>
-            <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
-              <CardHeader>
-                <Heading size="md">{book.title}</Heading>
-              </CardHeader>
-            </Link>
-            <CardBody>
-              <Stack divider={<StackDivider />} spacing="4">
-                <Image
-                  src={book.cover_art}
-                  alt="book cover art"
-                  borderRadius="lg"
-                />
-                <Box>
-                  <Heading size="sm" textTransform="uppercase">
-                    Sammendrag
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Sammendrag av boken på norsk
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="sm" textTransform="uppercase">
-                    Summary
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    Summary of the book in English
-                  </Text>
-                </Box>
-                <Box>
-                  <Heading size="sm" textTransform="uppercase">
-                    Details
-                  </Heading>
-                  <Text pt="2" fontSize="sm">
-                    <Text as="b">Published: </Text>
-                    {new Date(book.published_date || "").toLocaleDateString()}
-                  </Text>
-                  <Text pt="2" fontSize="sm">
-                    <Text as="b">ISBN: </Text>
-                    {book.isbn}
-                  </Text>
-                  <Text pt="2" fontSize="sm">
-                    <Text as="b">Author: </Text>
-                    {book.author.join(", ")}
-                  </Text>
-                </Box>
-              </Stack>
-            </CardBody>
-          </Card>
-        );
-      })}
+      {bookList.map((book) => (
+        <BookCard key={book.id} book={book} />
+      ))}
     </SimpleGrid>
-  ) : (
-    <Loading />
   );
 }
 
