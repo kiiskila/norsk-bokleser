@@ -19,6 +19,7 @@ function Reader() {
   const [activeChapter, setActiveChapter] = useState<chapter>();
   const [chosenChapter, setChosenChapter] = useState<string>();
   const [isTranslateOn, setIsTranslateOn] = useState(false);
+  const [bodyArray, setBodyArray] = useState([]);
   const params = useParams();
   const toast = useToast();
 
@@ -64,8 +65,10 @@ function Reader() {
     }
 
     const chapter = await response.json();
+    const extractWords = chapter.body.split(/\n|\r| /);
 
     setActiveChapter(chapter);
+    setBodyArray(extractWords);
   }, [chosenChapter, params.bookSlug]);
 
   useEffect(() => {
@@ -100,7 +103,11 @@ function Reader() {
         <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
           <CardBody>
             <Text whiteSpace={"pre-line"} color={"darkText"}>
-              {activeChapter?.body}
+              {bodyArray.map((word: string, index: number) => (
+                <span key={index} id={`${index}`}>
+                  {word}{" "}
+                </span>
+              ))}
             </Text>
           </CardBody>
         </Card>

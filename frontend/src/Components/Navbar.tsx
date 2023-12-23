@@ -14,7 +14,6 @@ import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 type MenuItemProps = {
   children: React.ReactNode;
   to?: string;
-  isLast?: boolean;
 };
 
 type MenuToggleProps = {
@@ -85,7 +84,7 @@ const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
       <MenuItem to="/">Home</MenuItem>
       <MenuItem to="/">Report an Issue</MenuItem>
       <MenuItem to="/">Settings</MenuItem>
-      <MenuItem to="/" isLast>
+      <MenuItem to="/">
         <Button size="sm" rounded="md" colorScheme="teal">
           Request a Book
         </Button>
