@@ -53,6 +53,12 @@ const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => (
     onClick={toggle}
     aria-label={isOpen ? "Close menu" : "Open menu"}
     variant="ghost"
+    sx={{
+      transition: "all 0.5s ease",
+      _hover: {
+        transform: "scale(1.10)",
+      },
+    }}
   />
 );
 
