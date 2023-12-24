@@ -136,7 +136,7 @@ function Reader() {
         throw new Error(`An error has occurred: ${response.status}`);
       }
       const data = await response.json();
-      setpostTranslatedText(data);
+      setpostTranslatedText(data.translatedText);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({

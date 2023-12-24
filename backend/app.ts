@@ -4,6 +4,9 @@ import { PrismaClient } from "@prisma/client";
 const api = require("./routes/api");
 const app: Express = express();
 const port = 8080;
+import dotenv from "dotenv";
+
+dotenv.config();
 
 app.use("/", api);
 
