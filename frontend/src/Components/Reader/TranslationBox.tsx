@@ -3,17 +3,20 @@ import { Box, Text, Divider, IconButton } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useTranslate } from "./Reader";
 
-type TranslationBoxProps = {
+interface TranslationBoxProps {
   preTranslatedText: string;
   postTranslatedText: string;
-  isTranslateOn: boolean;
-};
+}
 
 const TranslationBox: React.FC<TranslationBoxProps> = ({
   preTranslatedText,
   postTranslatedText,
 }) => {
   const { setIsTranslateOn } = useTranslate();
+
+  const handleCloseClick = () => {
+    setIsTranslateOn(false);
+  };
 
   return (
     <Box
@@ -23,23 +26,39 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       height="20%"
       bg="darkAccent.300"
       p={4}
-      outline={"2px solid"}
-      roundedTop={12}
+      outline="2px solid"
+      roundedTop="12"
     >
-      <IconButton
-        aria-label="Close translation box"
-        icon={<CloseIcon />}
-        size="xs"
-        position="absolute"
-        top={2}
-        right={2}
-        onClick={() => setIsTranslateOn(false)}
+      <CloseButton onClick={handleCloseClick} />
+      <TranslationContent
+        preTranslatedText={preTranslatedText}
+        postTranslatedText={postTranslatedText}
       />
-      <Text>{preTranslatedText}</Text>
-      <Divider orientation="horizontal" />
-      <Text>{postTranslatedText}</Text>
     </Box>
   );
 };
+
+const CloseButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
+  <IconButton
+    aria-label="Close translation box"
+    icon={<CloseIcon />}
+    size="xs"
+    position="absolute"
+    top={2}
+    right={2}
+    onClick={onClick}
+  />
+);
+
+const TranslationContent: React.FC<{
+  preTranslatedText: string;
+  postTranslatedText: string;
+}> = ({ preTranslatedText, postTranslatedText }) => (
+  <>
+    <Text>{preTranslatedText}</Text>
+    <Divider orientation="horizontal" />
+    <Text>{postTranslatedText}</Text>
+  </>
+);
 
 export default TranslationBox;

@@ -255,7 +255,6 @@ function Reader() {
           <TranslationBox
             preTranslatedText={preTranslatedText}
             postTranslatedText={postTranslatedText}
-            isTranslateOn={isTranslateOn}
           />
         )}
         {!isTranslateOn && (
