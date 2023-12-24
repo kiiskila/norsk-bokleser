@@ -1,5 +1,5 @@
 import { RequestHandler, Request, Response, NextFunction } from "express";
-import { Book, PrismaClient, Chapter } from "@prisma/client";
+import { Book, PrismaClient } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
 const db = new PrismaClient({

@@ -12,6 +12,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
+import { isStringEmpty } from "../../utils/helpers";
 
 const highlightedStyle = {
   backgroundColor: "teal",
@@ -113,18 +114,48 @@ function Reader() {
     setChosenChapter(event.currentTarget.value);
   };
 
-  const handleClick = (word: string, index: number) => {
+  const handleClick = async (word: string, index: number) => {
     if (!isTranslateOn || selectedWordIndex === index) {
       setSelectedWordIndex(null);
       return;
     }
     setSelectedWordIndex(index);
     setPreTranslatedText(word);
-    translateText(word);
+    setpostTranslatedText("...");
+    await translateText(word);
   };
 
-  const translateText = (textToTranslate: string) => {
-    setpostTranslatedText(textToTranslate.split("").reverse().join(""));
+  const translateText = async (textToTranslate: string) => {
+    if (isStringEmpty(textToTranslate)) {
+      return;
+    }
+
+    try {
+      const response = await fetch(`/translate/${textToTranslate}`);
+      if (!response.ok) {
+        throw new Error(`An error has occurred: ${response.status}`);
+      }
+      const data = await response.json();
+      setpostTranslatedText(data);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        toast({
+          title: "Error",
+          description: error.message,
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Error",
+          description: "An unexpected error occurred",
+          status: "error",
+          duration: 2000,
+          isClosable: true,
+        });
+      }
+    }
   };
 
   useEffect(() => {
