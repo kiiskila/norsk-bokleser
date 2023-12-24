@@ -1,4 +1,12 @@
-import { useEffect, useState, useCallback } from "react";
+import {
+  useEffect,
+  useState,
+  useCallback,
+  createContext,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import ReaderHeader from "./ReaderHeader";
 import TranslationBox from "./TranslationBox";
 import { book, chapter } from "../../common/types";
@@ -9,10 +17,11 @@ import {
   VStack,
   Text,
   useToast,
-  Button,
+  IconButton,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { isStringEmpty } from "../../utils/helpers";
+import { ArrowUpIcon } from "@chakra-ui/icons";
 
 const highlightedStyle = {
   backgroundColor: "teal",
@@ -31,6 +40,16 @@ const normalStyle = {
   display: "inline",
   margin: "0 3px",
 };
+
+const TranslateContext = createContext<{
+  isTranslateOn: boolean;
+  setIsTranslateOn: Dispatch<SetStateAction<boolean>>;
+}>({
+  isTranslateOn: false,
+  setIsTranslateOn: () => {},
+});
+
+export const useTranslate = () => useContext(TranslateContext);
 
 function Reader() {
   const [book, setBook] = useState<book>();
@@ -150,6 +169,9 @@ function Reader() {
   const translateText = async (textToTranslate: string) => {
     if (isStringEmpty(textToTranslate)) {
       return;
+    } else if (!isStringEmpty(textToTranslate)) {
+      setpostTranslatedText(textToTranslate.split("").reverse().join(""));
+      return;
     }
 
     try {
@@ -189,55 +211,70 @@ function Reader() {
   }, [fetchData]);
 
   return (
-    <VStack>
-      <ReaderHeader book={book} />
-      <Select
-        placeholder="Select a chapter"
-        width={["80%", "70%", "50%"]}
-        onChange={changeChapter}
-        value={chosenChapter}
-      >
-        {chapters.map((chapter, index) => (
-          <option key={index} value={chapter.number}>
-            {chapter.title || `Chapter: ${chapter.number}`}
-          </option>
-        ))}
-      </Select>
-      <Button onClick={() => setIsTranslateOn(!isTranslateOn)}>
-        Translate Mode
-      </Button>
-      {chosenChapter && !isNaN(Number(chosenChapter)) && (
-        <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
-          <CardBody>
-            <Text
-              whiteSpace={"pre-line"}
-              color={"darkText"}
-              userSelect={isTranslateOn ? "none" : "auto"}
-            >
-              {bodyArray.map((word, index) => (
-                <span
-                  onClick={() => handleClick(word, index)}
-                  key={index}
-                  style={getStyleForWord(
-                    index,
-                    isTranslateOn,
-                    selectedWordIndexes
-                  )}
-                >
-                  {word}{" "}
-                </span>
-              ))}
-            </Text>
-          </CardBody>
-        </Card>
-      )}
-      {isTranslateOn && (
-        <TranslationBox
-          preTranslatedText={preTranslatedText}
-          postTranslatedText={postTranslatedText}
-        />
-      )}
-    </VStack>
+    <TranslateContext.Provider value={{ isTranslateOn, setIsTranslateOn }}>
+      <VStack>
+        <ReaderHeader book={book} />
+        <Select
+          placeholder="Select a chapter"
+          width={["80%", "70%", "50%"]}
+          onChange={changeChapter}
+          value={chosenChapter}
+        >
+          {chapters.map((chapter, index) => (
+            <option key={index} value={chapter.number}>
+              {chapter.title || `Chapter: ${chapter.number}`}
+            </option>
+          ))}
+        </Select>
+        {chosenChapter && !isNaN(Number(chosenChapter)) && (
+          <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
+            <CardBody>
+              <Text
+                whiteSpace={"pre-line"}
+                color={"darkText"}
+                userSelect={isTranslateOn ? "none" : "auto"}
+              >
+                {bodyArray.map((word, index) => (
+                  <span
+                    onClick={() => handleClick(word, index)}
+                    key={index}
+                    style={getStyleForWord(
+                      index,
+                      isTranslateOn,
+                      selectedWordIndexes
+                    )}
+                  >
+                    {word}{" "}
+                  </span>
+                ))}
+              </Text>
+            </CardBody>
+          </Card>
+        )}
+        {isTranslateOn && (
+          <TranslationBox
+            preTranslatedText={preTranslatedText}
+            postTranslatedText={postTranslatedText}
+            isTranslateOn={isTranslateOn}
+          />
+        )}
+        {!isTranslateOn && (
+          <IconButton
+            aria-label="Activate Translate Mode"
+            icon={<ArrowUpIcon />}
+            position="fixed"
+            bottom={0}
+            left="50%"
+            transform="translateX(-50%)"
+            zIndex="10"
+            backgroundColor="rgba(255, 255, 255, 0.8)"
+            roundedBottom={0}
+            onClick={() => setIsTranslateOn(true)}
+            size={"sm"}
+          />
+        )}
+      </VStack>
+    </TranslateContext.Provider>
   );
 }
 
