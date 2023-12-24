@@ -40,11 +40,12 @@ function Reader() {
   const [bodyArray, setBodyArray] = useState<string[]>([]);
   const [preTranslatedText, setPreTranslatedText] = useState("Hello World");
   const [postTranslatedText, setpostTranslatedText] = useState("Hei Verden");
-  const [selectedWordIndex, setSelectedWordIndex] = useState<number | null>(
-    null
-  );
   const params = useParams();
   const toast = useToast();
+  const [selectedWordIndexes, setSelectedWordIndexes] = useState<{
+    first: number | null;
+    last: number | null;
+  }>({ first: null, last: null });
 
   const fetchData = useCallback(async () => {
     try {
@@ -115,14 +116,35 @@ function Reader() {
   };
 
   const handleClick = async (word: string, index: number) => {
-    if (!isTranslateOn || selectedWordIndex === index) {
-      setSelectedWordIndex(null);
+    if (!isTranslateOn) {
       return;
     }
-    setSelectedWordIndex(index);
-    setPreTranslatedText(word);
-    setpostTranslatedText("...");
-    await translateText(word);
+
+    const { first, last } = selectedWordIndexes;
+
+    if (first === null) {
+      setSelectedWordIndexes({ first: index, last: null });
+      setPreTranslatedText(word);
+      setpostTranslatedText("...");
+      await translateText(word);
+    } else if (last === null) {
+      if (index !== first) {
+        setSelectedWordIndexes({ first, last: index });
+        const wordsToTranslate = bodyArray
+          .slice(Math.min(first, index), Math.max(first, index) + 1)
+          .join(" ");
+        setPreTranslatedText(wordsToTranslate);
+        setpostTranslatedText("...");
+        await translateText(wordsToTranslate);
+      } else {
+        setSelectedWordIndexes({ first: null, last: null });
+      }
+    } else {
+      setSelectedWordIndexes({ first: index, last: null });
+      setPreTranslatedText(word);
+      setpostTranslatedText("...");
+      await translateText(word);
+    }
   };
 
   const translateText = async (textToTranslate: string) => {
@@ -199,7 +221,7 @@ function Reader() {
                   style={getStyleForWord(
                     index,
                     isTranslateOn,
-                    selectedWordIndex
+                    selectedWordIndexes
                   )}
                 >
                   {word}{" "}
@@ -222,9 +244,15 @@ function Reader() {
 const getStyleForWord = (
   index: number,
   isTranslateOn: boolean,
-  selectedWordIndex: number | null
+  selectedWordIndexes: { first: number | null; last: number | null }
 ) => {
-  const isWordSelected = index === selectedWordIndex;
+  const { first, last } = selectedWordIndexes;
+  const isWordSelected =
+    (first !== null && index === first) ||
+    (last !== null &&
+      index >= Math.min(first!, last) &&
+      index <= Math.max(first!, last));
+
   return isTranslateOn
     ? {
         cursor: "pointer",
