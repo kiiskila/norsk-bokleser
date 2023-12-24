@@ -34,6 +34,7 @@ const customTheme = extendTheme({
   styles: {
     global: (props: any) => ({
       "html, body": {
+        color: "darkText",
         background: mode("#f8fbf9", "#2F515C")(props),
       },
     }),
