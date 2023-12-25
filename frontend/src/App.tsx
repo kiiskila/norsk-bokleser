@@ -3,6 +3,7 @@ import Home from "./Components/Home";
 import Books from "./Components/Book";
 import Reader from "./Components/Reader/Reader";
 import Layout from "./Components/Layout";
+import BookRequestForm from "./Components/BookRequestForm";
 
 function App() {
   return (
@@ -21,6 +22,14 @@ function App() {
           element={
             <Layout>
               <Reader />
+            </Layout>
+          }
+        />
+        <Route
+          path="/request-a-book"
+          element={
+            <Layout>
+              <BookRequestForm />
             </Layout>
           }
         />
