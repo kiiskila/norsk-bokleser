@@ -12,6 +12,7 @@ import {
   SimpleGrid,
   Link,
   useToast,
+  Center,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
@@ -143,7 +144,9 @@ function Home() {
       />
 
       {!bookList.length ? (
-        <Text>No books available.</Text>
+        <Center>
+          <Text>No books found.</Text>
+        </Center>
       ) : (
         <SimpleGrid
           spacing={4}
