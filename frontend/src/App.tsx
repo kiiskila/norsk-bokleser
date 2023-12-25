@@ -4,6 +4,7 @@ import Books from "./Components/Book";
 import Reader from "./Components/Reader/Reader";
 import Layout from "./Components/Layout";
 import BookRequestForm from "./Components/BookRequestForm";
+import ReportIssueForm from "./Components/ReportIssueForm";
 
 function App() {
   return (
@@ -30,6 +31,14 @@ function App() {
           element={
             <Layout>
               <BookRequestForm />
+            </Layout>
+          }
+        />
+        <Route
+          path="/report-an-issue"
+          element={
+            <Layout>
+              <ReportIssueForm />
             </Layout>
           }
         />

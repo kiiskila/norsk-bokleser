@@ -82,7 +82,7 @@ const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
       pt={[4, 4, 0, 0]}
     >
       <MenuItem to="/">Home</MenuItem>
-      <MenuItem to="/">Report an Issue</MenuItem>
+      <MenuItem to="/report-an-issue">Report an Issue</MenuItem>
       <MenuItem to="/">Settings</MenuItem>
       <MenuItem to="/request-a-book">
         <Button size="sm" rounded="md" colorScheme="teal">

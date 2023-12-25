@@ -9,15 +9,13 @@ import {
   useToast,
   VStack,
   Text,
-  Center,
   Heading,
+  Center,
 } from "@chakra-ui/react";
 
-interface BookRequestFormProps {}
+interface ReportIssueFormProps {}
 
-const BookRequestForm: React.FC<BookRequestFormProps> = () => {
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
+const ReportIssueForm: React.FC<ReportIssueFormProps> = () => {
   const [details, setDetails] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -29,12 +27,12 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/forms/request", {
+      const response = await fetch("/forms/report", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ title, author, details, contactEmail }),
+        body: JSON.stringify({ details, contactEmail }),
       });
 
       if (!response.ok) {
@@ -44,7 +42,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
       setIsSubmitted(true);
       toast({
         title: "Success",
-        description: "Your request has been successfully submitted.",
+        description: "Your report has been successfully submitted.",
         status: "success",
         duration: 2000,
         isClosable: true,
@@ -52,7 +50,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
     } catch (error) {
       toast({
         title: "Error",
-        description: "There was an error submitting your request.",
+        description: "There was an error submitting your report.",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -63,35 +61,17 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
   };
 
   if (isSubmitted) {
-    return <Text>Your request has been successfully submitted.</Text>;
+    return <Text>Your report has been successfully submitted.</Text>;
   }
 
   return (
     <Card p={4} m={4}>
       <Center>
-        <Heading mb={4}>Request a Book</Heading>
+        <Heading mb={4}>Report an Issue</Heading>
       </Center>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4}>
           <FormControl isRequired>
-            <FormLabel htmlFor="title">Title</FormLabel>
-            <Input
-              id="title"
-              type="text"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel htmlFor="author">Author</FormLabel>
-            <Input
-              id="author"
-              type="text"
-              value={author}
-              onChange={(e) => setAuthor(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
             <FormLabel htmlFor="details">Details</FormLabel>
             <Textarea
               id="details"
@@ -114,7 +94,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
             isLoading={isSubmitting}
             type="submit"
           >
-            Submit Request
+            Submit Report
           </Button>
         </VStack>
       </form>
@@ -122,4 +102,4 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
   );
 };
 
-export default BookRequestForm;
+export default ReportIssueForm;
