@@ -17,7 +17,21 @@ export const getBookList: RequestHandler = async (
   next: NextFunction
 ) => {
   try {
-    const books: Array<object> = await db.book.findMany();
+    const { search, sortBy, sortOrder = "asc" } = req.query;
+
+    let query = db.book.findMany({
+      where: search
+        ? {
+            OR: [
+              { title: { contains: search as string, mode: "insensitive" } },
+              { author: { has: search as string } },
+            ],
+          }
+        : {},
+      orderBy: sortBy ? { [sortBy as string]: sortOrder } : undefined,
+    });
+
+    const books = await query;
     res.status(200).json(books);
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {

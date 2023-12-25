@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback, memo } from "react";
+import React, { useEffect, useState, useCallback, memo } from "react";
 import {
   Card,
   CardHeader,
@@ -16,6 +16,7 @@ import {
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
 import { book as BookType } from "../common/types";
+import BookListControls from "./BookListControls";
 
 const BookCard = memo(({ book }: { book: BookType }) => (
   <Card key={book.id}>
@@ -84,11 +85,18 @@ const formatDate = (date: Date | undefined) => {
 function Home() {
   const [bookList, setBookList] = useState<BookType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState({ field: "", order: "asc" });
   const toast = useToast();
 
   const fetchBookList = useCallback(async () => {
     try {
-      const response = await fetch("/books");
+      const queryParams = new URLSearchParams({
+        ...(search && { search }),
+        ...(sort.field && { sortBy: sort.field, sortOrder: sort.order }),
+      }).toString();
+
+      const response = await fetch(`/books?${queryParams}`);
       if (!response.ok) {
         const resMessage =
           response.status === 404 ? "No books found" : "Internal server error";
@@ -110,24 +118,44 @@ function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast]);
+  }, [toast, search, sort]);
 
   useEffect(() => {
     fetchBookList();
   }, [fetchBookList]);
 
   if (isLoading) return <Loading />;
-  if (!bookList.length) return <Text>No books available.</Text>;
 
   return (
-    <SimpleGrid
-      spacing={4}
-      templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-    >
-      {bookList.map((book) => (
-        <BookCard key={book.id} book={book} />
-      ))}
-    </SimpleGrid>
+    <div>
+      <BookListControls
+        search={search}
+        sort={sort}
+        onSearchChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          setSearch(e.target.value)
+        }
+        onSortFieldChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          setSort({ ...sort, field: e.target.value })
+        }
+        onSortOrderChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
+          setSort({ ...sort, order: e.target.value })
+        }
+        onApplyFilters={fetchBookList}
+      />
+
+      {!bookList.length ? (
+        <Text>No books available.</Text>
+      ) : (
+        <SimpleGrid
+          spacing={4}
+          templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+        >
+          {bookList.map((book) => (
+            <BookCard key={book.id} book={book} />
+          ))}
+        </SimpleGrid>
+      )}
+    </div>
   );
 }
 
