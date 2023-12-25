@@ -148,14 +148,16 @@ function Home() {
           <Text>No books found.</Text>
         </Center>
       ) : (
-        <SimpleGrid
-          spacing={4}
-          templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
-        >
-          {bookList.map((book) => (
-            <BookCard key={book.id} book={book} />
-          ))}
-        </SimpleGrid>
+        <Box p={4}>
+          <SimpleGrid
+            spacing={4}
+            templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+          >
+            {bookList.map((book) => (
+              <BookCard key={book.id} book={book} />
+            ))}
+          </SimpleGrid>
+        </Box>
       )}
     </div>
   );
