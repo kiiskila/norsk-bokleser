@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Input, Select, Box, Flex, useBreakpointValue } from "@chakra-ui/react";
 
 type BookListControlsProps = {
   search: string;
@@ -6,7 +7,6 @@ type BookListControlsProps = {
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSortFieldChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onSortOrderChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onApplyFilters: () => void;
 };
 
 const BookListControls: React.FC<BookListControlsProps> = ({
@@ -15,28 +15,45 @@ const BookListControls: React.FC<BookListControlsProps> = ({
   onSearchChange,
   onSortFieldChange,
   onSortOrderChange,
-  onApplyFilters,
 }) => {
-  return (
-    <div>
-      <input
-        type="text"
-        value={search}
-        onChange={onSearchChange}
-        placeholder="Search books..."
-      />
-      <select value={sort.field} onChange={onSortFieldChange}>
-        <option value="">Sort By</option>
-        <option value="title">Title</option>
-        <option value="published_date">Published Date</option>
-      </select>
-      <select value={sort.order} onChange={onSortOrderChange}>
-        <option value="asc">Ascending</option>
-        <option value="desc">Descending</option>
-      </select>
+  const flexDir = useBreakpointValue({
+    base: "column",
+    md: "row",
+  }) as any;
 
-      <button onClick={onApplyFilters}>Apply Filters</button>
-    </div>
+  useEffect(() => {
+    if (sort.field === "") {
+      onSortFieldChange({
+        target: { value: "title" },
+      } as React.ChangeEvent<HTMLSelectElement>);
+    }
+  }, [sort.field, onSortFieldChange]);
+
+  return (
+    <Box p={4}>
+      <Flex direction={flexDir} align="center" gap={3}>
+        <Input
+          type="text"
+          value={search}
+          onChange={onSearchChange}
+          placeholder="Search books..."
+          flex={1}
+        />
+        <Select
+          value={sort.field}
+          onChange={onSortFieldChange}
+          placeholder="Sort By"
+          flex={1}
+        >
+          <option value="title">Title</option>
+          <option value="published_date">Published Date</option>
+        </Select>
+        <Select value={sort.order} onChange={onSortOrderChange} flex={1}>
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </Select>
+      </Flex>
+    </Box>
   );
 };
 

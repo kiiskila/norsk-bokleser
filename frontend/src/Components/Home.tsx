@@ -140,7 +140,6 @@ function Home() {
         onSortOrderChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
           setSort({ ...sort, order: e.target.value })
         }
-        onApplyFilters={fetchBookList}
       />
 
       {!bookList.length ? (
