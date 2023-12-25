@@ -284,52 +284,31 @@ const getStyleForWord = (
   isTranslateOn: boolean,
   selectedWordIndexes: { first: number | null; last: number | null }
 ) => {
-  const { first, last } = selectedWordIndexes;
-
   if (!isTranslateOn) {
-    return normalStyle;
+    return { ...normalStyle, cursor: "auto" };
   }
 
-  let style = { ...normalStyle };
+  const { first, last } = selectedWordIndexes;
+  const isSingleSelection = first === last || last === null || first === null;
+  const isWithinRange =
+    first !== null &&
+    last !== null &&
+    index >= Math.min(first, last) &&
+    index <= Math.max(first, last);
 
-  // Check if the current word is within the selected range
-  const isWordSelected =
-    (first !== null && last === null && index === first) ||
-    (first === null && last !== null && index === last) ||
-    (first !== null &&
-      last !== null &&
-      index >= Math.min(first, last) &&
-      index <= Math.max(first, last));
-
-  if (isWordSelected) {
-    style = { ...highlightedStyle };
-
-    // Check if it's a single word selection
-    if (
-      first === last ||
-      (first !== null && last === null) ||
-      (first === null && last !== null)
-    ) {
-      style.borderRadius = "8px";
-    } else if (first !== null && last !== null) {
-      // Apply border radius for the first and last word in a range
-      if (first < last) {
-        if (index === first) {
-          style.borderRadius = "8px 0 0 8px";
-        } else if (index === last) {
-          style.borderRadius = "0 8px 8px 0";
-        }
-      } else {
-        if (index === last) {
-          style.borderRadius = "8px 0 0 8px";
-        } else if (index === first) {
-          style.borderRadius = "0 8px 8px 0";
-        }
-      }
+  if (isSingleSelection && index === first) {
+    return { ...highlightedStyle, borderRadius: "8px", cursor: "pointer" };
+  } else if (!isSingleSelection && isWithinRange) {
+    let borderRadius = "";
+    if (index === first) {
+      borderRadius = first < last ? "8px 0 0 8px" : "0 8px 8px 0";
+    } else if (index === last) {
+      borderRadius = first < last ? "0 8px 8px 0" : "8px 0 0 8px";
     }
+    return { ...highlightedStyle, borderRadius, cursor: "pointer" };
   }
 
-  return { cursor: "pointer", ...style };
+  return { ...normalStyle, cursor: "pointer" };
 };
 
 export default Reader;
