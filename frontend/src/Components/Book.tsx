@@ -8,6 +8,7 @@ import {
   Link,
   Stack,
   useToast,
+  Tooltip,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -73,15 +74,24 @@ function Books() {
           </Heading>
           <Stack direction="row" spacing={4} justify="center" pt={6}>
             <Link as={ReactRouterLink} to="/">
-              <Button variant="solid" colorScheme="blue">
+              <Button variant="solid" colorScheme="red">
                 Back
               </Button>
             </Link>
-            <Link as={ReactRouterLink} to={`/read/${book?.slug}/`}>
-              <Button variant="solid" colorScheme="green">
-                Read
-              </Button>
-            </Link>
+            <Tooltip label="Type through the text of the book">
+              <Link as={ReactRouterLink} to={`/read/${book?.slug}/`}>
+                <Button variant="solid" colorScheme="blue">
+                  Type
+                </Button>
+              </Link>
+            </Tooltip>
+            <Tooltip label="Read through the book with optional translations">
+              <Link as={ReactRouterLink} to={`/read/${book?.slug}/`}>
+                <Button variant="solid" colorScheme="green">
+                  Read
+                </Button>
+              </Link>
+            </Tooltip>
           </Stack>
         </CardBody>
       </Card>
