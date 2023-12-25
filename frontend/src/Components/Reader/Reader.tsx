@@ -26,7 +26,7 @@ import { ArrowUpIcon } from "@chakra-ui/icons";
 const highlightedStyle = {
   backgroundColor: "teal",
   color: "white",
-  borderRadius: "4px",
+  borderRadius: "0",
   boxShadow: "0 0 0 4px teal",
   display: "inline",
   margin: "0 3px",
@@ -39,6 +39,7 @@ const normalStyle = {
   lineHeight: "inherit",
   display: "inline",
   margin: "0 3px",
+  borderRadius: "0",
 };
 
 const TranslateContext = createContext<{
@@ -170,6 +171,7 @@ function Reader() {
     if (isStringEmpty(textToTranslate)) {
       return;
     } else if (!isStringEmpty(textToTranslate)) {
+      // FOR TESTING ONLY
       setpostTranslatedText(textToTranslate.split("").reverse().join(""));
       return;
     }
@@ -283,18 +285,51 @@ const getStyleForWord = (
   selectedWordIndexes: { first: number | null; last: number | null }
 ) => {
   const { first, last } = selectedWordIndexes;
-  const isWordSelected =
-    (first !== null && index === first) ||
-    (last !== null &&
-      index >= Math.min(first!, last) &&
-      index <= Math.max(first!, last));
 
-  return isTranslateOn
-    ? {
-        cursor: "pointer",
-        ...(isWordSelected ? highlightedStyle : normalStyle),
+  if (!isTranslateOn) {
+    return normalStyle;
+  }
+
+  let style = { ...normalStyle };
+
+  // Check if the current word is within the selected range
+  const isWordSelected =
+    (first !== null && last === null && index === first) ||
+    (first === null && last !== null && index === last) ||
+    (first !== null &&
+      last !== null &&
+      index >= Math.min(first, last) &&
+      index <= Math.max(first, last));
+
+  if (isWordSelected) {
+    style = { ...highlightedStyle };
+
+    // Check if it's a single word selection
+    if (
+      first === last ||
+      (first !== null && last === null) ||
+      (first === null && last !== null)
+    ) {
+      style.borderRadius = "8px";
+    } else if (first !== null && last !== null) {
+      // Apply border radius for the first and last word in a range
+      if (first < last) {
+        if (index === first) {
+          style.borderRadius = "8px 0 0 8px";
+        } else if (index === last) {
+          style.borderRadius = "0 8px 8px 0";
+        }
+      } else {
+        if (index === last) {
+          style.borderRadius = "8px 0 0 8px";
+        } else if (index === first) {
+          style.borderRadius = "0 8px 8px 0";
+        }
       }
-    : normalStyle;
+    }
+  }
+
+  return { cursor: "pointer", ...style };
 };
 
 export default Reader;
