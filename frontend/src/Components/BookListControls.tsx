@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { Input, Select, Box, Flex, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Input,
+  Select,
+  Box,
+  Flex,
+  FormControl,
+  FormLabel,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 
 type BookListControlsProps = {
   search: string;
@@ -32,26 +40,39 @@ const BookListControls: React.FC<BookListControlsProps> = ({
   return (
     <Box p={4}>
       <Flex direction={flexDir} align="center" gap={3}>
-        <Input
-          type="text"
-          value={search}
-          onChange={onSearchChange}
-          placeholder="Search books..."
-          flex={1}
-        />
-        <Select
-          value={sort.field}
-          onChange={onSortFieldChange}
-          placeholder="Sort By"
-          flex={1}
-        >
-          <option value="title">Title</option>
-          <option value="published_date">Published Date</option>
-        </Select>
-        <Select value={sort.order} onChange={onSortOrderChange} flex={1}>
-          <option value="asc">Ascending</option>
-          <option value="desc">Descending</option>
-        </Select>
+        <FormControl flex={1}>
+          <FormLabel htmlFor="search">Search Books</FormLabel>
+          <Input
+            id="search"
+            type="text"
+            value={search}
+            onChange={onSearchChange}
+            placeholder="Search books..."
+          />
+        </FormControl>
+        <FormControl flex={1}>
+          <FormLabel htmlFor="sortField">Sort By</FormLabel>
+          <Select
+            id="sortField"
+            value={sort.field}
+            onChange={onSortFieldChange}
+            placeholder="Select field"
+          >
+            <option value="title">Title</option>
+            <option value="published_date">Published Date</option>
+          </Select>
+        </FormControl>
+        <FormControl flex={1}>
+          <FormLabel htmlFor="sortOrder">Order</FormLabel>
+          <Select
+            id="sortOrder"
+            value={sort.order}
+            onChange={onSortOrderChange}
+          >
+            <option value="asc">Ascending</option>
+            <option value="desc">Descending</option>
+          </Select>
+        </FormControl>
       </Flex>
     </Box>
   );
