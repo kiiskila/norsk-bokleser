@@ -28,6 +28,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       p={4}
       outline="2px solid"
       roundedTop="12"
+      overflow="hidden"
     >
       <CloseButton onClick={handleCloseClick} />
       <TranslationContent
@@ -54,11 +55,25 @@ const TranslationContent: React.FC<{
   preTranslatedText: string;
   postTranslatedText: string;
 }> = ({ preTranslatedText, postTranslatedText }) => (
-  <>
-    <Text>{preTranslatedText}</Text>
-    <Divider orientation="horizontal" />
-    <Text>{postTranslatedText}</Text>
-  </>
+  <Box display="flex" height="100%">
+    <Box width="50%" pr={2} display="flex" flexDirection="column">
+      <Text fontWeight="bold" mb={1}>
+        Norsk
+      </Text>
+      <Box overflowY="auto" flexGrow={1}>
+        <Text>{preTranslatedText}</Text>
+      </Box>
+    </Box>
+    <Divider orientation="vertical" />
+    <Box width="50%" pl={2} display="flex" flexDirection="column">
+      <Text fontWeight="bold" mb={1}>
+        Engelsk
+      </Text>
+      <Box overflowY="auto" flexGrow={1}>
+        <Text>{postTranslatedText}</Text>
+      </Box>
+    </Box>
+  </Box>
 );
 
 export default TranslationBox;
