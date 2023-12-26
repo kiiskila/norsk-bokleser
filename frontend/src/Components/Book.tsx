@@ -86,14 +86,14 @@ function Books() {
               boxSize={"sm"}
             />
           </Center>
-          <Stack direction="row" spacing={4} justify="center" pt={6}>
+          <Stack direction="row" spacing={12} justify="center" pt={6}>
             <Link as={ReactRouterLink} to="/">
               <Button variant="solid" colorScheme="red">
                 Back
               </Button>
             </Link>
             <Tooltip label="Type through the text of the book">
-              <Link as={ReactRouterLink} to={`/read/${book?.slug}/`}>
+              <Link as={ReactRouterLink} to={`/type/${book?.slug}/`}>
                 <Button variant="solid" colorScheme="blue">
                   Type
                 </Button>
