@@ -6,8 +6,8 @@ export interface book {
   isbn?: string;
   cover_art?: string;
   published_date?: Date;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 }
 
 export interface chapter {
@@ -16,6 +16,6 @@ export interface chapter {
   number: number;
   title?: string;
   body?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  created_at: Date;
+  updated_at: Date;
 }

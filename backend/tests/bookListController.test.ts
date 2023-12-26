@@ -33,8 +33,8 @@ describe("getBookList", () => {
         isbn: "1234567890",
         cover_art: "url-to-cover-art-1",
         published_date: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
       {
         id: 2,
@@ -44,8 +44,8 @@ describe("getBookList", () => {
         isbn: "0987654321",
         cover_art: "url-to-cover-art-2",
         published_date: new Date(),
-        createdAt: new Date(),
-        updatedAt: new Date(),
+        created_at: new Date(),
+        updated_at: new Date(),
       },
     ];
 

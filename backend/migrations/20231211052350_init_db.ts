@@ -9,8 +9,7 @@ export async function up(knex: Knex): Promise<void> {
     table.string("isbn").unique();
     table.string("cover_art");
     table.timestamp("published_date");
-    table.timestamp("createdAt").notNullable().defaultTo(knex.fn.now());
-    table.timestamp("updatedAt").notNullable();
+    table.timestamps(true, true);
   });
 }
 

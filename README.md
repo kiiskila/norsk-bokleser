@@ -7,6 +7,7 @@ Bokhjelp is an online book reader that allows seemless translation as you read. 
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
+- [Development] (#development)
 - [Demos](#demos)
 - [Contributing](#contributing)
 - [Contact](#contact)
@@ -92,6 +93,17 @@ To run the tests:
 cd backend
 npm run test
 ```
+
+## Development
+
+To generate a knex migration file:
+
+```bash
+cd backend
+npx knex migrate:make add_chapters_table
+```
+
+---
 
 ## Demos
 

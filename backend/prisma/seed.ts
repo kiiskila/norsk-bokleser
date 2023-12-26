@@ -45,8 +45,8 @@ const seedBooks = async () => {
             from: new Date("01/01/1900"),
             to: new Date(),
           }),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       });
 
@@ -68,8 +68,8 @@ const seedChapters = async (book_id: number) => {
           number: i,
           title: faker.number.int(10) > 2 ? faker.company.name() : null,
           body: lorem(20),
-          createdAt: new Date(),
-          updatedAt: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
         },
       });
     }

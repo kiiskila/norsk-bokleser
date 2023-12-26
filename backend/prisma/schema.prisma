@@ -17,22 +17,22 @@ model Book {
   isbn           String?   @unique
   cover_art      String?
   published_date DateTime?
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  created_at     DateTime  @default(now())
+  updated_at     DateTime  @updatedAt
   chapter        Chapter[]
 
   @@map(name: "books")
 }
 
 model Chapter {
-  id        Int      @id @default(autoincrement())
-  book      Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
-  book_id   Int
-  number    Int
-  title     String?
-  body      String?  @db.Text
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         Int      @id @default(autoincrement())
+  book       Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
+  book_id    Int
+  number     Int
+  title      String?
+  body       String?  @db.Text
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
   @@unique([book_id, number])
   @@map(name: "chapters")
