@@ -27,10 +27,11 @@ const highlightedStyle = {
   backgroundColor: "teal",
   color: "white",
   borderRadius: "0",
-  boxShadow: "0 0 0 4px teal",
+  boxShadow: "0 0 0 0 transparent",
   display: "inline",
-  margin: "0 3px",
+  margin: "0",
   lineHeight: "inherit",
+  border: "1px solid teal",
 };
 
 const normalStyle = {
@@ -38,8 +39,9 @@ const normalStyle = {
   color: "inherit",
   lineHeight: "inherit",
   display: "inline",
-  margin: "0 3px",
+  margin: "0",
   borderRadius: "0",
+  border: "1px solid transparent",
 };
 
 const TranslateContext = createContext<{
