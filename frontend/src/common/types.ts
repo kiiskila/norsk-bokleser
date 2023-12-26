@@ -6,6 +6,8 @@ export interface book {
   isbn?: string;
   cover_art?: string;
   published_date?: Date;
+  summary_english: string;
+  summary_norwegian: string;
   created_at: Date;
   updated_at: Date;
 }

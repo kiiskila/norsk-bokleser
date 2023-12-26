@@ -9,6 +9,8 @@ import {
   Stack,
   useToast,
   Tooltip,
+  Image,
+  Text,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -64,14 +66,26 @@ function Books() {
 
   return (
     <Center>
-      <Card mt={12} width={["90%", "75%", "60%"]}>
+      <Card mb={4} width={["90%", "75%", "60%"]}>
         <CardBody>
           <Heading
             textAlign="center"
             size={{ base: "md", sm: "lg", md: "xl", lg: "xl" }}
+            color={"darkText"}
           >
             {book?.title}
           </Heading>
+          <Text textAlign="center" size={"sm"}>
+            by {book?.author.join(", ")}
+          </Text>
+          <Center pt={2}>
+            <Image
+              src={book?.cover_art}
+              alt="book cover"
+              borderRadius="lg"
+              boxSize={"sm"}
+            />
+          </Center>
           <Stack direction="row" spacing={4} justify="center" pt={6}>
             <Link as={ReactRouterLink} to="/">
               <Button variant="solid" colorScheme="red">
@@ -93,6 +107,14 @@ function Books() {
               </Link>
             </Tooltip>
           </Stack>
+          <Text size={"lg"} as="b">
+            Sammendrag
+          </Text>
+          <Text>{book?.summary_norwegian}</Text>
+          <Text size={"lg"} as="b">
+            Summary
+          </Text>
+          <Text>{book?.summary_english}</Text>
         </CardBody>
       </Card>
     </Center>

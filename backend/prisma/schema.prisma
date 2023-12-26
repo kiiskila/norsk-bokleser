@@ -10,16 +10,18 @@ datasource db {
 }
 
 model Book {
-  id             Int       @id @default(autoincrement())
-  slug           String    @unique
-  title          String
-  author         String[]
-  isbn           String?   @unique
-  cover_art      String?
-  published_date DateTime?
-  created_at     DateTime  @default(now())
-  updated_at     DateTime  @updatedAt
-  chapter        Chapter[]
+  id                Int       @id @default(autoincrement())
+  slug              String    @unique
+  title             String
+  author            String[]
+  isbn              String?   @unique
+  cover_art         String?
+  published_date    DateTime?
+  summary_english   String?   @db.Text
+  summary_norwegian String?   @db.Text
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  chapter           Chapter[]
 
   @@map(name: "books")
 }

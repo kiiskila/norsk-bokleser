@@ -45,6 +45,8 @@ const seedBooks = async () => {
             from: new Date("01/01/1900"),
             to: new Date(),
           }),
+          summary_english: faker.commerce.productDescription(),
+          summary_norwegian: lorem(1),
           created_at: new Date(),
           updated_at: new Date(),
         },

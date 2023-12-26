@@ -29,8 +29,8 @@ const BookCard = memo(({ book }: { book: BookType }) => (
     <CardBody>
       <Stack divider={<StackDivider />} spacing="4">
         <Image src={book.cover_art} alt="book cover" borderRadius="lg" />
-        <DetailSection title="Sammendrag" content="Sammendrag på norsk" />
-        <DetailSection title="Summary" content="Summary in English" />
+        <DetailSection title="Sammendrag" content={book.summary_norwegian} />
+        <DetailSection title="Summary" content={book.summary_english} />
         <DetailSection
           title="Details"
           content={
@@ -151,7 +151,7 @@ function Home() {
         <Box p={4}>
           <SimpleGrid
             spacing={4}
-            templateColumns="repeat(auto-fill, minmax(200px, 1fr))"
+            templateColumns="repeat(auto-fill, minmax(300px, 1fr))"
           >
             {bookList.map((book) => (
               <BookCard key={book.id} book={book} />
