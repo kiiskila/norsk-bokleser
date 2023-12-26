@@ -6,7 +6,7 @@ const PageNotFound: React.FC = () => {
   return (
     <Box
       width="100vw"
-      minHeight="calc(100vh - 200px)" // Assuming the navbar height is 60px
+      minHeight="calc(100vh - 200px)"
       display="flex"
       alignItems="center"
       justifyContent="center"

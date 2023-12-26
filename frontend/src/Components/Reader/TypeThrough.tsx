@@ -8,6 +8,7 @@ import {
   VStack,
   Text,
   useToast,
+  Input,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
@@ -16,6 +17,7 @@ function Reader() {
   const [chapters, setChapters] = useState<chapter[]>([]);
   const [chosenChapter, setChosenChapter] = useState<string>();
   const [bodyArray, setBodyArray] = useState<string[]>([]);
+  const [typedWords, setTypedWords] = useState<string[]>([]);
   const params = useParams();
   const toast = useToast();
 
@@ -87,6 +89,15 @@ function Reader() {
     setChosenChapter(event.currentTarget.value);
   };
 
+  const handleTyping = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const typedText = event.target.value;
+    setTypedWords(typedText.split(/\s+/));
+  };
+
+  const isWordCorrect = (word: string, index: number): boolean => {
+    return typedWords.length > index && typedWords[index] === word;
+  };
+
   useEffect(() => {
     fetchChapter();
   }, [fetchChapter]);
@@ -94,6 +105,10 @@ function Reader() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    setTypedWords([]);
+  }, [chosenChapter]);
 
   return (
     <VStack>
@@ -113,9 +128,28 @@ function Reader() {
       {chosenChapter && !isNaN(Number(chosenChapter)) && (
         <Card width={["90%", "80%", "75%"]} mb={6}>
           <CardBody>
-            <Text whiteSpace={"pre-line"} color={"darkText"}>
+            <Input
+              placeholder="Start typing here..."
+              onChange={handleTyping}
+              size="lg"
+              mb={4}
+              value={typedWords.join(" ")}
+            />
+            <Text whiteSpace={"pre-line"} color={"gray.400"}>
               {bodyArray.map((word, index) => (
-                <span key={index}>{word} </span>
+                <span
+                  key={index}
+                  style={{
+                    color:
+                      typedWords.length > index
+                        ? isWordCorrect(word, index)
+                          ? "black"
+                          : "red"
+                        : "lightgrey",
+                  }}
+                >
+                  {word}{" "}
+                </span>
               ))}
             </Text>
           </CardBody>
