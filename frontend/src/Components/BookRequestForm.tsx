@@ -8,10 +8,10 @@ import {
   Textarea,
   useToast,
   VStack,
-  Text,
   Center,
   Heading,
 } from "@chakra-ui/react";
+import SuccessMessage from "./SuccessMessage";
 
 interface BookRequestFormProps {}
 
@@ -42,13 +42,6 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
       }
 
       setIsSubmitted(true);
-      toast({
-        title: "Success",
-        description: "Your request has been successfully submitted.",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
     } catch (error) {
       toast({
         title: "Error",
@@ -63,7 +56,11 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
   };
 
   if (isSubmitted) {
-    return <Text>Your request has been successfully submitted.</Text>;
+    return (
+      <SuccessMessage
+        message={"Your request has been successfully submitted."}
+      />
+    );
   }
 
   return (

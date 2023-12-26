@@ -8,10 +8,10 @@ import {
   Textarea,
   useToast,
   VStack,
-  Text,
   Heading,
   Center,
 } from "@chakra-ui/react";
+import SuccessMessage from "./SuccessMessage";
 
 interface ReportIssueFormProps {}
 
@@ -40,13 +40,6 @@ const ReportIssueForm: React.FC<ReportIssueFormProps> = () => {
       }
 
       setIsSubmitted(true);
-      toast({
-        title: "Success",
-        description: "Your report has been successfully submitted.",
-        status: "success",
-        duration: 2000,
-        isClosable: true,
-      });
     } catch (error) {
       toast({
         title: "Error",
@@ -61,7 +54,11 @@ const ReportIssueForm: React.FC<ReportIssueFormProps> = () => {
   };
 
   if (isSubmitted) {
-    return <Text>Your report has been successfully submitted.</Text>;
+    return (
+      <SuccessMessage
+        message={"Your report has been successfully submitted."}
+      />
+    );
   }
 
   return (
