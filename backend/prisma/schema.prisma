@@ -37,3 +37,19 @@ model Chapter {
   @@unique([book_id, number])
   @@map(name: "chapters")
 }
+
+model EmailLog {
+  id            Int       @id @default(autoincrement())
+  type          EmailType
+  details       String
+  contact_email String?
+  created_at    DateTime  @default(now())
+  updated_at    DateTime  @updatedAt
+
+  @@map(name: "email_logs")
+}
+
+enum EmailType {
+  request
+  report
+}
