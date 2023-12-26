@@ -8,6 +8,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+app.use(express.json());
+
 app.use("/", api);
 
 app.listen(port, () =>
