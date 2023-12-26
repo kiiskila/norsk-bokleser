@@ -5,6 +5,7 @@ import Reader from "./Components/Reader/Reader";
 import Layout from "./Components/Layout";
 import BookRequestForm from "./Components/BookRequestForm";
 import ReportIssueForm from "./Components/ReportIssueForm";
+import TypeThrough from "./Components/Reader/TypeThrough";
 
 function App() {
   return (
@@ -23,6 +24,14 @@ function App() {
           element={
             <Layout>
               <Reader />
+            </Layout>
+          }
+        />
+        <Route
+          path="/type/:bookSlug"
+          element={
+            <Layout>
+              <TypeThrough />
             </Layout>
           }
         />
