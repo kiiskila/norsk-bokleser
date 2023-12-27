@@ -1,5 +1,9 @@
 import dotenv from "dotenv";
+import { parse } from "pg-connection-string";
+
 dotenv.config();
+
+const dbConfig = parse(process.env.DATABASE_URL!);
 
 export default {
   client: "pg",
@@ -7,9 +11,11 @@ export default {
     extension: "ts",
   },
   connection: {
-    host: process.env.DATABASE_URL,
-    user: process.env.DB_USER,
-    password: process.env.DB_PASSWORD,
-    database: process.env.DB_NAME,
+    host: dbConfig.host,
+    user: dbConfig.user,
+    password: dbConfig.password,
+    database: dbConfig.database,
+    port: dbConfig.port,
+    //ssl: { rejectUnauthorized: false },
   },
 };

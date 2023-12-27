@@ -2,14 +2,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 import { PrismaClient } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
-const db = new PrismaClient({
-  log: ["error", "info", "query", "warn"],
-  datasources: {
-    db: {
-      url: "postgres://postgres:postgres@host.docker.internal:5432/norsk_bokleser",
-    },
-  },
-});
+const db = new PrismaClient();
 
 export const getBookList: RequestHandler = async (
   req: Request,

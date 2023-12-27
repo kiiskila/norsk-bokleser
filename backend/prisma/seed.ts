@@ -4,11 +4,13 @@ import { PrismaClient } from "@prisma/client";
 import { normalizeString } from "../utils/helpers";
 const lorem = require("lorem-ipsum-norwegian");
 
+const dbUrl = process.env.DB_HOST;
+
 const db = new PrismaClient({
   log: ["error", "info", "query", "warn"],
   datasources: {
     db: {
-      url: "postgresql://postgres:postgres@localhost:5432/norsk_bokleser",
+      url: dbUrl,
     },
   },
 });

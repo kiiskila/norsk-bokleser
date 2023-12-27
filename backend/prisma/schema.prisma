@@ -5,8 +5,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  //url      = env("DATABASE_URL")
-  url      = "postgres://postgres:postgres@host.docker.internal:5432/norsk_bokleser"
+  url      = env("DATABASE_URL")
 }
 
 model Book {

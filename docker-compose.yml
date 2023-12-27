@@ -10,8 +10,6 @@ services:
       - ./app:/node_modules
     depends_on:
       - postgres
-    environment:
-      DATABASE_URL: host.docker.internal
   frontend:
     build: ./frontend
     container_name: frontend
