@@ -79,12 +79,7 @@ function Books() {
             by {book?.author.join(", ")}
           </Text>
           <Center pt={2}>
-            <Image
-              src={book?.cover_art}
-              alt="book cover"
-              borderRadius="lg"
-              boxSize={"sm"}
-            />
+            <Image src={book?.cover_art} alt="book cover" borderRadius="lg" />
           </Center>
           <Stack direction="row" spacing={12} justify="center" pt={6}>
             <Link as={ReactRouterLink} to="/">
