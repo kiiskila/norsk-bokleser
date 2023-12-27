@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
-import "./SuccessAnimation.css";
+import "../styles/SuccessAnimation.css";
 
 type SuccessMessageProps = {
   message?: string;
