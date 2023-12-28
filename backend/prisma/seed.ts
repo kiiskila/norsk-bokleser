@@ -4,7 +4,7 @@ import { PrismaClient } from "@prisma/client";
 import { normalizeString } from "../utils/helpers";
 const lorem = require("lorem-ipsum-norwegian");
 
-const dbUrl = process.env.DB_HOST;
+const dbUrl = process.env.DB_HOST || process.env.DATABASE_URL;
 
 const db = new PrismaClient({
   log: ["error", "info", "query", "warn"],
