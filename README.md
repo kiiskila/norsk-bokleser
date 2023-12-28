@@ -94,15 +94,6 @@ cd backend
 npm run test
 ```
 
-## Development
-
-To generate a knex migration file:
-
-```bash
-cd backend
-npx knex migrate:make add_chapters_table
-```
-
 ---
 
 ## Demos
