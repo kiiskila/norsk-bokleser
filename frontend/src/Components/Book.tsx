@@ -26,7 +26,9 @@ function Books() {
   const fetchBook = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await fetch(`/book/${params.bookSlug}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_PROXY_URL}/book/${params.bookSlug}`
+      );
       if (!response.ok) {
         const resMessage =
           response.status === 404 ? "Book not found" : "Internal server error";

@@ -29,13 +29,16 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/forms/request", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ title, author, details, contactEmail }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_PROXY_URL}/forms/request`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ title, author, details, contactEmail }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit the form");

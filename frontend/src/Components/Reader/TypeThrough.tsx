@@ -23,7 +23,9 @@ function Reader() {
 
   const fetchData = useCallback(async () => {
     try {
-      const response = await fetch(`/read/${params.bookSlug}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_PROXY_URL}/read/${params.bookSlug}`
+      );
       if (!response.ok) {
         throw new Error(
           response.status === 404 ? "Book not found" : "Internal server error"
@@ -58,7 +60,9 @@ function Reader() {
     if (isNaN(chapterNumber) || chapterNumber <= 0) return;
 
     try {
-      const response = await fetch(`/read/${params.bookSlug}/${chosenChapter}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_PROXY_URL}/read/${params.bookSlug}/${chosenChapter}`
+      );
       if (!response.ok) {
         throw new Error(`An error has occurred: ${response.status}`);
       }

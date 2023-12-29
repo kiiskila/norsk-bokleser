@@ -97,7 +97,9 @@ function Home() {
         ...(sort.field && { sortBy: sort.field, sortOrder: sort.order }),
       }).toString();
 
-      const response = await fetch(`/books?${queryParams}`);
+      const response = await fetch(
+        `${process.env.REACT_APP_PROXY_URL}/books?${queryParams}`
+      );
       if (!response.ok) {
         const resMessage =
           response.status === 404 ? "No books found" : "Internal server error";

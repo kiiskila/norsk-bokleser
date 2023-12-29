@@ -27,13 +27,16 @@ const ReportIssueForm: React.FC<ReportIssueFormProps> = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await fetch("/forms/report", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ details, contactEmail }),
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_PROXY_URL}/forms/report`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ details, contactEmail }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to submit the form");
