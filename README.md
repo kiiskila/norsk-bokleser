@@ -5,9 +5,9 @@ Bokhjelp is an online book reader that allows seemless translation as you read. 
 ## Table of Contents
 
 - [Technologies Used](#technologies-used)
+- [Hosting] (#hosting)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Development] (#development)
 - [Demos](#demos)
 - [Contributing](#contributing)
 - [Contact](#contact)
@@ -19,6 +19,20 @@ Bokhjelp is an online book reader that allows seemless translation as you read. 
 - **Database**: PostgreSQL
 - **DevOps**: Docker
 - **Testing and Quality Assurance**: Jest
+
+## Hosting
+
+### Backend
+
+Hosted on an Oracle Compute Instance and accessable here: https://bokhelp.me
+
+### Frotend
+
+Hosted on Vercel and accessable here: https://norsk-bokleser.vercel.app
+
+### Database
+
+Hosted on Supabase
 
 ## Installation
 
@@ -48,14 +62,14 @@ Ensure you have Docker installed on your system to simplify the setup process.
 4. Run the migrations:
 
    ```bash
-   npm run db:migrate
+   npm run local:db:migrate
    ```
 
-Optionally undo the migration:
+   OR to reset the database
 
-```bash
-npm run db:migrate:undo
-```
+   ```bash
+   npm run local:db:rebuild
+   ```
 
 5. Run the seeder:
 

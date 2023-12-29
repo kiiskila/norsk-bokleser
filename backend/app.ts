@@ -28,13 +28,18 @@ if (isProduction) {
 }
 
 // CORS setup
-const allowedOrigins = ["https://norsk-bokleser.vercel.app"];
+const allowedOrigins = [
+  "https://norsk-bokleser.vercel.app",
+  "http://localhost:5173",
+];
 
 const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
   req,
   callback
 ) => {
   const origin = req.headers.origin;
+
+  console.log(origin);
 
   let corsOptions;
 

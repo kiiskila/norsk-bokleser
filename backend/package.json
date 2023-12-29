@@ -8,7 +8,9 @@
     "start": "npm run build && cross-env NODE_ENV=production node dist/app.js",
     "dev": "cross-env NODE_ENV=development concurrently \"npx tsc --watch\" \"nodemon -q dist/app.js\"",
     "db:migrate": "npx prisma migrate",
-    "db:rebuild": "npx prisma migrate refresh",
+    "db:rebuild": "npx prisma migrate reset",
+    "local:db:migrate": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/norsk_bokleser npx prisma migrate",
+    "local:db:rebuild": "DATABASE_URL=postgresql://postgres:postgres@localhost:5432/norsk_bokleser npx prisma migrate reset",
     "seed": "npx prisma db seed",
     "test": "jest"
   },
