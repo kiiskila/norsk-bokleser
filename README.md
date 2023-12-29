@@ -5,7 +5,7 @@ Bokhjelp is an online book reader that allows seemless translation as you read. 
 ## Table of Contents
 
 - [Technologies Used](#technologies-used)
-- [Hosting] (#hosting)
+- [Hosting](#hosting)
 - [Installation](#installation)
 - [Usage](#usage)
 - [Demos](#demos)
