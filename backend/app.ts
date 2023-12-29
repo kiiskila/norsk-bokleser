@@ -1,5 +1,5 @@
-import express, { Express } from "express";
-import cors from "cors";
+import express, { Express, Request } from "express";
+import cors, { CorsOptionsDelegate, CorsRequest } from "cors";
 import dotenv from "dotenv";
 import https from "https";
 import fs from "fs";
@@ -19,16 +19,30 @@ const credentials = { key: privateKey, cert: certificate, ca: ca };
 
 const api = require("./routes/api");
 const app: Express = express();
-const corsOptions = {
-  origin:
-    process.env.CORS_ORIGIN ||
-    "http://localhost:3000" ||
-    "https://norsk-bokleser.vercel.app" ||
-    "http://norsk-bokleser.vercel.app",
-  optionsSuccessStatus: 200,
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  "https://norsk-bokleser.vercel.app",
+  "http://norsk-bokleser.vercel.app",
+];
+
+const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
+  req,
+  callback
+) => {
+  const origin = req.headers.origin;
+
+  let corsOptions;
+
+  if (!origin || allowedOrigins.includes(origin)) {
+    corsOptions = { origin: true };
+  } else {
+    corsOptions = { origin: false };
+  }
+  callback(null, corsOptions); // callback expects two parameters: error and options
 };
 
-app.use(cors(corsOptions));
+app.use(cors(corsOptionsDelegate));
 app.use(express.json());
 app.use("/", api);
 
