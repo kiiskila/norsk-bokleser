@@ -39,8 +39,6 @@ const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
 ) => {
   const origin = req.headers.origin;
 
-  console.log(origin);
-
   let corsOptions;
 
   if (!origin || allowedOrigins.includes(origin)) {
