@@ -6,7 +6,7 @@ interface Props {
 }
 
 function ReaderHeader(props: Props) {
-  return <Heading>{props.book?.title}</Heading>;
+  return <Heading textAlign="center">{props.book?.title}</Heading>;
 }
 
 export default ReaderHeader;
