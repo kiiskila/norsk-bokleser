@@ -11,6 +11,8 @@ import {
   Tooltip,
   Image,
   Text,
+  useColorModeValue,
+  Divider,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import Loading from "./Loading";
@@ -22,6 +24,7 @@ function Books() {
   const [error, setError] = useState<string | null>(null);
   const params = useParams();
   const toast = useToast();
+  const textColor = useColorModeValue("darkAccent.500", "lightBackground");
 
   const fetchBook = useCallback(async () => {
     setIsLoading(true);
@@ -71,9 +74,9 @@ function Books() {
       <Card mb={4} width={["90%", "75%", "60%"]}>
         <CardBody>
           <Heading
+            color={textColor}
             textAlign="center"
             size={{ base: "md", sm: "lg", md: "xl", lg: "xl" }}
-            color={"darkText"}
           >
             {book?.title}
           </Heading>
@@ -83,7 +86,7 @@ function Books() {
           <Center pt={2}>
             <Image src={book?.cover_art} alt="book cover" borderRadius="lg" />
           </Center>
-          <Stack direction="row" spacing={12} justify="center" pt={6}>
+          <Stack direction="row" spacing={12} justify="center" py={6}>
             <Link as={ReactRouterLink} to="/">
               <Button variant="solid" colorScheme="red">
                 Back
@@ -108,6 +111,7 @@ function Books() {
             Sammendrag
           </Text>
           <Text>{book?.summary_norwegian}</Text>
+          <Divider pb={4} mb={2}></Divider>
           <Text size={"lg"} as="b">
             Summary
           </Text>

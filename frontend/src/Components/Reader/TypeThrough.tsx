@@ -9,6 +9,7 @@ import {
   Text,
   useToast,
   Input,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 
@@ -20,6 +21,7 @@ function Reader() {
   const [typedWords, setTypedWords] = useState<string[]>([]);
   const params = useParams();
   const toast = useToast();
+  const textColor = useColorModeValue("darkAccent.500", "lightBackground");
 
   const fetchData = useCallback(async () => {
     try {
@@ -122,6 +124,7 @@ function Reader() {
         width={["80%", "70%", "50%"]}
         onChange={changeChapter}
         value={chosenChapter}
+        color={textColor}
       >
         {chapters.map((chapter, index) => (
           <option key={index} value={chapter.number}>

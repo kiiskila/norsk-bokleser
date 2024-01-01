@@ -1,4 +1,4 @@
-import { Heading } from "@chakra-ui/react";
+import { Heading, useColorModeValue } from "@chakra-ui/react";
 import { book } from "../../common/types";
 
 interface Props {
@@ -6,7 +6,13 @@ interface Props {
 }
 
 function ReaderHeader(props: Props) {
-  return <Heading textAlign="center">{props.book?.title}</Heading>;
+  const textColor = useColorModeValue("darkAccent.500", "lightBackground");
+
+  return (
+    <Heading textAlign="center" color={textColor}>
+      {props.book?.title}
+    </Heading>
+  );
 }
 
 export default ReaderHeader;

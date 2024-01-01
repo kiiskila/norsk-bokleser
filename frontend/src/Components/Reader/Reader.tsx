@@ -18,6 +18,7 @@ import {
   Text,
   useToast,
   IconButton,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { isStringEmpty } from "../../utils/helpers";
@@ -68,6 +69,7 @@ function Reader() {
     first: number | null;
     last: number | null;
   }>({ first: null, last: null });
+  const textColor = useColorModeValue("darkAccent.500", "lightBackground");
 
   const fetchData = useCallback(async () => {
     try {
@@ -225,6 +227,7 @@ function Reader() {
           width={["80%", "70%", "50%"]}
           onChange={changeChapter}
           value={chosenChapter}
+          color={textColor}
         >
           {chapters.map((chapter, index) => (
             <option key={index} value={chapter.number}>
@@ -237,7 +240,7 @@ function Reader() {
             <CardBody>
               <Text
                 whiteSpace={"pre-line"}
-                color={"darkText"}
+                color={textColor}
                 userSelect={isTranslateOn ? "none" : "auto"}
               >
                 {bodyArray.map((word, index) => (

@@ -1,6 +1,6 @@
 import {
   useColorMode,
-  Box,
+  Card,
   FormControl,
   FormLabel,
   Heading,
@@ -12,9 +12,11 @@ const Settings: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    <Box p={4}>
+    <Card p={4} m={4}>
       <VStack spacing={4} align="stretch">
-        <Heading mb={4}>Settings</Heading>
+        <Heading textAlign={"center"} mb={4}>
+          Settings
+        </Heading>
         <FormControl display="flex" alignItems="center">
           <FormLabel htmlFor="theme-toggle" mb="0">
             {colorMode === "light" ? "Dark" : "Light"} Mode
@@ -26,7 +28,7 @@ const Settings: React.FC = () => {
           />
         </FormControl>
       </VStack>
-    </Box>
+    </Card>
   );
 };
 

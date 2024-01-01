@@ -7,8 +7,9 @@ import {
   Button,
   Stack,
   IconButton,
+  useColorModeValue,
 } from "@chakra-ui/react";
-import { LogoWithText } from "./Logo";
+import { LogoWithText, LogoLight } from "./Logo";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 type MenuItemProps = {
@@ -23,15 +24,17 @@ type MenuToggleProps = {
 
 type NavBarContainerProps = {
   children: React.ReactNode;
+  textColor: string;
 };
 
 const Navbar: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
+  const textColor = useColorModeValue("darkAccent.500", "lightBackground");
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <NavBarContainer {...props}>
+    <NavBarContainer {...props} textColor={textColor}>
       <LogoLink />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
@@ -39,11 +42,14 @@ const Navbar: React.FC = (props) => {
   );
 };
 
-const LogoLink = () => (
-  <Link href="/">
-    <LogoWithText />
-  </Link>
-);
+const LogoLink = () => {
+  const Logo = useColorModeValue(LogoWithText, LogoLight);
+  return (
+    <Link href="/">
+      <Logo />
+    </Link>
+  );
+};
 
 const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => (
   <IconButton
@@ -95,6 +101,7 @@ const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
 
 const NavBarContainer: React.FC<NavBarContainerProps> = ({
   children,
+  textColor,
   ...props
 }) => (
   <Flex
@@ -106,12 +113,7 @@ const NavBarContainer: React.FC<NavBarContainerProps> = ({
     mb={8}
     p={8}
     bg={["darkAccent.300", "darkAccent.300", "transparent", "transparent"]}
-    color={[
-      "lightBackground",
-      "lightBackground",
-      "darkAccent.500",
-      "darkAccent.500",
-    ]}
+    color={["lightBackground", "lightBackground", textColor, textColor]}
     {...props}
   >
     {children}
