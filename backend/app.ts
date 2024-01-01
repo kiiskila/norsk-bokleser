@@ -1,109 +1,47 @@
-import express, { Express, Request, Response, NextFunction } from "express";
-import cors, { CorsOptionsDelegate, CorsRequest } from "cors";
+import express, { Express } from "express";
+import cors from "cors";
 import dotenv from "dotenv";
-import https from "https";
-import fs from "fs";
-import path from "path";
-import http from "http";
-import rateLimit from "express-rate-limit";
 import NodeCache from "node-cache";
+import { setupHttpsServer, setupHttpServer } from "./middleware/server";
+import cacheMiddleware from "./middleware/cacheMiddleware";
+import { corsOptionsDelegate, limiter } from "./utils/config";
 
+// Load environment variables from .env file
 dotenv.config();
 
+// Initialize the Express application
 const app: Express = express();
-const isProduction = process.env.NODE_ENV === "production";
-const port = isProduction ? 443 : 8080; // Use 443 for production and 8080 for local development
+
+// Set the server port (443 for production, 8080 for development)
+const port = process.env.NODE_ENV === "production" ? 443 : 8080;
+
+// Initialize a cache with a default TTL of 100 seconds and a check period of 120 seconds
 const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
-// HTTPS setup for production
-let httpsServer;
-if (isProduction) {
-  const privateKeyPath = path.join(__dirname, "../../certs/privkey.pem");
-  const certificatePath = path.join(__dirname, "../../certs/cert.pem");
-  const caPath = path.join(__dirname, "../../certs/chain.pem");
-
-  const privateKey = fs.readFileSync(privateKeyPath, "utf8");
-  const certificate = fs.readFileSync(certificatePath, "utf8");
-  const ca = fs.readFileSync(caPath, "utf8");
-
-  const credentials = { key: privateKey, cert: certificate, ca: ca };
-  httpsServer = https.createServer(credentials, app);
-}
-
-function cacheMiddleware(req: Request, res: Response, next: NextFunction) {
-  const key = req.originalUrl;
-  const cachedResponse = myCache.get(key);
-
-  if (cachedResponse) {
-    res.send(cachedResponse);
-  } else {
-    const originalSend = res.send.bind(res);
-    res.send = function (body: any) {
-      myCache.set(key, body);
-      return originalSend(body);
-    };
-    next();
-  }
-}
-
-// CORS setup
-const allowedOrigins = [
-  "https://norsk-bokleser.vercel.app",
-  "http://localhost:5173",
-];
-
-const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
-  req,
-  callback
-) => {
-  const origin = req.headers.origin;
-
-  let corsOptions;
-
-  if (!origin || allowedOrigins.includes(origin)) {
-    corsOptions = { origin: true };
-  } else {
-    corsOptions = { origin: false };
-  }
-  callback(null, corsOptions); // callback expects two parameters: error and options
-};
-
+// Apply CORS middleware with configured options
 app.use(cors(corsOptionsDelegate));
+
+// Enable Express to parse JSON payloads
 app.use(express.json());
 
-const limiter = rateLimit({
-  windowMs: 10 * 60 * 1000, // 15 minutes
-  max: 100, // Limit each IP to 100 requests per window
-});
-
-// Apply the rate limiter to all requests
+// Apply rate limiting middleware to all incoming requests
 app.use(limiter);
 
-app.use(cacheMiddleware);
+// Apply caching middleware to cache responses
+app.use(cacheMiddleware(myCache));
 
-// API routes
+// Import and use API routes
 const api = require("./routes/api");
 app.use("/", api);
 
 // Start the server
-if (isProduction) {
-  httpsServer!.listen(443, () => {
-    console.log("HTTPS Server running on port 443");
-  });
+if (process.env.NODE_ENV === "production") {
+  // In production, set up HTTPS and HTTP servers
+  setupHttpsServer(app);
+  setupHttpServer();
 } else {
-  app.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}`);
-  });
-}
-
-// HTTP to HTTPS redirect (for production)
-if (isProduction) {
-  const httpApp = express();
-  httpApp.get("*", (req: Request, res: Response) => {
-    res.redirect("https://" + req.headers.host + req.url);
-  });
-
-  http.createServer(httpApp).listen(80, () => {
-    console.log("HTTP Server running on port 80");
-  });
+  // In development, start an HTTP server
+  app.listen(port, () =>
+    console.log(`Server running on http://localhost:${port}`)
+  );
 }
