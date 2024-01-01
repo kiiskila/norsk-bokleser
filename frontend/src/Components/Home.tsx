@@ -87,7 +87,7 @@ function Home() {
   const [bookList, setBookList] = useState<BookType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState({ field: "", order: "asc" });
+  const [sort, setSort] = useState({ field: "title", order: "asc" });
   const toast = useToast();
 
   const queryParams = new URLSearchParams({
