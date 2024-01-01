@@ -5,6 +5,7 @@ import https from "https";
 import fs from "fs";
 import path from "path";
 import http from "http";
+import rateLimit from "express-rate-limit";
 
 dotenv.config();
 
@@ -51,6 +52,14 @@ const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
 
 app.use(cors(corsOptionsDelegate));
 app.use(express.json());
+
+const limiter = rateLimit({
+  windowMs: 10 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per window
+});
+
+// Apply the rate limiter to all requests
+app.use(limiter);
 
 // API routes
 const api = require("./routes/api");
