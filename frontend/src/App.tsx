@@ -4,6 +4,7 @@ import Books from "./Components/Book";
 import Reader from "./Components/Reader/Reader";
 import Layout from "./Components/Layout";
 import PageNotFound from "./Components/PageNotFound";
+import Settings from "./Components/Settings";
 import BookRequestForm from "./Components/BookRequestForm";
 import ReportIssueForm from "./Components/ReportIssueForm";
 import TypeThrough from "./Components/Reader/TypeThrough";
@@ -49,6 +50,14 @@ function App() {
           element={
             <Layout>
               <ReportIssueForm />
+            </Layout>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <Layout>
+              <Settings />
             </Layout>
           }
         />
