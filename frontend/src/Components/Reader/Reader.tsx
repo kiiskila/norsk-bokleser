@@ -166,6 +166,8 @@ function Reader() {
         await translateText(wordsToTranslate);
       } else {
         setSelectedWordIndexes({ first: null, last: null });
+        setPreTranslatedText("...");
+        setpostTranslatedText("...");
       }
     } else {
       setSelectedWordIndexes({ first: index, last: null });
