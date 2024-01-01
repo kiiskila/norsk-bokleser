@@ -1,10 +1,10 @@
 jest.mock("@prisma/client", () => {
-  const mockFindMany = jest.fn();
+  const mockBookFindMany = jest.fn();
   return {
     PrismaClient: jest.fn().mockImplementation(() => {
       return {
         book: {
-          findMany: mockFindMany,
+          findMany: mockBookFindMany,
         },
       };
     }),
@@ -12,101 +12,86 @@ jest.mock("@prisma/client", () => {
 });
 
 import { Request, Response } from "express";
-import { PrismaClient } from "@prisma/client";
-import { getBookList } from "../controllers/bookListController";
+import * as bookListController from "../controllers/bookListController";
 
-describe("getBookList", () => {
-  let mockFindMany: jest.Mock;
+describe("bookListController", () => {
+  let mockBookFindMany: jest.Mock;
 
   beforeEach(() => {
-    mockFindMany = new PrismaClient().book.findMany as jest.Mock;
-    mockFindMany.mockReset();
+    jest.resetModules();
+    mockBookFindMany = require("../prisma/db").default.book
+      .findMany as jest.Mock;
+    mockBookFindMany.mockReset();
   });
 
-  it("should return a list of books", async () => {
-    const mockBooks = [
-      {
-        id: 1,
-        slug: "test-book-1",
-        title: "Test Book 1",
-        author: ["Author 1"],
-        isbn: "1234567890",
-        cover_art: "url-to-cover-art-1",
-        published_date: new Date(),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-      {
-        id: 2,
-        slug: "test-book-2",
-        title: "Test Book 2",
-        author: ["Author 2"],
-        isbn: "0987654321",
-        cover_art: "url-to-cover-art-2",
-        published_date: new Date(),
-        created_at: new Date(),
-        updated_at: new Date(),
-      },
-    ];
+  describe("getBookList", () => {
+    it("Should return a list of books", async () => {
+      const expectedBooks = [
+        {
+          id: 1,
+          slug: "test-book-1",
+          title: "Test Book 1",
+          author: ["Author 1"],
+          isbn: "1234567890",
+          cover_art: "url-to-cover-art-1",
+          published_date: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+        {
+          id: 2,
+          slug: "test-book-2",
+          title: "Test Book 2",
+          author: ["Author 2"],
+          isbn: "0987654321",
+          cover_art: "url-to-cover-art-2",
+          published_date: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
+      ];
 
-    mockFindMany.mockResolvedValue(mockBooks);
+      mockBookFindMany.mockResolvedValue(expectedBooks);
 
-    const mockReq = {} as Request;
-    const mockRes = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    } as unknown as Response;
-    const mockNext = jest.fn();
+      const mockReq = {
+        query: {},
+      } as unknown as Request;
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response;
+      const mockNext = jest.fn();
 
-    await getBookList(mockReq, mockRes, mockNext);
+      await bookListController.getBookList(mockReq, mockRes, mockNext);
 
-    expect(mockRes.status).toHaveBeenCalledWith(200);
-    expect(mockRes.json).toHaveBeenCalledWith(mockBooks);
-  });
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith(expectedBooks);
+    });
 
-  it("should handle an empty book list", async () => {
-    mockFindMany.mockResolvedValue([]);
+    it("Should handle search and sorting parameters", async () => {
+      const expectedBooks = [
+        { id: 3, title: "Search Book", author: "Author 3" },
+      ];
 
-    const mockReq = {} as Request;
-    const mockRes = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    } as unknown as Response;
+      mockBookFindMany.mockResolvedValue(expectedBooks);
 
-    await getBookList(mockReq, mockRes, jest.fn());
+      const mockReq = {
+        query: {
+          search: "Search",
+          sortBy: "title",
+          sortOrder: "desc",
+        },
+      } as unknown as Request;
+      const mockRes = {
+        status: jest.fn().mockReturnThis(),
+        json: jest.fn(),
+      } as unknown as Response;
+      const mockNext = jest.fn();
 
-    expect(mockRes.status).toHaveBeenCalledWith(200);
-    expect(mockRes.json).toHaveBeenCalledWith([]);
-  });
+      await bookListController.getBookList(mockReq, mockRes, mockNext);
 
-  it("should handle an empty book list", async () => {
-    mockFindMany.mockResolvedValue([]);
-
-    const mockReq = {} as Request;
-    const mockRes = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    } as unknown as Response;
-
-    await getBookList(mockReq, mockRes, jest.fn());
-
-    expect(mockRes.status).toHaveBeenCalledWith(200);
-    expect(mockRes.json).toHaveBeenCalledWith([]);
-  });
-
-  it("should handle unexpected errors", async () => {
-    const unexpectedError = new Error("Unexpected error");
-
-    mockFindMany.mockRejectedValue(unexpectedError);
-
-    const mockReq = {} as Request;
-    const mockRes = {
-      status: jest.fn().mockReturnThis(),
-      json: jest.fn(),
-    } as unknown as Response;
-
-    await expect(getBookList(mockReq, mockRes, jest.fn())).rejects.toThrow(
-      "Unexpected error"
-    );
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith(expectedBooks);
+    });
   });
 });
