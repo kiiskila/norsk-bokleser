@@ -90,13 +90,14 @@ function Home() {
   const [sort, setSort] = useState({ field: "", order: "asc" });
   const toast = useToast();
 
-  const fetchBookList = useCallback(async () => {
-    try {
-      const queryParams = new URLSearchParams({
-        ...(search && { search }),
-        ...(sort.field && { sortBy: sort.field, sortOrder: sort.order }),
-      }).toString();
+  const queryParams = new URLSearchParams({
+    ...(search && { search }),
+    ...(sort.field && { sortBy: sort.field, sortOrder: sort.order }),
+  }).toString();
 
+  const fetchBookList = useCallback(async () => {
+    setIsLoading(true);
+    try {
       const response = await fetch(
         `${process.env.REACT_APP_PROXY_URL}/books?${queryParams}`
       );
@@ -121,7 +122,7 @@ function Home() {
     } finally {
       setIsLoading(false);
     }
-  }, [toast, search, sort]);
+  }, [toast, queryParams]);
 
   useEffect(() => {
     fetchBookList();
