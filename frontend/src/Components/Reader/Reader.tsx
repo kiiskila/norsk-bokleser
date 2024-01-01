@@ -61,8 +61,8 @@ function Reader() {
   const [chosenChapter, setChosenChapter] = useState<string>();
   const [isTranslateOn, setIsTranslateOn] = useState(false);
   const [bodyArray, setBodyArray] = useState<string[]>([]);
-  const [preTranslatedText, setPreTranslatedText] = useState("Hello World");
-  const [postTranslatedText, setpostTranslatedText] = useState("Hei Verden");
+  const [preTranslatedText, setPreTranslatedText] = useState("...");
+  const [postTranslatedText, setpostTranslatedText] = useState("...");
   const params = useParams();
   const toast = useToast();
   const [selectedWordIndexes, setSelectedWordIndexes] = useState<{
@@ -178,8 +178,10 @@ function Reader() {
   const translateText = async (textToTranslate: string) => {
     if (isStringEmpty(textToTranslate)) {
       return;
+    } else if (!isStringEmpty(textToTranslate)) {
+      setpostTranslatedText(textToTranslate);
+      return;
     }
-
     try {
       const response = await fetch(
         `${process.env.REACT_APP_PROXY_URL}/translate/${textToTranslate}`
@@ -217,6 +219,12 @@ function Reader() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  useEffect(() => {
+    setSelectedWordIndexes({ first: null, last: null });
+    setPreTranslatedText("...");
+    setpostTranslatedText("...");
+  }, [chosenChapter]);
 
   return (
     <TranslateContext.Provider value={{ isTranslateOn, setIsTranslateOn }}>

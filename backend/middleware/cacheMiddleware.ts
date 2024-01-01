@@ -7,10 +7,8 @@ const cacheMiddleware = (cache: NodeCache) => {
     const cachedResponse = cache.get(key);
 
     if (cachedResponse) {
-      console.log("Cache hit");
       res.send(cachedResponse);
     } else {
-      console.log("Cache miss");
       const originalSend = res.send.bind(res);
       res.send = (body: any) => {
         cache.set(key, body);
