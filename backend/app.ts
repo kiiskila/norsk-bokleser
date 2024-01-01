@@ -1,4 +1,4 @@
-import express, { Express, Request, Response } from "express";
+import express, { Express, Request, Response, NextFunction } from "express";
 import cors, { CorsOptionsDelegate, CorsRequest } from "cors";
 import dotenv from "dotenv";
 import https from "https";
@@ -6,12 +6,14 @@ import fs from "fs";
 import path from "path";
 import http from "http";
 import rateLimit from "express-rate-limit";
+import NodeCache from "node-cache";
 
 dotenv.config();
 
 const app: Express = express();
 const isProduction = process.env.NODE_ENV === "production";
 const port = isProduction ? 443 : 8080; // Use 443 for production and 8080 for local development
+const myCache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
 
 // HTTPS setup for production
 let httpsServer;
@@ -26,6 +28,22 @@ if (isProduction) {
 
   const credentials = { key: privateKey, cert: certificate, ca: ca };
   httpsServer = https.createServer(credentials, app);
+}
+
+function cacheMiddleware(req: Request, res: Response, next: NextFunction) {
+  const key = req.originalUrl;
+  const cachedResponse = myCache.get(key);
+
+  if (cachedResponse) {
+    res.send(cachedResponse);
+  } else {
+    const originalSend = res.send.bind(res);
+    res.send = function (body: any) {
+      myCache.set(key, body);
+      return originalSend(body);
+    };
+    next();
+  }
 }
 
 // CORS setup
@@ -60,6 +78,8 @@ const limiter = rateLimit({
 
 // Apply the rate limiter to all requests
 app.use(limiter);
+
+app.use(cacheMiddleware);
 
 // API routes
 const api = require("./routes/api");

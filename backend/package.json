@@ -31,6 +31,7 @@
     "http": "^0.0.1-security",
     "https": "^1.0.0",
     "lorem-ipsum-norwegian": "^1.0.2",
+    "node-cache": "^5.1.2",
     "pg": "^8.11.3",
     "prisma": "^5.7.0",
     "request": "^2.88.2",
