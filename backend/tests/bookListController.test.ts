@@ -15,10 +15,23 @@ import { Request, Response } from "express";
 import * as bookListController from "../controllers/bookListController";
 
 describe("bookListController", () => {
+  let mockReq: Partial<Request>;
+  let mockRes: Partial<Response>;
+  let mockNext: jest.Mock;
   let mockBookFindMany: jest.Mock;
 
   beforeEach(() => {
     jest.resetModules();
+    mockBookFindMany = require("../prisma/db").default.book
+      .findMany as jest.Mock;
+    mockBookFindMany.mockReset();
+
+    mockReq = {};
+    mockRes = {
+      status: jest.fn().mockReturnThis(),
+      json: jest.fn(),
+    };
+    mockNext = jest.fn();
     mockBookFindMany = require("../prisma/db").default.book
       .findMany as jest.Mock;
     mockBookFindMany.mockReset();
@@ -92,6 +105,46 @@ describe("bookListController", () => {
 
       expect(mockRes.status).toHaveBeenCalledWith(200);
       expect(mockRes.json).toHaveBeenCalledWith(expectedBooks);
+    });
+
+    it("Should handle database errors correctly", async () => {
+      mockBookFindMany.mockRejectedValue(new Error("Database error"));
+
+      mockReq.query = {};
+      await bookListController.getBookList(
+        mockReq as Request,
+        mockRes as Response,
+        mockNext
+      );
+
+      expect(mockNext).toHaveBeenCalledWith(expect.any(Error));
+    });
+
+    it("Should handle database errors correctly", async () => {
+      mockBookFindMany.mockRejectedValue(new Error("Database error"));
+
+      mockReq.query = {};
+      await bookListController.getBookList(
+        mockReq as Request,
+        mockRes as Response,
+        mockNext
+      );
+
+      expect(mockNext).toHaveBeenCalledWith(expect.any(Error));
+    });
+
+    it("Should return an empty array if no books are found", async () => {
+      mockBookFindMany.mockResolvedValue([]);
+
+      mockReq.query = {};
+      await bookListController.getBookList(
+        mockReq as Request,
+        mockRes as Response,
+        mockNext
+      );
+
+      expect(mockRes.status).toHaveBeenCalledWith(200);
+      expect(mockRes.json).toHaveBeenCalledWith([]);
     });
   });
 });
