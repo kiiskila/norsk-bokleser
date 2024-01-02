@@ -25,7 +25,7 @@ router.get("/read/:bookSlug", bookController.getBookWithChapters);
 
 router.get("/read/:bookSlug/:chapterId", chapterController.getChapter);
 
-router.get("/translate/:preTranslatedText", translateController.getTranslation);
+router.post("/translate", translateController.getTranslation);
 
 router.post("/forms/request", formController.postBookRequest);
 

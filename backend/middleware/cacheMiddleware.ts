@@ -3,6 +3,10 @@ import NodeCache from "node-cache";
 
 const cacheMiddleware = (cache: NodeCache) => {
   return (req: Request, res: Response, next: NextFunction) => {
+    if (req.path === "/translate") {
+      return next();
+    }
+
     const key = req.originalUrl;
     const cachedResponse = cache.get(key);
 

@@ -188,7 +188,14 @@ function Reader() {
 
     try {
       const response = await fetch(
-        `${process.env.REACT_APP_PROXY_URL}/translate/${textToTranslate}`
+        `${process.env.REACT_APP_PROXY_URL}/translate`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ textToTranslate }),
+        }
       );
       if (!response.ok) {
         throw new Error(`An error has occurred: ${response.status}`);
