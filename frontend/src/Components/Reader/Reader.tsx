@@ -117,7 +117,11 @@ function Reader() {
         throw new Error(`An error has occurred: ${response.status}`);
       }
       const chapter = await response.json();
-      setBodyArray(chapter.body.split(/ /));
+      let bodyContent = chapter.body;
+      bodyContent = chapter.body
+        .split(/( |\n)/)
+        .filter((element: string) => element !== " " && element !== "");
+      setBodyArray(bodyContent);
     } catch (error: unknown) {
       if (error instanceof Error) {
         toast({
@@ -180,10 +184,8 @@ function Reader() {
   const translateText = async (textToTranslate: string) => {
     if (isStringEmpty(textToTranslate)) {
       return;
-    } else if (!isStringEmpty(textToTranslate)) {
-      setpostTranslatedText(textToTranslate);
-      return;
     }
+
     try {
       const response = await fetch(
         `${process.env.REACT_APP_PROXY_URL}/translate/${textToTranslate}`
@@ -258,6 +260,7 @@ function Reader() {
                     onClick={() => handleClick(word, index)}
                     key={index}
                     style={getStyleForWord(
+                      word,
                       index,
                       isTranslateOn,
                       selectedWordIndexes
@@ -297,12 +300,17 @@ function Reader() {
 }
 
 const getStyleForWord = (
+  word: string,
   index: number,
   isTranslateOn: boolean,
   selectedWordIndexes: { first: number | null; last: number | null }
 ) => {
   if (!isTranslateOn) {
     return { ...normalStyle, cursor: "auto" };
+  }
+
+  if (word === "\n") {
+    return {};
   }
 
   const { first, last } = selectedWordIndexes;
