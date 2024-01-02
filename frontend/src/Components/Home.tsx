@@ -28,7 +28,14 @@ const BookCard = memo(({ book }: { book: BookType }) => (
     </Link>
     <CardBody>
       <Stack divider={<StackDivider />} spacing="4">
-        <Image src={book.cover_art} alt="book cover" borderRadius="lg" />
+        <Image
+          src={book.cover_art}
+          alt="book cover"
+          borderRadius="lg"
+          maxWidth="300px"
+          maxHeight="300px"
+          objectFit="contain"
+        />
         <DetailSection title="Sammendrag" content={book.summary_norwegian} />
         <DetailSection title="Summary" content={book.summary_english} />
         <DetailSection
