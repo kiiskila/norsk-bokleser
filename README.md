@@ -26,6 +26,14 @@ Bokhjelp is an online book reader that allows seemless translation as you read. 
 
 Hosted on an Oracle Compute Instance and accessable here: https://bokhelp.me
 
+GitHub actions autodeploys to the instance. The process is managed using pm2. When manually connecting to the instance through ssh these commands may be useful:
+
+List processes: `pm2 list`
+
+Stop process: `pm2 stop bokhjelp`
+
+Start process: `pm2 start npm --name "bokhjelp" -- run start`
+
 ### Frotend
 
 Hosted on Vercel and accessable here: https://norsk-bokleser.vercel.app

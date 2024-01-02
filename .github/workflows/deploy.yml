@@ -1,0 +1,34 @@
+name: Deploy to Oracle Cloud
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.SERVER_IP }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Oracle Cloud
+        run: |
+          ssh -o "StrictHostKeyChecking=no" ${{ secrets.SERVER_USER }}@${{ secrets.SERVER_IP }} << 'ENDSSH'
+          cd norsk-bokleser/backend
+          pm2 stop bokhjelp
+          git fetch --all
+          git branch --delete backup-main
+          git branch backup-main
+          git reset --hard origin/main
+          npm install
+          pm2 start npm --name "bokhjelp" -- run start
+          ENDSSH
