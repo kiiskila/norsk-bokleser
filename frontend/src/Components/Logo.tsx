@@ -23,3 +23,11 @@ export function LogoWithText() {
     </Box>
   );
 }
+
+export function LogoWithTextLight() {
+  return (
+    <Box>
+      <Image src={"/bokhjelp-light.svg"} alt="bokhjelp logo" w={175} h={50} />
+    </Box>
+  );
+}

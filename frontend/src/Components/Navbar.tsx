@@ -9,7 +9,7 @@ import {
   IconButton,
   useColorModeValue,
 } from "@chakra-ui/react";
-import { LogoWithText, LogoLight } from "./Logo";
+import { LogoWithText, LogoWithTextLight } from "./Logo";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
 type MenuItemProps = {
@@ -43,7 +43,7 @@ const Navbar: React.FC = (props) => {
 };
 
 const LogoLink = () => {
-  const Logo = useColorModeValue(LogoWithText, LogoLight);
+  const Logo = useColorModeValue(LogoWithText, LogoWithTextLight);
   return (
     <Link href="/">
       <Logo />
