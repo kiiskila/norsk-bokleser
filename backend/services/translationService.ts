@@ -4,7 +4,18 @@ const apiKey = process.env.DEEPL_KEY;
 const sourceLanguage = "NB"; // Norwegian (Bokmål)
 const targetLanguage = "EN-US"; // English (American)
 
+// Cache object
+const translationCache: { [key: string]: string } = {};
+
 export async function translateText(text: string): Promise<string> {
+  // Generate a unique cache key based on the text and target language
+  const cacheKey = `${text}-${targetLanguage}`;
+
+  // Check if the translation is already in the cache
+  if (translationCache[cacheKey]) {
+    return translationCache[cacheKey];
+  }
+
   const url = "https://api-free.deepl.com/v2/translate";
 
   try {
@@ -17,7 +28,11 @@ export async function translateText(text: string): Promise<string> {
       },
     });
 
-    return response.data.translations[0].text;
+    // Store the translation in the cache
+    const translatedText = response.data.translations[0].text;
+    translationCache[cacheKey] = translatedText;
+
+    return translatedText;
   } catch (error) {
     console.error("Error calling DeepL API:", error);
     throw new Error("Translation service failed");
