@@ -41,6 +41,7 @@ const BookCard = memo(({ book }: { book: BookType }) => (
             borderRadius="lg"
             maxWidth="300px"
             maxHeight="300px"
+            height="200px"
             objectFit="contain"
           />
         </Link>
