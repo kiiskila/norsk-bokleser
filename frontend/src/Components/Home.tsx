@@ -23,19 +23,25 @@ const BookCard = memo(({ book }: { book: BookType }) => (
   <Card key={book.id}>
     <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
       <CardHeader>
-        <Heading size="md">{book.title}</Heading>
+        <Heading textAlign={"center"} size="md">
+          {book.title}
+        </Heading>
       </CardHeader>
     </Link>
     <CardBody>
       <Stack divider={<StackDivider />} spacing="4">
-        <Image
-          src={book.cover_art}
-          alt="book cover"
-          borderRadius="lg"
-          maxWidth="300px"
-          maxHeight="300px"
-          objectFit="contain"
-        />
+        <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
+          <Image
+            margin={"auto"}
+            src={book.cover_art}
+            alt="book cover"
+            borderRadius="lg"
+            maxWidth="300px"
+            maxHeight="300px"
+            objectFit="contain"
+          />
+        </Link>
+
         <DetailSection title="Sammendrag" content={book.summary_norwegian} />
         <DetailSection title="Summary" content={book.summary_english} />
         <DetailSection
