@@ -1,5 +1,11 @@
 import React from "react";
-import { Box, Text, Divider, IconButton } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Divider,
+  IconButton,
+  useColorModeValue,
+} from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useTranslate } from "./Reader";
 
@@ -13,6 +19,9 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
   postTranslatedText,
 }) => {
   const { setIsTranslateOn } = useTranslate();
+  const bgColor = useColorModeValue("lightBackground", "darkAccent.700");
+  const borderColor = useColorModeValue("darkAccent.400", "primary.600");
+  const textColor = useColorModeValue("darkText", "lightBackground");
 
   const handleCloseClick = () => {
     setIsTranslateOn(false);
@@ -24,9 +33,10 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       bottom="0"
       width="100%"
       height="20%"
-      bg="darkAccent.300"
+      bg={bgColor}
       p={4}
-      outline="2px solid"
+      borderTop="2px solid"
+      borderColor={borderColor}
       roundedTop="12"
       overflow="hidden"
     >
@@ -34,6 +44,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
       <TranslationContent
         preTranslatedText={preTranslatedText}
         postTranslatedText={postTranslatedText}
+        textColor={textColor}
       />
     </Box>
   );
@@ -54,8 +65,9 @@ const CloseButton: React.FC<{ onClick: () => void }> = ({ onClick }) => (
 const TranslationContent: React.FC<{
   preTranslatedText: string;
   postTranslatedText: string;
-}> = ({ preTranslatedText, postTranslatedText }) => (
-  <Box display="flex" height="100%">
+  textColor: string;
+}> = ({ preTranslatedText, postTranslatedText, textColor }) => (
+  <Box display="flex" height="100%" color={textColor}>
     <Box width="50%" pr={2} display="flex" flexDirection="column">
       <Text fontWeight="bold" mb={1}>
         Norsk
