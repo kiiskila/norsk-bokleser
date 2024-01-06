@@ -8,7 +8,6 @@ import {
   Link,
   Stack,
   useToast,
-  Tooltip,
   Image,
   Text,
   useColorModeValue,
@@ -17,6 +16,7 @@ import {
 import { Link as ReactRouterLink, useParams } from "react-router-dom";
 import Loading from "./Loading";
 import { book } from "../common/types";
+import { ChevronLeftIcon, EditIcon, ViewIcon } from "@chakra-ui/icons";
 
 function Books() {
   const [book, setBook] = useState<book | null>(null);
@@ -93,26 +93,40 @@ function Books() {
               objectFit="contain"
             />
           </Center>
-          <Stack direction="row" spacing={12} justify="center" py={6}>
+          <Stack direction="row" spacing={4} justify="center" py={6}>
             <Link as={ReactRouterLink} to="/">
-              <Button variant="solid" colorScheme="red">
+              <Button
+                leftIcon={<ChevronLeftIcon />}
+                variant="outline"
+                colorScheme="teal"
+                size="md"
+                shadow="sm"
+              >
                 Back
               </Button>
             </Link>
-            <Tooltip label="Type through the text of the book">
-              <Link as={ReactRouterLink} to={`/type/${book?.slug}/`}>
-                <Button variant="solid" colorScheme="blue">
-                  Type
-                </Button>
-              </Link>
-            </Tooltip>
-            <Tooltip label="Read through the book with optional translations">
-              <Link as={ReactRouterLink} to={`/read/${book?.slug}/`}>
-                <Button variant="solid" colorScheme="green">
-                  Read
-                </Button>
-              </Link>
-            </Tooltip>
+            <Link as={ReactRouterLink} to={`/type/${book?.slug}/`}>
+              <Button
+                leftIcon={<EditIcon />}
+                variant="outline"
+                colorScheme="teal"
+                size="md"
+                shadow="sm"
+              >
+                Type
+              </Button>
+            </Link>
+            <Link as={ReactRouterLink} to={`/read/${book?.slug}/`}>
+              <Button
+                leftIcon={<ViewIcon />}
+                variant="outline"
+                colorScheme="teal"
+                size="md"
+                shadow="sm"
+              >
+                Read
+              </Button>
+            </Link>
           </Stack>
           <Text size={"lg"} as="b">
             Sammendrag
