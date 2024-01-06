@@ -25,6 +25,7 @@ function Books() {
   const params = useParams();
   const toast = useToast();
   const textColor = useColorModeValue("darkAccent.500", "lightBackground");
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
 
   const fetchBook = useCallback(async () => {
     setIsLoading(true);
@@ -71,7 +72,7 @@ function Books() {
 
   return (
     <Center>
-      <Card mb={4} width={["90%", "75%", "60%"]}>
+      <Card mb={4} width={["90%", "75%", "60%"]} bg={cardBgColor}>
         <CardBody>
           <Heading
             color={textColor}

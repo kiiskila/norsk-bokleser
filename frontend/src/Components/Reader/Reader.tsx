@@ -70,6 +70,7 @@ function Reader() {
     last: number | null;
   }>({ first: null, last: null });
   const textColor = useColorModeValue("darkAccent.500", "lightBackground");
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
 
   const fetchData = useCallback(async () => {
     try {
@@ -255,7 +256,11 @@ function Reader() {
           ))}
         </Select>
         {chosenChapter && !isNaN(Number(chosenChapter)) && (
-          <Card width={["90%", "80%", "75%"]} mb={isTranslateOn ? 160 : 6}>
+          <Card
+            width={["90%", "80%", "75%"]}
+            mb={isTranslateOn ? 160 : 6}
+            bg={cardBgColor}
+          >
             <CardBody>
               <Text
                 whiteSpace={"pre-line"}

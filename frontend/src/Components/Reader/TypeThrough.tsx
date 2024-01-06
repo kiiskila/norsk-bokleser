@@ -22,6 +22,7 @@ function Reader() {
   const params = useParams();
   const toast = useToast();
   const textColor = useColorModeValue("darkAccent.500", "lightBackground");
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
 
   const fetchData = useCallback(async () => {
     try {
@@ -133,7 +134,7 @@ function Reader() {
         ))}
       </Select>
       {chosenChapter && !isNaN(Number(chosenChapter)) && (
-        <Card width={["90%", "80%", "75%"]} mb={6}>
+        <Card width={["90%", "80%", "75%"]} mb={6} bg={cardBgColor}>
           <CardBody>
             <Input
               placeholder="Start typing here..."

@@ -15,6 +15,7 @@ import {
   Center,
   Collapse,
   IconButton,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
@@ -22,49 +23,53 @@ import { book as BookType } from "../common/types";
 import BookListControls from "./BookListControls";
 import { ChevronRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
-const BookCard = memo(({ book }: { book: BookType }) => (
-  <Card key={book.id}>
-    <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
-      <CardHeader>
-        <Heading textAlign={"center"} size="md">
-          {book.title}
-        </Heading>
-      </CardHeader>
-    </Link>
-    <CardBody>
-      <Stack divider={<StackDivider />} spacing="4">
-        <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
-          <Image
-            margin={"auto"}
-            src={book.cover_art}
-            alt="book cover"
-            borderRadius="lg"
-            maxWidth="300px"
-            maxHeight="300px"
-            height="200px"
-            objectFit="contain"
-          />
-        </Link>
+const BookCard = memo(({ book }: { book: BookType }) => {
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
 
-        <DetailSection title="Sammendrag" content={book.summary_norwegian} />
-        <DetailSection title="Summary" content={book.summary_english} />
-        <DetailSection
-          title="Details"
-          content={
-            <>
-              <DetailItem
-                label="Published"
-                value={formatDate(book.published_date)}
-              />
-              <DetailItem label="ISBN" value={book.isbn || "Unknown"} />
-              <DetailItem label="Author" value={book.author.join(", ")} />
-            </>
-          }
-        />
-      </Stack>
-    </CardBody>
-  </Card>
-));
+  return (
+    <Card key={book.id} bg={cardBgColor}>
+      <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
+        <CardHeader>
+          <Heading textAlign={"center"} size="md">
+            {book.title}
+          </Heading>
+        </CardHeader>
+      </Link>
+      <CardBody>
+        <Stack divider={<StackDivider />} spacing="4">
+          <Link as={ReactRouterLink} to={`/book/${book.slug}`}>
+            <Image
+              margin={"auto"}
+              src={book.cover_art}
+              alt="book cover"
+              borderRadius="lg"
+              maxWidth="300px"
+              maxHeight="300px"
+              height="200px"
+              objectFit="contain"
+            />
+          </Link>
+
+          <DetailSection title="Sammendrag" content={book.summary_norwegian} />
+          <DetailSection title="Summary" content={book.summary_english} />
+          <DetailSection
+            title="Details"
+            content={
+              <>
+                <DetailItem
+                  label="Published"
+                  value={formatDate(book.published_date)}
+                />
+                <DetailItem label="ISBN" value={book.isbn || "Unknown"} />
+                <DetailItem label="Author" value={book.author.join(", ")} />
+              </>
+            }
+          />
+        </Stack>
+      </CardBody>
+    </Card>
+  );
+});
 
 const DetailSection = ({
   title,
@@ -74,7 +79,7 @@ const DetailSection = ({
   content: React.ReactNode;
 }) => {
   const [show, setShow] = React.useState(title === "Details");
-
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
   const handleToggle = () => setShow(!show);
 
   return (
@@ -92,6 +97,7 @@ const DetailSection = ({
             aria-label={show ? "Collapse" : "Expand"}
             icon={show ? <ChevronDownIcon /> : <ChevronRightIcon />}
             size="xs"
+            bg={cardBgColor}
             onClick={handleToggle}
           />
         )}

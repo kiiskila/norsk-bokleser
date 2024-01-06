@@ -1,5 +1,6 @@
 import {
   useColorMode,
+  useColorModeValue,
   Card,
   FormControl,
   FormLabel,
@@ -11,8 +12,10 @@ import {
 const Settings: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
+
   return (
-    <Card p={4} m={4}>
+    <Card p={4} m={4} bg={cardBgColor}>
       <VStack spacing={4} align="stretch">
         <Heading textAlign={"center"} mb={4}>
           Settings

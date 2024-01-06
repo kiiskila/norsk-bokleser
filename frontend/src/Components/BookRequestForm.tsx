@@ -10,6 +10,7 @@ import {
   VStack,
   Center,
   Heading,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import SuccessMessage from "./SuccessMessage";
 
@@ -23,6 +24,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -67,7 +69,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
   }
 
   return (
-    <Card p={4} m={4}>
+    <Card p={4} m={4} bg={cardBgColor}>
       <Center>
         <Heading mb={4}>Request a Book</Heading>
       </Center>

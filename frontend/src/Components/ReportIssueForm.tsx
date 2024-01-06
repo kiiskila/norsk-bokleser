@@ -10,6 +10,7 @@ import {
   VStack,
   Heading,
   Center,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import SuccessMessage from "./SuccessMessage";
 
@@ -21,6 +22,7 @@ const ReportIssueForm: React.FC<ReportIssueFormProps> = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
+  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,7 +67,7 @@ const ReportIssueForm: React.FC<ReportIssueFormProps> = () => {
   }
 
   return (
-    <Card p={4} m={4}>
+    <Card p={4} m={4} bg={cardBgColor}>
       <Center>
         <Heading mb={4}>Report an Issue</Heading>
       </Center>
