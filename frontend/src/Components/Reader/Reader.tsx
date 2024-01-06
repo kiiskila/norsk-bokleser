@@ -70,7 +70,7 @@ function Reader() {
     last: number | null;
   }>({ first: null, last: null });
   const textColor = useColorModeValue("darkAccent.500", "lightBackground");
-  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
+  const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
   const fetchData = useCallback(async () => {
     try {

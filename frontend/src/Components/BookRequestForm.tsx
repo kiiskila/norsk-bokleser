@@ -24,7 +24,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const toast = useToast();
-  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
+  const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

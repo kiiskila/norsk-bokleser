@@ -24,17 +24,17 @@ type MenuToggleProps = {
 
 type NavBarContainerProps = {
   children: React.ReactNode;
-  textColor: string;
+  bg: string;
 };
 
 const Navbar: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
-  const textColor = useColorModeValue("darkAccent.500", "lightBackground");
+  const navbarBg = useColorModeValue("cardWhiteBg", "gray.700");
 
   const toggle = () => setIsOpen(!isOpen);
 
   return (
-    <NavBarContainer {...props} textColor={textColor}>
+    <NavBarContainer {...props} bg={navbarBg}>
       <LogoLink />
       <MenuToggle toggle={toggle} isOpen={isOpen} />
       <MenuLinks isOpen={isOpen} />
@@ -101,7 +101,7 @@ const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
 
 const NavBarContainer: React.FC<NavBarContainerProps> = ({
   children,
-  textColor,
+  bg,
   ...props
 }) => (
   <Flex
@@ -112,8 +112,7 @@ const NavBarContainer: React.FC<NavBarContainerProps> = ({
     w="100%"
     mb={8}
     p={8}
-    bg={["darkAccent.300", "darkAccent.300", "transparent", "transparent"]}
-    color={["lightBackground", "lightBackground", textColor, textColor]}
+    bg={bg}
     {...props}
   >
     {children}

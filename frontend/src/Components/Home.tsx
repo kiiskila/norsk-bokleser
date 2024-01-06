@@ -24,7 +24,7 @@ import BookListControls from "./BookListControls";
 import { ChevronRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 const BookCard = memo(({ book }: { book: BookType }) => {
-  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
+  const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
   return (
     <Card key={book.id} bg={cardBgColor}>
@@ -79,7 +79,7 @@ const DetailSection = ({
   content: React.ReactNode;
 }) => {
   const [show, setShow] = React.useState(title === "Details");
-  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
+  const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
   const handleToggle = () => setShow(!show);
 
   return (

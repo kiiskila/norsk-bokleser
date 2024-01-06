@@ -12,7 +12,7 @@ import {
 const Settings: React.FC = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
-  const cardBgColor = useColorModeValue("#FFFAFA", "gray.700");
+  const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
   return (
     <Card p={4} m={4} bg={cardBgColor}>

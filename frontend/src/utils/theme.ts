@@ -15,6 +15,7 @@ const colors = {
   accent: "#27ae97",
   lightBackground: "#f8fbf9",
   darkText: "#313849",
+  cardWhiteBg: "#FFFAFA",
   darkAccent: {
     100: "#DEF6F5",
     200: "#BFEDEE",
@@ -32,22 +33,8 @@ const customTheme = extendTheme({
   colors,
   config: {
     initialColorMode: "dark",
-    useSystemColorMode: true,
+    useSystemColorMode: false,
   },
 });
 
 export default customTheme;
-
-/*
-  color: {
-    100: "",
-    200: "",
-    300: "",
-    400: "",
-    500: "",
-    600: "",
-    700: "",
-    800: "",
-    900: "",
-  },
-  */
