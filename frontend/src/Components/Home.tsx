@@ -13,11 +13,14 @@ import {
   Link,
   useToast,
   Center,
+  Collapse,
+  IconButton,
 } from "@chakra-ui/react";
 import { Link as ReactRouterLink } from "react-router-dom";
 import Loading from "./Loading";
 import { book as BookType } from "../common/types";
 import BookListControls from "./BookListControls";
+import { ChevronRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
 const BookCard = memo(({ book }: { book: BookType }) => (
   <Card key={book.id}>
@@ -68,16 +71,41 @@ const DetailSection = ({
 }: {
   title: string;
   content: React.ReactNode;
-}) => (
-  <Box>
-    <Heading size="sm" textTransform="uppercase">
-      {title}
-    </Heading>
-    <Box pt="2" fontSize="sm">
-      {content}
+}) => {
+  const [show, setShow] = React.useState(title === "Details");
+
+  const handleToggle = () => setShow(!show);
+
+  return (
+    <Box>
+      <Heading
+        size="sm"
+        textTransform="uppercase"
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        {title}
+        {title !== "Details" && (
+          <IconButton
+            aria-label={show ? "Collapse" : "Expand"}
+            icon={show ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            size="xs"
+            onClick={handleToggle}
+          />
+        )}
+      </Heading>
+      <Collapse
+        in={show}
+        style={{ display: title === "Details" ? "block" : "" }}
+      >
+        <Box pt="2" fontSize="sm">
+          {content}
+        </Box>
+      </Collapse>
     </Box>
-  </Box>
-);
+  );
+};
 
 const DetailItem = ({
   label,
