@@ -1,15 +1,28 @@
 import axios from "axios";
 const translateGoogle = require("translate-google");
 
+// API key for DeepL translation service, fetched from environment variables
 const apiKey = process.env.DEEPL_KEY;
-const sourceLanguage = "NB"; // Norwegian (Bokmål)
-const targetLanguage = "EN-US"; // English (American)
+// Source language code (Norwegian Bokmål)
+const sourceLanguage = "NB";
+// Target language code (American English)
+const targetLanguage = "EN-US";
 
-// Cache object for both services
+// Cache object to store translations from both DeepL and Google Translate services
 const translationCache: { [key: string]: string } = {};
 
+/**
+ * Translates text from Norwegian Bokmål to English using DeepL API.
+ *
+ * @param {string} text - The text to be translated.
+ * @returns {Promise<string>} - The translated text.
+ * @throws - Throws an error if the DeepL API call fails.
+ */
 export async function useDeepLTranslate(text: string): Promise<string> {
+  // Create a unique cache key
   const cacheKey = `DeepL-${text}-${targetLanguage}`;
+
+  // Return cached translation if available
   if (translationCache[cacheKey]) {
     return translationCache[cacheKey];
   }
@@ -26,6 +39,7 @@ export async function useDeepLTranslate(text: string): Promise<string> {
       },
     });
 
+    // Extract and cache the translated text
     const translatedText = response.data.translations[0].text;
     translationCache[cacheKey] = translatedText;
 
@@ -36,8 +50,18 @@ export async function useDeepLTranslate(text: string): Promise<string> {
   }
 }
 
+/**
+ * Translates text from Norwegian to English using Google Translate.
+ *
+ * @param {string} text - The text to be translated.
+ * @returns {Promise<string>} - The translated text.
+ * @throws - Throws an error if the Google Translate call fails.
+ */
 export async function useGoogleTranslate(text: string): Promise<string> {
+  // Create a unique cache key
   const cacheKey = `Google-${text}-en`;
+
+  // Return cached translation if available
   if (translationCache[cacheKey]) {
     return translationCache[cacheKey];
   }
@@ -47,6 +71,8 @@ export async function useGoogleTranslate(text: string): Promise<string> {
       from: "no",
       to: "en",
     });
+
+    // Cache the translated text
     translationCache[cacheKey] = translatedText;
     return translatedText;
   } catch (error) {
