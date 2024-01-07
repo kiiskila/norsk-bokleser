@@ -1,3 +1,4 @@
+// Mocking the Prisma Client for testing the database interactions.
 jest.mock("@prisma/client", () => {
   const mockBookFindMany = jest.fn();
   return {
@@ -14,18 +15,21 @@ jest.mock("@prisma/client", () => {
 import { Request, Response } from "express";
 import * as bookListController from "../controllers/bookListController";
 
+// Test suite for the bookListController.
 describe("bookListController", () => {
   let mockReq: Partial<Request>;
   let mockRes: Partial<Response>;
   let mockNext: jest.Mock;
   let mockBookFindMany: jest.Mock;
 
+  // Setup before each test: resetting modules and initializing mocks.
   beforeEach(() => {
     jest.resetModules();
     mockBookFindMany = require("../prisma/db").default.book
       .findMany as jest.Mock;
     mockBookFindMany.mockReset();
 
+    // Setting up mock Express request and response objects.
     mockReq = {};
     mockRes = {
       status: jest.fn().mockReturnThis(),
@@ -37,8 +41,10 @@ describe("bookListController", () => {
     mockBookFindMany.mockReset();
   });
 
+  // Test for the 'getBookList' controller method.
   describe("getBookList", () => {
     it("Should return a list of books", async () => {
+      // Mocking expected book data.
       const expectedBooks = [
         {
           id: 1,
@@ -66,6 +72,7 @@ describe("bookListController", () => {
 
       mockBookFindMany.mockResolvedValue(expectedBooks);
 
+      // Performing the test with mock request, response, and expecting results.
       const mockReq = {
         query: {},
       } as unknown as Request;
@@ -82,6 +89,7 @@ describe("bookListController", () => {
     });
 
     it("Should handle search and sorting parameters", async () => {
+      // Mocking expected book data for search and sorting test.
       const expectedBooks = [
         { id: 3, title: "Search Book", author: "Author 3" },
       ];
@@ -134,6 +142,7 @@ describe("bookListController", () => {
     });
 
     it("Should return an empty array if no books are found", async () => {
+      // Handling the scenario where no books are found.
       mockBookFindMany.mockResolvedValue([]);
 
       mockReq.query = {};
