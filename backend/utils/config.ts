@@ -31,6 +31,8 @@ export const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
   const origin = req.headers.origin;
   let corsOptions;
 
+  console.log("CORS request from origin: ", origin);
+
   // Enable CORS if the request origin is in the allowed list or not provided (for server-to-server requests)
   if (!origin || allowedOrigins.includes(origin)) {
     corsOptions = { origin: true };
