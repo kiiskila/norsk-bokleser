@@ -24,7 +24,11 @@ import { useParams } from "react-router-dom";
 import { isStringEmpty } from "../../utils/helpers";
 import { ArrowUpIcon } from "@chakra-ui/icons";
 
+/**
+ * Styles for highlighted and normal text within the Reader component.
+ */
 const highlightedStyle = {
+  // Style definitions for highlighted text
   backgroundColor: "teal",
   color: "white",
   borderRadius: "0",
@@ -36,6 +40,7 @@ const highlightedStyle = {
 };
 
 const normalStyle = {
+  // Style definitions for normal (non-highlighted) text
   backgroundColor: "transparent",
   color: "inherit",
   lineHeight: "inherit",
@@ -45,6 +50,9 @@ const normalStyle = {
   border: "1px solid transparent",
 };
 
+/**
+ * Context for managing translation state in the Reader component.
+ */
 const TranslateContext = createContext<{
   isTranslateOn: boolean;
   setIsTranslateOn: Dispatch<SetStateAction<boolean>>;
@@ -53,9 +61,17 @@ const TranslateContext = createContext<{
   setIsTranslateOn: () => {},
 });
 
+/**
+ * Custom hook to use the TranslateContext.
+ */
 export const useTranslate = () => useContext(TranslateContext);
 
+/**
+ * Reader component for displaying and interacting with book text.
+ * It allows users to select text for translation and navigate through chapters.
+ */
 function Reader() {
+  // State declarations and initializations
   const [book, setBook] = useState<book>();
   const [chapters, setChapters] = useState<chapter[]>([]);
   const [chosenChapter, setChosenChapter] = useState<string>();
@@ -72,6 +88,9 @@ function Reader() {
   const textColor = useColorModeValue("darkAccent.500", "lightBackground");
   const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
+  /**
+   * Fetches book and chapter data based on the current URL parameter.
+   */
   const fetchData = useCallback(async () => {
     try {
       const response = await fetch(
@@ -106,6 +125,9 @@ function Reader() {
     }
   }, [params.bookSlug, toast]);
 
+  /**
+   * Fetches content of the selected chapter.
+   */
   const fetchChapter = useCallback(async () => {
     const chapterNumber = Number(chosenChapter);
     if (isNaN(chapterNumber) || chapterNumber <= 0) return;
@@ -144,10 +166,16 @@ function Reader() {
     }
   }, [chosenChapter, params.bookSlug, toast]);
 
+  /**
+   * Handles chapter selection from dropdown.
+   */
   const changeChapter = (event: React.FormEvent<HTMLSelectElement>) => {
     setChosenChapter(event.currentTarget.value);
   };
 
+  /**
+   * Handles click events on words for translation.
+   */
   const handleClick = async (word: string, index: number) => {
     if (!isTranslateOn) {
       return;
@@ -182,6 +210,9 @@ function Reader() {
     }
   };
 
+  /**
+   * Translates the selected text.
+   */
   const translateText = async (textToTranslate: string) => {
     if (isStringEmpty(textToTranslate)) {
       return;
@@ -224,6 +255,7 @@ function Reader() {
     }
   };
 
+  // useEffect hooks for data fetching and state updates
   useEffect(() => {
     fetchChapter();
   }, [fetchChapter]);
@@ -238,6 +270,10 @@ function Reader() {
     setpostTranslatedText("...");
   }, [chosenChapter]);
 
+  /**
+   * Renders the Reader component with various UI elements like ReaderHeader, Select for chapters,
+   * Card for text display, and TranslationBox for showing translation results.
+   */
   return (
     <TranslateContext.Provider value={{ isTranslateOn, setIsTranslateOn }}>
       <VStack>
@@ -311,6 +347,9 @@ function Reader() {
   );
 }
 
+/**
+ * Determines the style to apply to each word in the Reader component.
+ */
 const getStyleForWord = (
   word: string,
   index: number,
