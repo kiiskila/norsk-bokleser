@@ -1,3 +1,6 @@
+// BookRequestForm Component
+// This component allows users to submit requests for books.
+
 import React, { useState } from "react";
 import {
   Card,
@@ -17,20 +20,27 @@ import SuccessMessage from "./SuccessMessage";
 interface BookRequestFormProps {}
 
 const BookRequestForm: React.FC<BookRequestFormProps> = () => {
+  // State variables to store form fields and submission status.
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [details, setDetails] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Custom hook from Chakra-UI for displaying toast notifications.
   const toast = useToast();
+
+  // Customizable background color for the card, based on the current color mode (dark or light).
   const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
+  // Function to handle form submission.
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
 
     try {
+      // POST request to submit the form data.
       const response = await fetch(
         `${process.env.REACT_APP_PROXY_URL}/forms/request`,
         {
@@ -48,6 +58,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
 
       setIsSubmitted(true);
     } catch (error) {
+      // Display error toast if submission fails.
       toast({
         title: "Error",
         description: "There was an error submitting your request.",
@@ -60,6 +71,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
     }
   };
 
+  // Render a success message if the form is submitted successfully.
   if (isSubmitted) {
     return (
       <SuccessMessage
@@ -68,6 +80,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
     );
   }
 
+  // Form rendering
   return (
     <Card p={4} m={4} bg={cardBgColor}>
       <Center>
@@ -75,6 +88,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
       </Center>
       <form onSubmit={handleSubmit}>
         <VStack spacing={4}>
+          {/* Input fields for the form */}
           <FormControl isRequired>
             <FormLabel htmlFor="title">Title</FormLabel>
             <Input
@@ -110,6 +124,7 @@ const BookRequestForm: React.FC<BookRequestFormProps> = () => {
               onChange={(e) => setContactEmail(e.target.value)}
             />
           </FormControl>
+          {/* Submit button */}
           <Button
             mt={4}
             colorScheme="teal"

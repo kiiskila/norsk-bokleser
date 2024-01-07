@@ -1,3 +1,7 @@
+// Home Page and Book Card Components
+// This file contains the Home component, which is the main page of the application,
+// and several sub-components used within it to display a list of books and their details.
+
 import React, { useEffect, useState, useCallback, memo } from "react";
 import {
   Card,
@@ -23,6 +27,9 @@ import { book as BookType } from "../common/types";
 import BookListControls from "./BookListControls";
 import { ChevronRightIcon, ChevronDownIcon } from "@chakra-ui/icons";
 
+// BookCard Component
+// Renders a single book card displaying key details such as the title, cover, and summary.
+// Clicking on the card navigates the user to a detailed view of the book.
 const BookCard = memo(({ book }: { book: BookType }) => {
   const cardBgColor = useColorModeValue("cardWhiteBg", "gray.700");
 
@@ -71,6 +78,9 @@ const BookCard = memo(({ book }: { book: BookType }) => {
   );
 });
 
+// DetailSection Component
+// A collapsible section used within the BookCard to display detailed information.
+// The section can be toggled to show or hide its contents.
 const DetailSection = ({
   title,
   content,
@@ -114,6 +124,8 @@ const DetailSection = ({
   );
 };
 
+// DetailItem Component
+// Displays a single piece of information (label and value) in the DetailSection.
 const DetailItem = ({
   label,
   value,
@@ -127,10 +139,16 @@ const DetailItem = ({
   </Box>
 );
 
+// formatDate Function
+// Utility function to format a Date object into a readable string.
+// Returns "Unknown" if the date is not provided.
 const formatDate = (date: Date | undefined) => {
   return date ? new Date(date).toLocaleDateString() : "Unknown";
 };
 
+// Home Component
+// The main component of the application's home page.
+// It displays a searchable and sortable list of books.
 function Home() {
   const [bookList, setBookList] = useState<BookType[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -138,6 +156,7 @@ function Home() {
   const [sort, setSort] = useState({ field: "title", order: "asc" });
   const toast = useToast();
 
+  // Fetching book list from the server
   const fetchBookList = useCallback(async () => {
     try {
       const queryParams = new URLSearchParams({

@@ -1,3 +1,6 @@
+// Navbar Component
+// This component represents the navigation bar of the application.
+
 import React, { useState } from "react";
 import {
   Link,
@@ -12,6 +15,7 @@ import {
 import { LogoWithText, LogoWithTextLight } from "./Logo";
 import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 
+// Component Types
 type MenuItemProps = {
   children: React.ReactNode;
   to?: string;
@@ -31,6 +35,7 @@ const Navbar: React.FC = (props) => {
   const [isOpen, setIsOpen] = useState(false);
   const navbarBg = useColorModeValue("cardWhiteBg", "gray.700");
 
+  // Function to toggle the menu in mobile view
   const toggle = () => setIsOpen(!isOpen);
 
   return (
@@ -42,6 +47,7 @@ const Navbar: React.FC = (props) => {
   );
 };
 
+// LogoLink Component: Renders the logo that links to the homepage
 const LogoLink = () => {
   const Logo = useColorModeValue(LogoWithText, LogoWithTextLight);
   return (
@@ -51,6 +57,7 @@ const LogoLink = () => {
   );
 };
 
+// MenuToggle Component: Renders a button to toggle the menu in mobile view
 const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => (
   <IconButton
     display={{ base: "block", md: "none" }}
@@ -67,6 +74,7 @@ const MenuToggle: React.FC<MenuToggleProps> = ({ toggle, isOpen }) => (
   />
 );
 
+// MenuItem Component: Renders a navigation link
 const MenuItem: React.FC<MenuItemProps> = ({ children, to = "/", ...rest }) => (
   <Link href={to}>
     <Text display="block" {...rest}>
@@ -75,6 +83,7 @@ const MenuItem: React.FC<MenuItemProps> = ({ children, to = "/", ...rest }) => (
   </Link>
 );
 
+// MenuLinks Component: Renders the list of menu items
 const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
   <Box
     display={{ base: isOpen ? "block" : "none", md: "block" }}
@@ -99,6 +108,7 @@ const MenuLinks: React.FC<{ isOpen: boolean }> = ({ isOpen }) => (
   </Box>
 );
 
+// NavBarContainer Component: Wrapper for the navigation bar
 const NavBarContainer: React.FC<NavBarContainerProps> = ({
   children,
   bg,

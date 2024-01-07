@@ -1,3 +1,6 @@
+// BookListControls Component
+// This component provides search and sorting controls for a list of books.
+
 import React, { useEffect } from "react";
 import {
   Input,
@@ -10,12 +13,13 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 
+// Types for the props used in the BookListControls component.
 type BookListControlsProps = {
-  search: string;
-  sort: { field: string; order: string };
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSortFieldChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onSortOrderChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  search: string; // The current search query.
+  sort: { field: string; order: string }; // Current sorting configuration (field and order).
+  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void; // Function to handle search input changes.
+  onSortFieldChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Function to handle changes in sorting field.
+  onSortOrderChange: (e: React.ChangeEvent<HTMLSelectElement>) => void; // Function to handle changes in sorting order.
 };
 
 const BookListControls: React.FC<BookListControlsProps> = ({
@@ -25,13 +29,16 @@ const BookListControls: React.FC<BookListControlsProps> = ({
   onSortFieldChange,
   onSortOrderChange,
 }) => {
+  // Customizable text color based on the current color mode (dark or light).
   const textColor = useColorModeValue("darkAccent.500", "lightBackground");
 
+  // Responsive flex direction based on the viewport size.
   const flexDir = useBreakpointValue({
     base: "column",
     md: "row",
   }) as any;
 
+  // Effect to set default sort field when none is selected.
   useEffect(() => {
     if (sort.field === "") {
       onSortFieldChange({
@@ -40,9 +47,11 @@ const BookListControls: React.FC<BookListControlsProps> = ({
     }
   }, [sort.field, onSortFieldChange]);
 
+  // Component rendering.
   return (
     <Box p={4}>
       <Flex direction={flexDir} align="center" gap={3}>
+        {/* Search input control */}
         <FormControl flex={1}>
           <FormLabel htmlFor="search" color={textColor}>
             Search Books
@@ -56,6 +65,8 @@ const BookListControls: React.FC<BookListControlsProps> = ({
             color={textColor}
           />
         </FormControl>
+
+        {/* Sorting field selection control */}
         <FormControl flex={1}>
           <FormLabel htmlFor="sortField" color={textColor}>
             Sort By
@@ -71,6 +82,8 @@ const BookListControls: React.FC<BookListControlsProps> = ({
             <option value="published_date">Published Date</option>
           </Select>
         </FormControl>
+
+        {/* Sorting order selection control */}
         <FormControl flex={1}>
           <FormLabel htmlFor="sortOrder" color={textColor}>
             Order
