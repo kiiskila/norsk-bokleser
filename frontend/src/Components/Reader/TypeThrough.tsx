@@ -151,7 +151,7 @@ function Reader() {
                     color:
                       typedWords.length > index
                         ? isWordCorrect(word, index)
-                          ? "black"
+                          ? "teal"
                           : "red"
                         : "lightgrey",
                   }}

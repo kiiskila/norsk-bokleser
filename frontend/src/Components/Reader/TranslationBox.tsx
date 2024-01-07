@@ -20,7 +20,7 @@ const TranslationBox: React.FC<TranslationBoxProps> = ({
 }) => {
   const { setIsTranslateOn } = useTranslate();
   const bgColor = useColorModeValue("lightBackground", "darkAccent.700");
-  const borderColor = useColorModeValue("darkAccent.400", "primary.600");
+  const borderColor = useColorModeValue("darkAccent.400", "teal");
   const textColor = useColorModeValue("darkText", "lightBackground");
 
   const handleCloseClick = () => {

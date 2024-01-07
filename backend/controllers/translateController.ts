@@ -1,11 +1,11 @@
 import { RequestHandler } from "express";
-import { translateText } from "../services/translationService";
+import { useGoogleTranslate } from "../services/translationService";
 
 export const getTranslation: RequestHandler = async (req, res, next) => {
   try {
     const { textToTranslate } = req.body;
 
-    const translatedText = await translateText(textToTranslate);
+    const translatedText = await useGoogleTranslate(textToTranslate);
 
     res.status(200).json({ translatedText });
   } catch (error) {
