@@ -6,8 +6,12 @@ import rateLimit from "express-rate-limit";
  * Specifies a list of allowed origins for security and control.
  */
 const allowedOrigins = [
-  "https://norsk-bokleser.vercel.app", // Production origin
-  "http://localhost:5173", // Local development origin
+  // Production origins
+  "https://norsk-bokleser.vercel.app",
+  "https://bokhjelp.me",
+  "http://bokhjelp.me",
+  // Local development origin
+  "http://localhost:5173",
 ];
 
 /**
