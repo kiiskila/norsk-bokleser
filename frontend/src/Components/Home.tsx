@@ -100,6 +100,10 @@ const DetailSection = ({
         display="flex"
         alignItems="center"
         justifyContent="space-between"
+        {...(title !== "Details" && {
+          cursor: "pointer",
+          onClick: handleToggle,
+        })}
       >
         {title}
         {title !== "Details" && (
@@ -109,6 +113,7 @@ const DetailSection = ({
             size="xs"
             bg={cardBgColor}
             onClick={handleToggle}
+            _hover={{ bg: cardBgColor }}
           />
         )}
       </Heading>
