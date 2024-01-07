@@ -1,56 +1,63 @@
+// Prisma Client configuration
 generator client {
   provider      = "prisma-client-js"
+  // Specifies the platforms for which Prisma should generate the client
   binaryTargets = ["native", "debian-openssl-1.1.x", "linux-musl-arm64-openssl-1.1.x", "debian-openssl-3.0.x", "linux-musl", "linux-musl-openssl-3.0.x"]
 }
 
+// Data source configuration
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider = "postgresql" // Specifies PostgreSQL as the database provider
+  url      = env("DATABASE_URL") // The database URL, stored in an environment variable
 }
 
+// Model representing a book
 model Book {
-  id                Int       @id @default(autoincrement())
-  slug              String    @unique
-  title             String
-  author            String[]
-  isbn              String?   @unique
-  cover_art         String?
-  published_date    DateTime?
-  summary_english   String?   @db.Text
-  summary_norwegian String?   @db.Text
-  created_at        DateTime  @default(now())
-  updated_at        DateTime  @updatedAt
-  chapter           Chapter[]
+  id                Int       @id @default(autoincrement()) // Primary key, autoincremented
+  slug              String    @unique // Unique identifier for URL-friendly book identification
+  title             String // Title of the book
+  author            String[] // Array of authors
+  isbn              String?   @unique // ISBN number, optional and unique
+  cover_art         String? // URL to the cover art, optional
+  published_date    DateTime? // Publication date, optional
+  summary_english   String?   @db.Text // Summary in English, optional
+  summary_norwegian String?   @db.Text // Summary in Norwegian, optional
+  created_at        DateTime  @default(now()) // Timestamp of record creation
+  updated_at        DateTime  @updatedAt // Timestamp of last update
+  chapter           Chapter[] // Relation to Chapter model
 
-  @@map(name: "books")
+  @@map(name: "books") // Maps the model to the 'books' table in the database
 }
 
+// Model representing a chapter in a book
 model Chapter {
-  id         Int      @id @default(autoincrement())
-  book       Book     @relation(fields: [book_id], references: [id], onDelete: Cascade)
-  book_id    Int
-  number     Int
-  title      String?
-  body       String?  @db.Text
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
+  id         Int      @id @default(autoincrement()) // Primary key, autoincremented
+  book       Book     @relation(fields: [book_id], references: [id], onDelete: Cascade) // Relation to Book model
+  book_id    Int // Foreign key to the Book model
+  number     Int // Chapter number
+  title      String? // Title of the chapter, optional
+  body       String?  @db.Text // Body text of the chapter, optional
+  created_at DateTime @default(now()) // Timestamp of record creation
+  updated_at DateTime @updatedAt // Timestamp of last update
 
-  @@unique([book_id, number])
-  @@map(name: "chapters")
+  @@unique([book_id, number]) // Composite unique constraint
+  @@map(name: "chapters") // Maps the model to the 'chapters' table in the database
 }
 
+// Model for logging email activities
 model EmailLog {
-  id            Int       @id @default(autoincrement())
-  type          EmailType
-  details       String
-  contact_email String?
-  created_at    DateTime  @default(now())
-  updated_at    DateTime  @updatedAt
+  id            Int       @id @default(autoincrement()) // Primary key, autoincremented
+  type          EmailType // Type of email (defined in EmailType enum)
+  details       String // Details about the email
+  contact_email String? // Contact email, optional
+  created_at    DateTime  @default(now()) // Timestamp of record creation
+  updated_at    DateTime  @updatedAt // Timestamp of last update
 
-  @@map(name: "email_logs")
+  @@map(name: "email_logs") // Maps the model to the 'email_logs' table in the database
 }
 
+// Enum for email types
 enum EmailType {
-  request
-  report
+  request // Represents a request email
+  report // Represents a report email
 }

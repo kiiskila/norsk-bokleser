@@ -4,8 +4,21 @@ import { PrismaClient } from "@prisma/client";
 import { normalizeString } from "../utils/helpers";
 const lorem = require("lorem-ipsum-norwegian");
 
+/**
+ * Database Seeding Script
+ * ------------------------
+ * This script seeds the database with initial data for books and chapters.
+ * It uses Prisma Client for database operations.
+ *
+ * The script generates data using:
+ * - @ngneat/falso: For generating random book data.
+ * - @faker-js/faker: For generating miscellaneous fake data.
+ * - lorem-ipsum-norwegian: For generating Norwegian text.
+ */
+
 const dbUrl = process.env.DB_HOST || process.env.DATABASE_URL;
 
+// Initialize Prisma Client with custom configuration
 const db = new PrismaClient({
   log: ["error", "info", "query", "warn"],
   datasources: {
@@ -15,27 +28,38 @@ const db = new PrismaClient({
   },
 });
 
+// Main function to execute the seeding process
 const main = async () => {
   await seedBooks();
 };
 
+/**
+ * Seed Books
+ * Seeds the database with book records.
+ * Generates 20 fake book records and their corresponding chapters.
+ */
 const seedBooks = async () => {
   try {
+    // Delete all existing records in the 'book' table
     await db.book.deleteMany({});
-    const fakeBooks = randBook({
-      length: 20,
-    });
 
+    // Generate 20 fake books
+    const fakeBooks = randBook({ length: 20 });
+
+    // Loop through the fake books and add them to the database
     for (let i = 0; i < fakeBooks.length; i++) {
       const book = fakeBooks[i];
 
+      // Check if the book already exists in the database
       if (
         (await db.book.count({
           where: { slug: normalizeString(book.title) },
         })) > 0
       ) {
-        break;
+        continue;
       }
+
+      // Create a new book record in the database
       let newBook = await db.book.create({
         data: {
           slug: normalizeString(book.title),
@@ -54,6 +78,7 @@ const seedBooks = async () => {
         },
       });
 
+      // Seed chapters for the new book
       seedChapters(newBook.id);
     }
 
@@ -63,8 +88,14 @@ const seedBooks = async () => {
   }
 };
 
+/**
+ * Seed Chapters
+ * @param {number} book_id - The ID of the book to which the chapters belong.
+ * Seeds a random number (between 1 and 20) of chapters for each book.
+ */
 const seedChapters = async (book_id: number) => {
   try {
+    // Generate a random number of chapters for the given book
     for (let i = 1; i <= faker.number.int({ min: 1, max: 20 }); i++) {
       await db.chapter.create({
         data: {
@@ -82,6 +113,7 @@ const seedChapters = async (book_id: number) => {
   }
 };
 
+// Execute main function and handle any errors
 main().catch((err) => {
   console.warn("Error While generating Seed: \n", err);
 });
