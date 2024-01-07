@@ -10,6 +10,8 @@ const allowedOrigins = [
   "https://norsk-bokleser.vercel.app",
   "https://bokhjelp.me",
   "http://bokhjelp.me",
+  "www.bokhjelp.me",
+  "76.76.21.21",
   // Local development origin
   "http://localhost:5173",
 ];
