@@ -8,10 +8,7 @@ import rateLimit from "express-rate-limit";
 const allowedOrigins = [
   // Production origins
   "https://norsk-bokleser.vercel.app",
-  "https://bokhjelp.me",
-  "http://bokhjelp.me",
-  "www.bokhjelp.me",
-  "76.76.21.21",
+  "https://www.bokhjelp.me",
   // Local development origin
   "http://localhost:5173",
 ];
@@ -30,8 +27,6 @@ export const corsOptionsDelegate: CorsOptionsDelegate<CorsRequest> = (
   // Extract the origin of the request
   const origin = req.headers.origin;
   let corsOptions;
-
-  console.log("CORS request from origin: ", origin);
 
   // Enable CORS if the request origin is in the allowed list or not provided (for server-to-server requests)
   if (!origin || allowedOrigins.includes(origin)) {
