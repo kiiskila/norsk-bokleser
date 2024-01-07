@@ -1,55 +1,61 @@
+/* Container for the success animation */
 .success-animation-container {
-  text-align: center;
-  padding: 40px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  text-align: center; /* Aligns content to the center horizontally */
+  padding: 40px; /* Adds padding around the container */
+  display: flex; /* Enables flexbox layout */
+  justify-content: center; /* Centers children horizontally in the flex container */
+  align-items: center; /* Centers children vertically in the flex container */
+  flex-direction: column; /* Aligns children in a vertical column */
 }
 
+/* Styling for the success icon */
 .success-icon {
-  border-radius: 50%;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background-color: #4cae4c;
-  width: 100px;
-  height: 100px;
-  margin-bottom: 20px;
-  animation: scale-in 0.7s ease-in-out both;
+  border-radius: 50%; /* Makes the icon circular */
+  display: inline-flex; /* Displays the icon using flexbox layout */
+  align-items: center; /* Centers content vertically within the icon */
+  justify-content: center; /* Centers content horizontally within the icon */
+  background-color: #4cae4c; /* Sets the background color of the icon */
+  width: 100px; /* Width of the icon */
+  height: 100px; /* Height of the icon */
+  margin-bottom: 20px; /* Space below the icon */
+  animation: scale-in 0.7s ease-in-out both; /* Applies a scaling animation */
 }
 
+/* Styling for the SVG inside the success icon */
 .success-icon svg {
-  fill: white;
-  width: 80px; 
-  height: 80px;
+  fill: white; /* Color of the SVG graphic */
+  width: 80px; /* Width of the SVG graphic */
+  height: 80px; /* Height of the SVG graphic */
 }
 
+/* Keyframes for scale-in animation used by success-icon */
 @keyframes scale-in {
   0% {
-    transform: scale(0);
-    opacity: 0;
+    transform: scale(0); /* Start from zero scale */
+    opacity: 0; /* Start fully transparent */
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.1); /* Slightly overshoot the final size */
   }
   100% {
-    transform: scale(1);
-    opacity: 1;
+    transform: scale(1); /* End at natural scale */
+    opacity: 1; /* Fully visible */
   }
 }
 
+/* Styling for the success message text */
 .success-message {
-  font-size: 1.5rem;
-  color: #333;
-  animation: fade-in 0.7s ease-in-out both;
+  font-size: 1.5rem; /* Size of the message text */
+  color: #333; /* Color of the message text */
+  animation: fade-in 0.7s ease-in-out both; /* Applies a fading animation */
 }
 
+/* Keyframes for fade-in animation used by success-message */
 @keyframes fade-in {
   0% {
-    opacity: 0;
+    opacity: 0; /* Start fully transparent */
   }
   100% {
-    opacity: 1;
+    opacity: 1; /* End fully visible */
   }
 }

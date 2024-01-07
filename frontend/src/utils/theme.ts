@@ -1,5 +1,8 @@
 import { extendTheme } from "@chakra-ui/react";
 
+/**
+ * Custom color palette for the application's theme.
+ */
 const colors = {
   primary: {
     100: "#E5FCF1",
@@ -29,12 +32,25 @@ const colors = {
   },
 };
 
+/**
+ * Custom theme configuration for the application.
+ *
+ * Utilizes the Chakra UI's `extendTheme` function to customize the default theme.
+ * Defines a custom color scheme and configuration settings for the theme.
+ */
 const customTheme = extendTheme({
   colors,
   config: {
-    initialColorMode: "dark",
-    useSystemColorMode: false,
+    initialColorMode: "dark", // Sets the initial color mode to dark.
+    useSystemColorMode: false, // Disables the use of the system color mode.
   },
 });
 
 export default customTheme;
+
+/**
+ * This theme file centralizes the styling configuration for the application,
+ * allowing for consistent design and easier manageability of the visual aspects.
+ * The color palette is defined under `colors`, with `primary` and `darkAccent`
+ * featuring multiple shades for versatile use across components.
+ */
