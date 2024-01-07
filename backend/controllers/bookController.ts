@@ -2,6 +2,7 @@ import { RequestHandler, Request, Response, NextFunction } from "express";
 import { Book, PrismaClient } from "@prisma/client";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 
+// Initialize Prisma Client
 const db = new PrismaClient();
 
 type PartialChapter = {
@@ -10,6 +11,11 @@ type PartialChapter = {
   title: string | null;
 };
 
+/**
+ * getBook is a RequestHandler that fetches a book from the database
+ * using the book slug provided in the request parameters.
+ * It responds with the book data if found, otherwise it handles the errors.
+ */
 export const getBook: RequestHandler = async (
   req: Request,
   res: Response,
@@ -35,6 +41,11 @@ export const getBook: RequestHandler = async (
   }
 };
 
+/**
+ * getBookWithChapters is a RequestHandler that fetches a book and its chapters
+ * from the database using the book slug provided in the request parameters.
+ * It responds with the book and chapters data if found, otherwise it handles the errors.
+ */
 export const getBookWithChapters: RequestHandler = async (
   req: Request,
   res: Response,
