@@ -2,15 +2,15 @@
 
 Bokhjelp is an online book reader that allows seemless translation as you read. It contains a collection of Norwegian books that can be read with as much assistance as you need. Translate one tricky word at a time, or entire sentences.
 
+![gifDemo](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExa3VxejZkbjkwYmQzbnZ5em9yNG5iN2k1azU5b2t1Y29pMGRpOHJkZyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/bBApS4NzADWLJDdfH6/giphy.gif)
+
 ## Table of Contents
 
 - [Technologies Used](#technologies-used)
 - [Hosting](#hosting)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Demos](#demos)
 - [Contributing](#contributing)
-- [Contact](#contact)
 
 ## Technologies Used
 
@@ -118,10 +118,6 @@ npm run test
 
 ---
 
-## Demos
-
-to-do
-
 ## Contributing
 
 Contributions are what make the open-source community such a fantastic place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -131,9 +127,3 @@ Contributions are what make the open-source community such a fantastic place to 
 3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
 4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
-
-## Contact
-
-Will Kiiskila - [kiiskila.will@gmail.com](mailto:kiiskila.will@gmail.com)
-
-Project Link: [https://github.com/kiiskila/norsk-bokleser](https://github.com/kiiskila/norsk-bokleser)
