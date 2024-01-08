@@ -12,6 +12,7 @@ CREATE TABLE "books" (
     "published_date" TIMESTAMP(3),
     "summary_english" TEXT,
     "summary_norwegian" TEXT,
+    "disabled" BOOLEAN DEFAULT false,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 

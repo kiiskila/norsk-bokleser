@@ -24,6 +24,7 @@ model Book {
   summary_norwegian String?   @db.Text // Summary in Norwegian, optional
   created_at        DateTime  @default(now()) // Timestamp of record creation
   updated_at        DateTime  @updatedAt // Timestamp of last update
+  disabled          Boolean? // Whether the book is disabled, optional
   chapter           Chapter[] // Relation to Chapter model
 
   @@map(name: "books") // Maps the model to the 'books' table in the database

@@ -17,14 +17,15 @@ export const getBookList: RequestHandler = async (req, res, next) => {
 
     // Construct the query
     const query = db.book.findMany({
-      where: search
-        ? {
-            OR: [
-              { title: { contains: search as string, mode: "insensitive" } },
-              { author: { has: search as string } },
-            ],
-          }
-        : {},
+      where: {
+        disabled: false, // Only include books that are not disabled
+        ...(search && {
+          OR: [
+            { title: { contains: search as string, mode: "insensitive" } },
+            { author: { has: search as string } },
+          ],
+        }),
+      },
       orderBy: sortBy ? { [sortBy as string]: sortOrder } : undefined,
     });
 
