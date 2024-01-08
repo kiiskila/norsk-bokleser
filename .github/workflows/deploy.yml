@@ -30,5 +30,6 @@ jobs:
           git branch backup-main
           git reset --hard origin/main
           npm install
+          npx prisma generate
           pm2 restart bokhjelp || pm2 start npm --name "bokhjelp" -- run start
           ENDSSH
